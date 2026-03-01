@@ -124,7 +124,8 @@ const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
         position: "fixed", inset: 0, zIndex: 9999,
         backgroundColor: "rgba(0,0,0,0.72)",
         display: "flex", alignItems: "center", justifyContent: "center",
-        padding: "20px",
+        padding: "16px",
+        overflowY: "auto",
       }}
     >
       <div
@@ -134,35 +135,39 @@ const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
           borderRadius: "20px",
           border: "1px solid rgba(201,169,110,0.35)",
           width: "100%",
-          maxWidth: "520px",
+          maxWidth: "500px",
+          maxHeight: "calc(100vh - 32px)",
+          display: "flex",
+          flexDirection: "column",
           position: "relative",
-          overflow: "hidden",
           boxShadow: "0 32px 80px rgba(0,0,0,0.6)",
+          overflow: "hidden",
         }}
       >
-        <button
-          onClick={onClose}
-          style={{
-            position: "absolute", top: "16px", right: "16px",
-            background: "none", border: "none", cursor: "pointer",
-            color: "rgba(255,255,255,0.55)", fontSize: "24px", lineHeight: 1,
-            zIndex: 2, padding: "4px 8px",
-          }}
-        >✕</button>
-
-        <div style={{ padding: "36px 36px 8px", fontFamily: "'Cormorant', Georgia, serif" }}>
-          <h3 style={{ color: "#FFFFFF", fontSize: "28px", fontWeight: 700, margin: "0 0 4px" }}>
+        {/* Шапка */}
+        <div style={{ padding: "24px 24px 12px", fontFamily: "'Cormorant', Georgia, serif", flexShrink: 0, position: "relative" }}>
+          <button
+            onClick={onClose}
+            style={{
+              position: "absolute", top: "16px", right: "16px",
+              background: "none", border: "none", cursor: "pointer",
+              color: "rgba(255,255,255,0.55)", fontSize: "22px", lineHeight: 1,
+              zIndex: 2, padding: "4px 8px",
+            }}
+          >✕</button>
+          <h3 style={{ color: "#FFFFFF", fontSize: "24px", fontWeight: 700, margin: "0 0 2px", paddingRight: "32px" }}>
             Регистрация
           </h3>
-          <p style={{ color: "#C9A96E", fontSize: "18px", margin: "0 0 24px", fontFamily: "'IBM Plex Sans', sans-serif" }}>
+          <p style={{ color: "#C9A96E", fontSize: "15px", margin: 0, fontFamily: "'IBM Plex Sans', sans-serif" }}>
             Бесплатно · 11–12 марта · Онлайн
           </p>
         </div>
 
-        <div style={{ minHeight: "320px" }}>
+        {/* iframe растягивается на оставшееся место */}
+        <div style={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
           <iframe
             src={`${GC_WIDGET_URL}&ref=${encodeURIComponent(document.referrer)}&loc=${encodeURIComponent(window.location.href)}`}
-            style={{ width: "100%", minHeight: "320px", border: "none", display: "block" }}
+            style={{ width: "100%", height: "100%", minHeight: "420px", border: "none", display: "block" }}
             title="Регистрация"
             allowFullScreen
           />
@@ -350,7 +355,7 @@ export default function Index() {
             Узнали себя? HoReCa Education Day создан именно для вас.
           </p>
           <div className="aos" style={{ ...aosBase, marginTop: "32px", transitionDelay: "0.3s" }}>
-            <BtnWhite>ХОЧУ ПОПАСТЬ НА ВОРКШОП →</BtnWhite>
+            <BtnWhite onClick={openModal}>ХОЧУ ПОПАСТЬ НА ВОРКШОП →</BtnWhite>
           </div>
         </div>
         <div style={{ maxWidth: "860px", margin: "80px auto 0" }}><GoldDivider /></div>
@@ -455,7 +460,7 @@ export default function Index() {
           </div>
 
           <div className="aos" style={{ ...aosBase, display: "flex", justifyContent: "center", marginTop: "48px", transitionDelay: "0.2s" }}>
-            <BtnWhite>ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →</BtnWhite>
+            <BtnWhite onClick={openModal}>ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →</BtnWhite>
           </div>
         </div>
         <div style={{ maxWidth: "1000px", margin: "80px auto 0" }}><GoldDivider /></div>
@@ -642,7 +647,7 @@ export default function Index() {
             </p>
 
             <div style={{ marginTop: "48px" }}>
-              <BtnWhite>ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →</BtnWhite>
+              <BtnWhite onClick={openModal}>ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →</BtnWhite>
             </div>
           </div>
         </div>
