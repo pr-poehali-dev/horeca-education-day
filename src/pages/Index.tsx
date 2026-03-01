@@ -27,19 +27,7 @@ const GoldDivider = () => (
 );
 
 const LogoRAD = () => (
-  <a href="#" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
-    {/* Маленький квадрат с буквой R как символ (без внешнего изображения) */}
-    <div style={{
-      width: "36px",
-      height: "36px",
-      border: `1.5px solid ${GOLD}`,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      flexShrink: 0,
-    }}>
-      <span style={{ ...ffH, color: GOLD, fontSize: "20px", fontWeight: 700, lineHeight: 1 }}>R</span>
-    </div>
+  <a href="#" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
     <span style={{
       ...ffH,
       color: WHITE,
@@ -131,8 +119,8 @@ export default function Index() {
     return () => observer.disconnect();
   }, []);
 
-  // Countdown до 11 марта 2025 19:00 мск (UTC+3)
-  const TARGET = new Date("2025-03-11T19:00:00+03:00").getTime();
+  // Countdown до 11 марта 2026 19:00 мск (UTC+3)
+  const TARGET = new Date("2026-03-11T19:00:00+03:00").getTime();
   const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0 });
 
   useEffect(() => {
@@ -283,15 +271,39 @@ export default function Index() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "20px" }}>
             {[
-              { icon: "🔢", title: "МЕТОДОЛОГИЯ РАСЧЁТА УСЛУГ", desc: "Как считать стоимость услуг в HoReCa — не квадратными метрами, а по профессиональной системе" },
-              { icon: "🏨", title: "РАЗБОР ЖИВОГО КЕЙСА ОТЕЛЯ", desc: "Реальный объект студии RADDESIGN, реальные цифры и решения в формате Case Study" },
-              { icon: "✏️", title: "ПРАКТИКА НА ВОРКШОПЕ", desc: "Получите задание, выполните, получите разбор от эксперта — это навык, а не просто знание" },
-              { icon: "🗺", title: "АЛГОРИТМ СОЗДАНИЯ ДИЗАЙН-КОНЦЕПЦИИ В HORECA", desc: "Реальные примеры концепций от студии RADDESIGN — структура, логика, этапы" },
+              {
+                img: "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/c8f4ce82-417f-410b-aa02-7119749abe8e.jpg",
+                title: "МЕТОДОЛОГИЯ РАСЧЁТА УСЛУГ",
+                desc: "Как считать стоимость услуг в HoReCa — не квадратными метрами, а по профессиональной системе",
+              },
+              {
+                img: "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/131d7402-7e7b-4a10-8e49-36ec747bd1a2.jpg",
+                title: "РАЗБОР ЖИВОГО КЕЙСА ОТЕЛЯ",
+                desc: "Реальный объект студии RADDESIGN, реальные цифры и решения в формате Case Study",
+              },
+              {
+                img: "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/a274cd45-4f35-47f6-a0aa-e0d1cac0718e.jpg",
+                title: "ПРАКТИКА НА ВОРКШОПЕ",
+                desc: "Получите задание, выполните, получите разбор от эксперта — это навык, а не просто знание",
+              },
+              {
+                img: "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/0ed263cd-33b1-4b30-8707-a29059b1e098.jpg",
+                title: "АЛГОРИТМ СОЗДАНИЯ ДИЗАЙН-КОНЦЕПЦИИ В HORECA",
+                desc: "Реальные примеры концепций от студии RADDESIGN — структура, логика, этапы",
+              },
             ].map((card, i) => (
-              <div key={i} className="aos" style={{ ...aosBase, transitionDelay: `${i * 0.1}s`, backgroundColor: CARD_BG, borderRadius: "16px", padding: "32px", border: "1px solid rgba(201,169,110,0.18)", display: "flex", flexDirection: "column", gap: "16px" }}>
-                <span style={{ fontSize: "40px" }}>{card.icon}</span>
-                <h3 style={{ ...ffH, color: GOLD, fontSize: "clamp(15px, 1.1vw, 20px)", lineHeight: 1.2, fontWeight: 600, margin: 0 }}>{card.title}</h3>
-                <p style={{ ...ff, color: "rgba(255,255,255,0.8)", fontSize: "15px", lineHeight: 1.6, margin: 0 }}>{card.desc}</p>
+              <div key={i} className="aos" style={{ ...aosBase, transitionDelay: `${i * 0.1}s`, backgroundColor: CARD_BG, borderRadius: "16px", overflow: "hidden", border: "1px solid rgba(201,169,110,0.18)", display: "flex", flexDirection: "column" }}>
+                <div style={{ height: "200px", overflow: "hidden", position: "relative", flexShrink: 0 }}>
+                  <img src={card.img} alt={card.title} style={{ width: "100%", height: "100%", objectFit: "cover", filter: "brightness(0.75) saturate(0.85)", transition: "transform 0.5s ease" }}
+                    onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.05)")}
+                    onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
+                  />
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, transparent 40%, rgba(122,16,18,0.85) 100%)" }} />
+                </div>
+                <div style={{ padding: "24px", display: "flex", flexDirection: "column", gap: "12px", flex: 1 }}>
+                  <h3 style={{ ...ffH, color: GOLD, fontSize: "clamp(15px, 1.1vw, 19px)", lineHeight: 1.2, fontWeight: 600, margin: 0 }}>{card.title}</h3>
+                  <p style={{ ...ff, color: "rgba(255,255,255,0.8)", fontSize: "15px", lineHeight: 1.6, margin: 0 }}>{card.desc}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -425,9 +437,9 @@ export default function Index() {
           {/* 3 факта */}
           <div className="facts-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2px" }}>
             {[
-              { num: "В 3–5 РАЗ", desc: "выше средний чек в HoReCa против жилых проектов" },
-              { num: "БЕЗ ТОРГА", desc: "Коммерческий клиент платит за экспертизу, не торгуется за метры" },
-              { num: "1 КЕЙС", desc: "Один HoReCa-объект в портфолио — другой уровень входящих заявок" },
+              { num: "В 3–5 РАЗ", numSuffix: undefined, desc: "выше средний чек в HoReCa против жилых проектов" },
+              { num: "БЕЗ ТОРГА", numSuffix: undefined, desc: "Коммерческий клиент платит за экспертизу, не торгуется за метры" },
+              { num: "1", numSuffix: " КЕЙС", desc: "Один HoReCa-объект в портфолио — другой уровень входящих заявок" },
             ].map((fact, i) => (
               <div key={i} className="aos" style={{
                 ...aosBase,
@@ -438,7 +450,16 @@ export default function Index() {
                 flexDirection: "column",
                 gap: "12px",
               }}>
-                <span style={{ ...ffH, color: GOLD, fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 700, lineHeight: 1 }}>{fact.num}</span>
+                <span style={{ ...ffH, color: GOLD, fontWeight: 700, lineHeight: 1 }}>
+                  {fact.numSuffix ? (
+                    <>
+                      <span style={{ fontSize: "clamp(56px, 7vw, 88px)" }}>{fact.num}</span>
+                      <span style={{ fontSize: "clamp(32px, 4vw, 52px)" }}>{fact.numSuffix}</span>
+                    </>
+                  ) : (
+                    <span style={{ fontSize: "clamp(32px, 4vw, 52px)" }}>{fact.num}</span>
+                  )}
+                </span>
                 <span style={{ ...ff, color: "rgba(255,255,255,0.75)", fontSize: "clamp(14px, 1.1vw, 16px)", lineHeight: 1.5 }}>{fact.desc}</span>
               </div>
             ))}
