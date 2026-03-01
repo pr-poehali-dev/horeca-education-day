@@ -101,7 +101,103 @@ const BtnWhite = ({
 // ГЛАВНЫЙ КОМПОНЕНТ
 // ──────────────────────────────────────
 
+const GC_WIDGET_URL = "https://cabinet.onlinerad.ru/pl/lite/widget/widget?id=1568955";
+const GC_FORM_ACTION = "https://cabinet.onlinerad.ru/pl/lite/widget/widget";
+
+// ──────────────────────────────────────
+// ПОПАП С ГЕТКУРС
+// ──────────────────────────────────────
+
+const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  useEffect(() => {
+    if (open) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: "fixed", inset: 0, zIndex: 9999,
+        backgroundColor: "rgba(0,0,0,0.72)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        padding: "20px",
+      }}
+    >
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          backgroundColor: "#7A1012",
+          borderRadius: "20px",
+          border: "1px solid rgba(201,169,110,0.35)",
+          width: "100%",
+          maxWidth: "520px",
+          position: "relative",
+          overflow: "hidden",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.6)",
+        }}
+      >
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute", top: "16px", right: "16px",
+            background: "none", border: "none", cursor: "pointer",
+            color: "rgba(255,255,255,0.55)", fontSize: "24px", lineHeight: 1,
+            zIndex: 2, padding: "4px 8px",
+          }}
+        >✕</button>
+
+        <div style={{ padding: "36px 36px 8px", fontFamily: "'Cormorant', Georgia, serif" }}>
+          <h3 style={{ color: "#FFFFFF", fontSize: "28px", fontWeight: 700, margin: "0 0 4px" }}>
+            Регистрация
+          </h3>
+          <p style={{ color: "#C9A96E", fontSize: "18px", margin: "0 0 24px", fontFamily: "'IBM Plex Sans', sans-serif" }}>
+            Бесплатно · 11–12 марта · Онлайн
+          </p>
+        </div>
+
+        <div style={{ minHeight: "320px" }}>
+          <iframe
+            src={`${GC_WIDGET_URL}&ref=${encodeURIComponent(document.referrer)}&loc=${encodeURIComponent(window.location.href)}`}
+            style={{ width: "100%", minHeight: "320px", border: "none", display: "block" }}
+            title="Регистрация"
+            allowFullScreen
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function Index() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
+  // Нижняя форма — состояние
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
+  const [formSent, setFormSent] = useState(false);
+
+  const handleBottomSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email) return;
+    try {
+      const fd = new FormData();
+      fd.append("action", "addUser");
+      fd.append("id", "1568955");
+      fd.append("user[email]", formData.email);
+      fd.append("user[first_name]", formData.name);
+      fd.append("user[phone]", formData.phone);
+      await fetch(GC_FORM_ACTION, { method: "POST", body: fd, mode: "no-cors" });
+    } catch {
+      // ignore
+    }
+    setFormSent(true);
+  };
+
   // Intersection Observer для AOS-анимаций
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -143,6 +239,7 @@ export default function Index() {
 
   return (
     <div style={{ backgroundColor: BG, color: WHITE, minHeight: "100vh", ...ff }}>
+      <GCModal open={modalOpen} onClose={closeModal} />
 
       {/* ══════════════════════════════════════
           БЛОК 1 — HERO
@@ -196,7 +293,7 @@ export default function Index() {
             </p>
 
             <div className="aos" style={{ ...aosBase, display: "flex", flexDirection: "column", gap: "14px", transitionDelay: "0.3s" }}>
-              <BtnWhite style={{ alignSelf: "flex-start" }}>
+              <BtnWhite style={{ alignSelf: "flex-start" }} onClick={openModal}>
                 ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →
               </BtnWhite>
               <p style={{ ...ff, fontSize: "13px", color: "rgba(255,255,255,0.42)", maxWidth: "460px", margin: 0, lineHeight: 1.5 }}>
@@ -628,44 +725,58 @@ export default function Index() {
                   Регистрация<br /><span style={{ color: GOLD }}>бесплатно</span>
                 </h3>
 
-                {[
-                  { placeholder: "Ваше имя", type: "text" },
-                  { placeholder: "Email", type: "email" },
-                  { placeholder: "Телефон", type: "tel" },
-                ].map((field, i) => (
-                  <input
-                    key={i}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    style={{
-                      ...ff,
-                      width: "100%",
-                      padding: "14px 20px",
-                      backgroundColor: "rgba(255,255,255,0.07)",
-                      border: "1px solid rgba(201,169,110,0.3)",
-                      borderRadius: "10px",
-                      color: WHITE,
-                      fontSize: "16px",
-                      outline: "none",
-                      boxSizing: "border-box",
-                    }}
-                    onFocus={e => (e.currentTarget.style.borderColor = GOLD)}
-                    onBlur={e => (e.currentTarget.style.borderColor = "rgba(201,169,110,0.3)")}
-                  />
-                ))}
+                {formSent ? (
+                  <div style={{ textAlign: "center", padding: "24px 0" }}>
+                    <div style={{ fontSize: "48px", marginBottom: "16px" }}>✓</div>
+                    <p style={{ ...ffH, color: GOLD, fontSize: "22px", fontWeight: 600, margin: "0 0 8px" }}>Вы зарегистрированы!</p>
+                    <p style={{ ...ff, color: "rgba(255,255,255,0.65)", fontSize: "15px", margin: 0, lineHeight: 1.5 }}>
+                      Проверьте почту — письмо с доступом придёт на {formData.email}
+                    </p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleBottomSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    {[
+                      { placeholder: "Ваше имя", type: "text", key: "name" as const },
+                      { placeholder: "Email", type: "email", key: "email" as const },
+                      { placeholder: "Телефон", type: "tel", key: "phone" as const },
+                    ].map((field) => (
+                      <input
+                        key={field.key}
+                        type={field.type}
+                        placeholder={field.placeholder}
+                        required={field.key !== "phone"}
+                        value={formData[field.key]}
+                        onChange={e => setFormData(prev => ({ ...prev, [field.key]: e.target.value }))}
+                        style={{
+                          ...ff,
+                          width: "100%",
+                          padding: "14px 20px",
+                          backgroundColor: "rgba(255,255,255,0.07)",
+                          border: "1px solid rgba(201,169,110,0.3)",
+                          borderRadius: "10px",
+                          color: WHITE,
+                          fontSize: "16px",
+                          outline: "none",
+                          boxSizing: "border-box",
+                        }}
+                        onFocus={e => (e.currentTarget.style.borderColor = GOLD)}
+                        onBlur={e => (e.currentTarget.style.borderColor = "rgba(201,169,110,0.3)")}
+                      />
+                    ))}
 
-                <BtnWhite style={{ width: "100%", textAlign: "center", marginTop: "4px" }}
-                  onClick={() => {}}>
-                  ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →
-                </BtnWhite>
+                    <BtnWhite style={{ width: "100%", textAlign: "center", marginTop: "4px" }}>
+                      ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →
+                    </BtnWhite>
 
-                <p style={{ ...ff, fontSize: "12px", color: "rgba(255,255,255,0.32)", textAlign: "center", margin: 0, lineHeight: 1.5 }}>
-                  Нажимая кнопку, вы соглашаетесь с{" "}
-                  <a href="https://radacademy.ru/privacy_policy" target="_blank" rel="noopener noreferrer"
-                    style={{ color: "rgba(201,169,110,0.7)", textDecoration: "underline" }}>
-                    политикой обработки персональных данных
-                  </a>
-                </p>
+                    <p style={{ ...ff, fontSize: "12px", color: "rgba(255,255,255,0.32)", textAlign: "center", margin: 0, lineHeight: 1.5 }}>
+                      Нажимая кнопку, вы соглашаетесь с{" "}
+                      <a href="https://radacademy.ru/privacy_policy" target="_blank" rel="noopener noreferrer"
+                        style={{ color: "rgba(201,169,110,0.7)", textDecoration: "underline" }}>
+                        политикой обработки персональных данных
+                      </a>
+                    </p>
+                  </form>
+                )}
               </div>
             </div>
           </div>
@@ -721,7 +832,7 @@ export default function Index() {
 
       {/* ── Мобильная фиксированная кнопка ── */}
       <div className="mobile-cta" style={{ display: "none", position: "fixed", bottom: 0, left: 0, right: 0, padding: "12px 20px 20px", backgroundColor: BG, borderTop: "1px solid rgba(201,169,110,0.3)", zIndex: 100 }}>
-        <BtnWhite style={{ width: "100%", textAlign: "center", display: "block", padding: "16px 24px", fontSize: "15px" }}>
+        <BtnWhite style={{ width: "100%", textAlign: "center", display: "block", padding: "16px 24px", fontSize: "15px" }} onClick={openModal}>
           ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →
         </BtnWhite>
       </div>
