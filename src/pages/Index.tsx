@@ -108,12 +108,30 @@ const GC_FORM_ACTION = "https://cabinet.onlinerad.ru/pl/lite/widget/widget";
 // ПОПАП С ГЕТКУРС
 // ──────────────────────────────────────
 
+const THANK_YOU_URL = "https://cabinet.onlinerad.ru/giftthankyou_hedonline";
+
 const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "";
     return () => { document.body.style.overflow = ""; };
   }, [open]);
+
+  // Слушаем postMessage от iframe Геткурса об успешной отправке
+  useEffect(() => {
+    const handler = (e: MessageEvent) => {
+      if (
+        e.data &&
+        (e.data.type === "gc:form:success" ||
+          e.data.event === "formSubmit" ||
+          (typeof e.data === "string" && e.data.includes("success")))
+      ) {
+        window.location.href = THANK_YOU_URL;
+      }
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, []);
 
   if (!open) return null;
 
@@ -122,56 +140,44 @@ const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
       onClick={onClose}
       style={{
         position: "fixed", inset: 0, zIndex: 9999,
-        backgroundColor: "rgba(0,0,0,0.72)",
+        backgroundColor: "rgba(0,0,0,0.75)",
         display: "flex", alignItems: "center", justifyContent: "center",
         padding: "16px",
-        overflowY: "auto",
       }}
     >
       <div
         onClick={e => e.stopPropagation()}
         style={{
-          backgroundColor: "#7A1012",
-          borderRadius: "20px",
-          border: "1px solid rgba(201,169,110,0.35)",
+          backgroundColor: "#fff",
+          borderRadius: "16px",
           width: "100%",
-          maxWidth: "500px",
-          maxHeight: "calc(100vh - 32px)",
-          display: "flex",
-          flexDirection: "column",
+          maxWidth: "480px",
           position: "relative",
           boxShadow: "0 32px 80px rgba(0,0,0,0.6)",
           overflow: "hidden",
         }}
       >
-        {/* Шапка */}
-        <div style={{ padding: "24px 24px 12px", fontFamily: "'Cormorant', Georgia, serif", flexShrink: 0, position: "relative" }}>
-          <button
-            onClick={onClose}
-            style={{
-              position: "absolute", top: "16px", right: "16px",
-              background: "none", border: "none", cursor: "pointer",
-              color: "rgba(255,255,255,0.55)", fontSize: "22px", lineHeight: 1,
-              zIndex: 2, padding: "4px 8px",
-            }}
-          >✕</button>
-          <h3 style={{ color: "#FFFFFF", fontSize: "24px", fontWeight: 700, margin: "0 0 2px", paddingRight: "32px" }}>
-            Регистрация
-          </h3>
-          <p style={{ color: "#C9A96E", fontSize: "15px", margin: 0, fontFamily: "'IBM Plex Sans', sans-serif" }}>
-            Бесплатно · 11–12 марта · Онлайн
-          </p>
-        </div>
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute", top: "12px", right: "12px",
+            background: "rgba(0,0,0,0.12)", border: "none", cursor: "pointer",
+            color: "#333", fontSize: "18px", lineHeight: 1,
+            zIndex: 10, padding: "6px 10px", borderRadius: "50%",
+          }}
+        >✕</button>
 
-        {/* iframe растягивается на оставшееся место */}
-        <div style={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
-          <iframe
-            src={`${GC_WIDGET_URL}&ref=${encodeURIComponent(document.referrer)}&loc=${encodeURIComponent(window.location.href)}`}
-            style={{ width: "100%", height: "100%", minHeight: "420px", border: "none", display: "block" }}
-            title="Регистрация"
-            allowFullScreen
-          />
-        </div>
+        <iframe
+          src={`${GC_WIDGET_URL}&ref=${encodeURIComponent(document.referrer)}&loc=${encodeURIComponent(window.location.href)}`}
+          style={{
+            width: "100%",
+            height: "min(680px, calc(100vh - 80px))",
+            border: "none",
+            display: "block",
+          }}
+          title="Регистрация"
+          allowFullScreen
+        />
       </div>
     </div>
   );
@@ -184,7 +190,6 @@ export default function Index() {
 
   // Нижняя форма — состояние
   const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
-  const [formSent, setFormSent] = useState(false);
 
   const handleBottomSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -200,7 +205,7 @@ export default function Index() {
     } catch {
       // ignore
     }
-    setFormSent(true);
+    window.location.href = THANK_YOU_URL;
   };
 
   // Intersection Observer для AOS-анимаций
@@ -730,58 +735,48 @@ export default function Index() {
                   Регистрация<br /><span style={{ color: GOLD }}>бесплатно</span>
                 </h3>
 
-                {formSent ? (
-                  <div style={{ textAlign: "center", padding: "24px 0" }}>
-                    <div style={{ fontSize: "48px", marginBottom: "16px" }}>✓</div>
-                    <p style={{ ...ffH, color: GOLD, fontSize: "22px", fontWeight: 600, margin: "0 0 8px" }}>Вы зарегистрированы!</p>
-                    <p style={{ ...ff, color: "rgba(255,255,255,0.65)", fontSize: "15px", margin: 0, lineHeight: 1.5 }}>
-                      Проверьте почту — письмо с доступом придёт на {formData.email}
-                    </p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleBottomSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                    {[
-                      { placeholder: "Ваше имя", type: "text", key: "name" as const },
-                      { placeholder: "Email", type: "email", key: "email" as const },
-                      { placeholder: "Телефон", type: "tel", key: "phone" as const },
-                    ].map((field) => (
-                      <input
-                        key={field.key}
-                        type={field.type}
-                        placeholder={field.placeholder}
-                        required={field.key !== "phone"}
-                        value={formData[field.key]}
-                        onChange={e => setFormData(prev => ({ ...prev, [field.key]: e.target.value }))}
-                        style={{
-                          ...ff,
-                          width: "100%",
-                          padding: "14px 20px",
-                          backgroundColor: "rgba(255,255,255,0.07)",
-                          border: "1px solid rgba(201,169,110,0.3)",
-                          borderRadius: "10px",
-                          color: WHITE,
-                          fontSize: "16px",
-                          outline: "none",
-                          boxSizing: "border-box",
-                        }}
-                        onFocus={e => (e.currentTarget.style.borderColor = GOLD)}
-                        onBlur={e => (e.currentTarget.style.borderColor = "rgba(201,169,110,0.3)")}
-                      />
-                    ))}
+                <form onSubmit={handleBottomSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  {[
+                    { placeholder: "Ваше имя", type: "text", key: "name" as const },
+                    { placeholder: "Email", type: "email", key: "email" as const },
+                    { placeholder: "Телефон", type: "tel", key: "phone" as const },
+                  ].map((field) => (
+                    <input
+                      key={field.key}
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      required={field.key !== "phone"}
+                      value={formData[field.key]}
+                      onChange={e => setFormData(prev => ({ ...prev, [field.key]: e.target.value }))}
+                      style={{
+                        ...ff,
+                        width: "100%",
+                        padding: "14px 20px",
+                        backgroundColor: "rgba(255,255,255,0.07)",
+                        border: "1px solid rgba(201,169,110,0.3)",
+                        borderRadius: "10px",
+                        color: WHITE,
+                        fontSize: "16px",
+                        outline: "none",
+                        boxSizing: "border-box",
+                      }}
+                      onFocus={e => (e.currentTarget.style.borderColor = GOLD)}
+                      onBlur={e => (e.currentTarget.style.borderColor = "rgba(201,169,110,0.3)")}
+                    />
+                  ))}
 
-                    <BtnWhite style={{ width: "100%", textAlign: "center", marginTop: "4px" }}>
-                      ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →
-                    </BtnWhite>
+                  <BtnWhite style={{ width: "100%", textAlign: "center", marginTop: "4px" }}>
+                    ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →
+                  </BtnWhite>
 
-                    <p style={{ ...ff, fontSize: "12px", color: "rgba(255,255,255,0.32)", textAlign: "center", margin: 0, lineHeight: 1.5 }}>
-                      Нажимая кнопку, вы соглашаетесь с{" "}
-                      <a href="https://radacademy.ru/privacy_policy" target="_blank" rel="noopener noreferrer"
-                        style={{ color: "rgba(201,169,110,0.7)", textDecoration: "underline" }}>
-                        политикой обработки персональных данных
-                      </a>
-                    </p>
-                  </form>
-                )}
+                  <p style={{ ...ff, fontSize: "12px", color: "rgba(255,255,255,0.32)", textAlign: "center", margin: 0, lineHeight: 1.5 }}>
+                    Нажимая кнопку, вы соглашаетесь с{" "}
+                    <a href="https://radacademy.ru/privacy_policy" target="_blank" rel="noopener noreferrer"
+                      style={{ color: "rgba(201,169,110,0.7)", textDecoration: "underline" }}>
+                      политикой обработки персональных данных
+                    </a>
+                  </p>
+                </form>
               </div>
             </div>
           </div>
