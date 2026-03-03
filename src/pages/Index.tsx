@@ -208,8 +208,10 @@ export default function Index() {
     } catch {
       // ignore
     }
-    (window as unknown as Record<string, (...args: unknown[]) => void>)['ym']?.(107087337, 'reachGoal', 'submit_registration_form');
-    window.location.href = THANK_YOU_URL;
+    (window as unknown as Record<string, (...args: unknown[]) => void>)['ym']?.(107087337, 'reachGoal', 'submit_registration_form', {}, () => {
+      window.location.href = THANK_YOU_URL;
+    });
+    setTimeout(() => { window.location.href = THANK_YOU_URL; }, 500);
   };
 
   // Intersection Observer для AOS-анимаций
