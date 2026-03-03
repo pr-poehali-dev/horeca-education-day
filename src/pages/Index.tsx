@@ -120,13 +120,25 @@ const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   // Слушаем postMessage от iframe Геткурса об успешной отправке
   useEffect(() => {
     const handler = (e: MessageEvent) => {
-      if (
-        e.data &&
-        (e.data.type === "gc:form:success" ||
-          e.data.event === "formSubmit" ||
-          (typeof e.data === "string" && e.data.includes("success")))
-      ) {
-        window.location.href = THANK_YOU_URL;
+      const d = e.data;
+      const isSuccess =
+        d &&
+        (d.type === "gc:form:success" ||
+          d.event === "formSubmit" ||
+          d.type === "form_success" ||
+          d.action === "formSubmitted" ||
+          (typeof d === "string" && (d.includes("success") || d.includes("formSubmit"))));
+
+      if (isSuccess) {
+        const ym = (window as unknown as Record<string, (...args: unknown[]) => void>)['ym'];
+        if (ym) {
+          ym(107087337, 'reachGoal', 'submit_registration_form', {}, () => {
+            window.location.href = THANK_YOU_URL;
+          });
+          setTimeout(() => { window.location.href = THANK_YOU_URL; }, 500);
+        } else {
+          window.location.href = THANK_YOU_URL;
+        }
       }
     };
     window.addEventListener("message", handler);
