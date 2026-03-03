@@ -185,7 +185,10 @@ const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
 
 export default function Index() {
   const [modalOpen, setModalOpen] = useState(false);
-  const openModal = () => setModalOpen(true);
+  const openModal = () => {
+    setModalOpen(true);
+    (window as unknown as Record<string, (...args: unknown[]) => void>)['ym']?.(107087337, 'reachGoal', 'open_registration_modal');
+  };
   const closeModal = () => setModalOpen(false);
 
   // Нижняя форма — состояние
@@ -205,6 +208,7 @@ export default function Index() {
     } catch {
       // ignore
     }
+    (window as unknown as Record<string, (...args: unknown[]) => void>)['ym']?.(107087337, 'reachGoal', 'submit_registration_form');
     window.location.href = THANK_YOU_URL;
   };
 
