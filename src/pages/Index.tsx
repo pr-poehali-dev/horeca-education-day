@@ -102,7 +102,7 @@ const BtnWhite = ({
 // ──────────────────────────────────────
 
 const GC_WIDGET_URL = "https://cabinet.onlinerad.ru/pl/lite/widget/widget?id=1568955";
-const GC_FORM_ACTION = "https://cabinet.onlinerad.ru/pl/lite/widget/widget";
+
 
 // ──────────────────────────────────────
 // ПОПАП С ГЕТКУРС
@@ -190,29 +190,6 @@ export default function Index() {
     (window as unknown as Record<string, (...args: unknown[]) => void>)['ym']?.(107087337, 'reachGoal', 'open_registration_modal');
   };
   const closeModal = () => setModalOpen(false);
-
-  // Нижняя форма — состояние
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
-
-  const handleBottomSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email) return;
-    try {
-      const fd = new FormData();
-      fd.append("action", "addUser");
-      fd.append("id", "1568955");
-      fd.append("user[email]", formData.email);
-      fd.append("user[first_name]", formData.name);
-      fd.append("user[phone]", formData.phone);
-      await fetch(GC_FORM_ACTION, { method: "POST", body: fd, mode: "no-cors" });
-    } catch {
-      // ignore
-    }
-    (window as unknown as Record<string, (...args: unknown[]) => void>)['ym']?.(107087337, 'reachGoal', 'submit_registration_form', {}, () => {
-      window.location.href = THANK_YOU_URL;
-    });
-    setTimeout(() => { window.location.href = THANK_YOU_URL; }, 500);
-  };
 
   // Intersection Observer для AOS-анимаций
   useEffect(() => {
@@ -667,125 +644,127 @@ export default function Index() {
 
 
       {/* ══════════════════════════════════════
-          БЛОК 9 — ФИНАЛЬНЫЙ CTA + ФОРМА
+          БЛОК 9 — ФИНАЛЬНЫЙ CTA
       ══════════════════════════════════════ */}
       <section id="register" style={{ backgroundColor: BG, padding: "96px 48px" }}>
-        <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
-          <div className="cta-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "80px", alignItems: "start" }}>
-            {/* Left: текст + счётчик + список */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "36px" }}>
-              <div>
-                <h2 className="aos" style={{ ...aosBase, ...ffH, fontSize: "clamp(30px, 3.8vw, 54px)", fontWeight: 600, lineHeight: 1.1, color: WHITE, margin: "0 0 12px" }}>
-                  Зарегистрируйтесь на<br /><span style={{ color: GOLD }}>HoReCa Education Day</span>
-                </h2>
-                <p style={{ ...ff, fontSize: "clamp(16px, 1.2vw, 18px)", color: GOLD, letterSpacing: "0.05em", margin: 0 }}>
-                  11–12 марта | Онлайн | Бесплатно
-                </p>
-              </div>
+        <div style={{ maxWidth: "860px", margin: "0 auto", textAlign: "center" }}>
 
-              {/* Countdown */}
-              <div className="aos" style={{ ...aosBase, transitionDelay: "0.1s" }}>
-                <p style={{ ...ff, fontSize: "12px", color: "rgba(255,255,255,0.45)", letterSpacing: "0.15em", marginBottom: "16px", fontWeight: 600 }}>
-                  ДО НАЧАЛА ПЕРВОГО ДНЯ
-                </p>
-                <div style={{ display: "flex", gap: "16px", alignItems: "flex-end" }}>
-                  {[
-                    { val: pad(timeLeft.d), label: "дней" },
-                    { val: pad(timeLeft.h), label: "часов" },
-                    { val: pad(timeLeft.m), label: "минут" },
-                    { val: pad(timeLeft.s), label: "секунд" },
-                  ].map((t, i) => (
-                    <div key={i} style={{ textAlign: "center" }}>
-                      <div style={{
-                        ...ffH,
-                        fontSize: "clamp(36px, 4vw, 56px)",
-                        fontWeight: 700,
-                        color: WHITE,
-                        lineHeight: 1,
-                        minWidth: "60px",
-                        background: CARD_BG,
-                        borderRadius: "10px",
-                        padding: "12px 8px",
-                        border: "1px solid rgba(201,169,110,0.25)",
-                      }}>
-                        {t.val}
-                      </div>
-                      <div style={{ ...ff, fontSize: "11px", color: "rgba(255,255,255,0.4)", marginTop: "6px", letterSpacing: "0.1em" }}>{t.label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+          {/* Заголовок */}
+          <h2 className="aos" style={{ ...aosBase, ...ffH, fontSize: "clamp(32px, 4vw, 60px)", fontWeight: 600, lineHeight: 1.1, color: WHITE, margin: "0 0 12px" }}>
+            Зарегистрируйтесь на<br /><span style={{ color: GOLD }}>HoReCa Education Day</span>
+          </h2>
+          <p className="aos" style={{ ...aosBase, ...ff, fontSize: "clamp(16px, 1.2vw, 18px)", color: GOLD, letterSpacing: "0.05em", margin: "0 0 48px", transitionDelay: "0.05s" }}>
+            11–12 марта | Онлайн | Бесплатно
+          </p>
 
-              {/* Checklist */}
-              <div className="aos" style={{ ...aosBase, display: "flex", flexDirection: "column", gap: "14px", transitionDelay: "0.2s" }}>
-                {[
-                  "Живой разбор кейса реального отеля методом Case Study",
-                  "Авторская методология расчёта стоимости услуг в HoReCa",
-                  "Практическое задание с разбором от Анны Симоновой",
-                  "Алгоритм создания дизайн-концепции для HoReCa-объекта",
-                  "Реальные примеры концепций студии RADDESIGN",
-                  "Понимание как войти в HoReCa уже сейчас",
-                ].map((item, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
-                    <span style={{ color: GOLD, fontWeight: 700, fontSize: "18px", flexShrink: 0, marginTop: "2px" }}>✓</span>
-                    <span style={{ ...ff, fontSize: "clamp(15px, 1.1vw, 17px)", lineHeight: 1.55, color: "rgba(255,255,255,0.85)" }}>{item}</span>
+          {/* Countdown */}
+          <div className="aos" style={{ ...aosBase, transitionDelay: "0.1s", marginBottom: "48px" }}>
+            <p style={{ ...ff, fontSize: "12px", color: "rgba(255,255,255,0.45)", letterSpacing: "0.15em", marginBottom: "16px", fontWeight: 600 }}>
+              ДО НАЧАЛА ПЕРВОГО ДНЯ
+            </p>
+            <div style={{ display: "flex", gap: "16px", alignItems: "flex-end", justifyContent: "center" }}>
+              {[
+                { val: pad(timeLeft.d), label: "дней" },
+                { val: pad(timeLeft.h), label: "часов" },
+                { val: pad(timeLeft.m), label: "минут" },
+                { val: pad(timeLeft.s), label: "секунд" },
+              ].map((t, i) => (
+                <div key={i} style={{ textAlign: "center" }}>
+                  <div style={{
+                    ...ffH,
+                    fontSize: "clamp(36px, 4vw, 56px)",
+                    fontWeight: 700,
+                    color: WHITE,
+                    lineHeight: 1,
+                    minWidth: "60px",
+                    background: CARD_BG,
+                    borderRadius: "10px",
+                    padding: "12px 8px",
+                    border: "1px solid rgba(201,169,110,0.25)",
+                  }}>
+                    {t.val}
                   </div>
-                ))}
-              </div>
+                  <div style={{ ...ff, fontSize: "11px", color: "rgba(255,255,255,0.4)", marginTop: "6px", letterSpacing: "0.1em" }}>{t.label}</div>
+                </div>
+              ))}
             </div>
+          </div>
 
-            {/* Right: форма */}
-            <div className="aos" style={{ ...aosBase, transitionDelay: "0.15s" }}>
-              <div style={{ backgroundColor: CARD_BG, borderRadius: "20px", padding: "40px", border: "1px solid rgba(201,169,110,0.25)", display: "flex", flexDirection: "column", gap: "20px" }}>
-                <h3 style={{ ...ffH, color: WHITE, fontSize: "26px", fontWeight: 600, margin: 0, lineHeight: 1.2 }}>
-                  Регистрация<br /><span style={{ color: GOLD }}>бесплатно</span>
-                </h3>
-
-                <form onSubmit={handleBottomSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                  {[
-                    { placeholder: "Ваше имя", type: "text", key: "name" as const },
-                    { placeholder: "Email", type: "email", key: "email" as const },
-                    { placeholder: "Телефон", type: "tel", key: "phone" as const },
-                  ].map((field) => (
-                    <input
-                      key={field.key}
-                      type={field.type}
-                      placeholder={field.placeholder}
-                      required={field.key !== "phone"}
-                      value={formData[field.key]}
-                      onChange={e => setFormData(prev => ({ ...prev, [field.key]: e.target.value }))}
-                      style={{
-                        ...ff,
-                        width: "100%",
-                        padding: "14px 20px",
-                        backgroundColor: "rgba(255,255,255,0.07)",
-                        border: "1px solid rgba(201,169,110,0.3)",
-                        borderRadius: "10px",
-                        color: WHITE,
-                        fontSize: "16px",
-                        outline: "none",
-                        boxSizing: "border-box",
-                      }}
-                      onFocus={e => (e.currentTarget.style.borderColor = GOLD)}
-                      onBlur={e => (e.currentTarget.style.borderColor = "rgba(201,169,110,0.3)")}
-                    />
-                  ))}
-
-                  <BtnWhite style={{ width: "100%", textAlign: "center", marginTop: "4px" }}>
-                    ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →
-                  </BtnWhite>
-
-                  <p style={{ ...ff, fontSize: "12px", color: "rgba(255,255,255,0.32)", textAlign: "center", margin: 0, lineHeight: 1.5 }}>
-                    Нажимая кнопку, вы соглашаетесь с{" "}
-                    <a href="https://radacademy.ru/privacy_policy" target="_blank" rel="noopener noreferrer"
-                      style={{ color: "rgba(201,169,110,0.7)", textDecoration: "underline" }}>
-                      политикой обработки персональных данных
-                    </a>
-                  </p>
-                </form>
+          {/* Подарок за регистрацию */}
+          <div className="aos" style={{ ...aosBase, transitionDelay: "0.15s", marginBottom: "48px" }}>
+            <div style={{
+              backgroundColor: CARD_BG,
+              borderRadius: "20px",
+              padding: "36px 40px",
+              border: "1px solid rgba(201,169,110,0.35)",
+              display: "inline-flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "16px",
+              maxWidth: "600px",
+              width: "100%",
+              textAlign: "center",
+            }}>
+              <div style={{
+                backgroundColor: "rgba(201,169,110,0.15)",
+                borderRadius: "50%",
+                width: "56px",
+                height: "56px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "26px",
+                flexShrink: 0,
+              }}>🎁</div>
+              <div>
+                <p style={{ ...ff, fontSize: "12px", fontWeight: 700, letterSpacing: "0.18em", color: GOLD, margin: "0 0 8px", textTransform: "uppercase" }}>
+                  Подарок каждому участнику
+                </p>
+                <p style={{ ...ffH, fontSize: "clamp(18px, 2vw, 24px)", color: WHITE, margin: "0 0 10px", fontStyle: "italic", lineHeight: 1.3 }}>
+                  Чек-лист «3 шага, как получить клиента<br />на дизайн коммерческого объекта»
+                </p>
+                <p style={{ ...ff, fontSize: "14px", color: "rgba(255,255,255,0.55)", margin: 0, lineHeight: 1.5 }}>
+                  Пришлём сразу после регистрации
+                </p>
               </div>
             </div>
           </div>
+
+          {/* Усиления */}
+          <div className="aos" style={{ ...aosBase, transitionDelay: "0.2s", display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "12px", marginBottom: "40px" }}>
+            {[
+              "Живой разбор кейса реального отеля",
+              "Авторская методология расчёта стоимости",
+              "Алгоритм создания дизайн-концепции",
+              "Практическое задание с разбором эксперта",
+            ].map((item, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: "8px", backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(201,169,110,0.2)", borderRadius: "9999px", padding: "8px 18px" }}>
+                <span style={{ color: GOLD, fontWeight: 700, fontSize: "14px" }}>✓</span>
+                <span style={{ ...ff, fontSize: "14px", color: "rgba(255,255,255,0.8)" }}>{item}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Кнопка */}
+          <div className="aos" style={{ ...aosBase, transitionDelay: "0.25s" }}>
+            <BtnWhite
+              onClick={() => {
+                openModal();
+                (window as unknown as Record<string, (...args: unknown[]) => void>)['ym']?.(107087337, 'reachGoal', 'submit_registration_form');
+              }}
+              style={{ fontSize: "17px", padding: "18px 52px" }}
+            >
+              ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →
+            </BtnWhite>
+            <p style={{ ...ff, fontSize: "12px", color: "rgba(255,255,255,0.28)", marginTop: "16px", lineHeight: 1.5 }}>
+              Нажимая кнопку, вы соглашаетесь с{" "}
+              <a href="https://radacademy.ru/privacy_policy" target="_blank" rel="noopener noreferrer"
+                style={{ color: "rgba(201,169,110,0.5)", textDecoration: "underline" }}>
+                политикой обработки персональных данных
+              </a>
+            </p>
+          </div>
+
         </div>
       </section>
 
