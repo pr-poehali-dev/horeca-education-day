@@ -38,10 +38,12 @@ export default function March8Page() {
     <div style={{ background: "#0A0A0A", minHeight: "100vh", color: "#fff", fontFamily: "'Basis Grotesque Pro', 'Inter', sans-serif" }}>
       {/* Header */}
       <header style={{ height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 32px", borderBottom: "1px solid rgba(255,255,255,0.10)", boxSizing: "border-box" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <svg height="28" viewBox="0 0 120 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <text x="0" y="22" fontFamily="'Cormorant', Georgia, serif" fontSize="20" fontWeight="600" fill="#fff" letterSpacing="3">RAD ACADEMY</text>
-          </svg>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <img
+            src="https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/c9557609-04c7-411a-a6d8-97ee87fa41f3.png"
+            alt="RAD ACADEMY"
+            style={{ height: 36, width: "auto", objectFit: "contain", filter: "invert(1) brightness(2)" }}
+          />
         </div>
         <span style={{ fontSize: 14, color: "rgba(255,255,255,0.6)", fontFamily: "inherit" }}>radacademy.ru</span>
       </header>
@@ -271,8 +273,30 @@ export default function March8Page() {
           </div>
 
           {/* Footer */}
-          <div style={{ marginTop: 64, paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.08)", paddingBottom: 40, textAlign: "center", fontSize: 13, color: "rgba(255,255,255,0.35)" }}>
-            © 2026 RAD ACADEMY · radacademy.ru · mail@onlinerad.ru
+          <div style={{ marginTop: 64, paddingTop: 32, borderTop: "1px solid rgba(255,255,255,0.08)", paddingBottom: 48 }}>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+              <img
+                src="https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/c9557609-04c7-411a-a6d8-97ee87fa41f3.png"
+                alt="RAD ACADEMY"
+                style={{ height: 28, width: "auto", objectFit: "contain", filter: "invert(1) brightness(2)", opacity: 0.6 }}
+              />
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "center", gap: 24, marginBottom: 20 }}>
+              <a href="https://t.me/rad_academy_design" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "rgba(255,255,255,0.50)", textDecoration: "none" }}>Telegram</a>
+              <a href="https://vk.com/radacademy" target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: "rgba(255,255,255,0.50)", textDecoration: "none" }}>ВКонтакте</a>
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "8px 20px", marginBottom: 20, textAlign: "center" }}>
+              <a href="https://radacademy.ru/offer" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", textDecoration: "underline" }}>Публичная оферта</a>
+              <a href="https://radacademy.ru/privacy_policy" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", textDecoration: "underline" }}>Политика обработки персональных данных</a>
+              <a href="https://radacademy.ru/consent_user" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", textDecoration: "underline" }}>Согласие на обработку данных</a>
+              <a href="https://radacademy.ru/contacts" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: "rgba(255,255,255,0.35)", textDecoration: "underline" }}>Контакты</a>
+            </div>
+
+            <div style={{ textAlign: "center", fontSize: 12, color: "rgba(255,255,255,0.25)", lineHeight: 1.8 }}>
+              © 2026 ИП Вылегжанина А.С. · <a href="mailto:mail@onlinerad.ru" style={{ color: "rgba(255,255,255,0.35)", textDecoration: "none" }}>mail@onlinerad.ru</a> · <a href="https://radacademy.ru" style={{ color: "rgba(255,255,255,0.35)", textDecoration: "none" }}>radacademy.ru</a>
+            </div>
           </div>
         </div>
       </div>
