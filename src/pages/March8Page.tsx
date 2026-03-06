@@ -167,7 +167,7 @@ export default function March8Page() {
         {/* CTA 1 */}
         <div style={{ marginTop: 32, textAlign: "center", paddingBottom: "clamp(48px, 6vw, 80px)" }}>
           <a
-            href="https://radacademy.ru/efir_hotels"
+            href="https://radacademy.ru/horeca_trends"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -246,7 +246,7 @@ export default function March8Page() {
               и работать с такими объектами?
             </div>
             <a
-              href="https://radacademy.ru/efir_hotels"
+              href="https://radacademy.ru/horeca_trends"
               target="_blank"
               rel="noopener noreferrer"
               style={{

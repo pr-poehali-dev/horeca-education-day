@@ -324,7 +324,7 @@ export default function March8ohPage() {
         {/* CTA 1 */}
         <div style={{ marginTop: 32, textAlign: "center", paddingBottom: "clamp(48px, 6vw, 80px)" }}>
           <a
-            href="https://radacademy.ru/efir_hotels"
+            href="https://radacademy.ru/horeca_trends"
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => ym(107087337, 'reachGoal', 'click_next_step_cta')}
@@ -404,7 +404,7 @@ export default function March8ohPage() {
               и работать с такими объектами?
             </div>
             <a
-              href="https://radacademy.ru/efir_hotels"
+              href="https://radacademy.ru/horeca_trends"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => ym(107087337, 'reachGoal', 'click_next_step_cta')}
