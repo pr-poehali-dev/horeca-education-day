@@ -240,21 +240,6 @@ export default function March8ohPage() {
             background: "rgba(0,0,0,0.30)",
             transition: "background 0.2s",
           }} />
-          {/* Play button */}
-          <div style={{
-            position: "absolute", top: "50%", left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 72, height: 72,
-            borderRadius: "50%",
-            background: "rgba(42,171,238,0.92)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
-            transition: "transform 0.2s, background 0.2s",
-          }}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-          </div>
           {/* Duration badge */}
           <div style={{
             position: "absolute", bottom: 12, right: 14,
