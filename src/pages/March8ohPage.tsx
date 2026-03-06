@@ -38,11 +38,17 @@ export default function March8ohPage() {
   const timer = useTimer();
   const [showModal, setShowModal] = useState(false);
 
+  function ym(...args: unknown[]) {
+    (window as unknown as Record<string, (...a: unknown[]) => void>)['ym']?.(...args);
+  }
+
   function handleVideoClick() {
+    ym(107087337, 'reachGoal', 'open_video_popup');
     setShowModal(true);
   }
 
   function handleTelegramClick() {
+    ym(107087337, 'reachGoal', 'click_telegram_popup');
     window.open(TG_DEEPLINK, "_blank");
     setTimeout(() => {
       window.location.href = REDIRECT_URL;
@@ -321,6 +327,7 @@ export default function March8ohPage() {
             href="https://radacademy.ru/efir_hotels"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => ym(107087337, 'reachGoal', 'click_next_step_cta')}
             style={{
               display: "inline-block",
               background: "#C0392B",
@@ -400,6 +407,7 @@ export default function March8ohPage() {
               href="https://radacademy.ru/efir_hotels"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => ym(107087337, 'reachGoal', 'click_next_step_cta')}
               style={{
                 display: "inline-block",
                 background: "#C0392B",
