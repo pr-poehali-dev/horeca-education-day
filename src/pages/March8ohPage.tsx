@@ -163,7 +163,8 @@ export default function March8ohPage() {
             style={{ height: 36, width: "auto", objectFit: "contain", filter: "invert(1) brightness(2)" }}
           />
         </div>
-        <span style={{ fontSize: 14, color: "rgba(255,255,255,0.6)", fontFamily: "inherit" }}>radacademy.ru</span>
+        <span style={{ fontSize: 14, color: "rgba(255,255,255,0.6)", fontFamily: "inherit" }} className="header-site-label">radacademy.ru</span>
+        <style>{`@media (max-width: 640px) { .header-site-label { display: none; } }`}</style>
       </header>
 
       {/* Screen 1 */}
