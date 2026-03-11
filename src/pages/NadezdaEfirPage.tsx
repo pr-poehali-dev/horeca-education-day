@@ -4,8 +4,8 @@ const SPEAKER_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-
 const INTERIOR_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/9a67729f-c090-4bc8-b565-17d216d33fc3.jpg";
 const LOGO_URL = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/c9557609-04c7-411a-a6d8-97ee87fa41f3.png";
 
-const ACCENT = "#F44E26";
-const ACCENT_HOVER = "#D93D17";
+const ACCENT = "#D4956A";
+const ACCENT_HOVER = "#C4845A";
 const PDF_GUIDE = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/bf310a28-abe9-47e7-8339-5d7badd09da0.png";
 
 function useInView(threshold = 0.15) {
@@ -221,12 +221,12 @@ export default function NadezdaEfirPage() {
           backgroundImage: `url(${INTERIOR_PHOTO})`,
           backgroundSize: "cover",
           backgroundPosition: "center 30%",
-          filter: "brightness(0.22) saturate(0.5)",
+          filter: "brightness(0.45) saturate(0.6)",
         }} />
         {/* Overlay gradient */}
         <div style={{
           position: "absolute", inset: 0,
-          background: "linear-gradient(to bottom, rgba(13,12,11,0.3) 0%, rgba(13,12,11,0.55) 60%, #0D0C0B 100%)",
+          background: "linear-gradient(to bottom, rgba(13,12,11,0.15) 0%, rgba(13,12,11,0.45) 60%, #0D0C0B 100%)",
         }} />
 
         <div className="hero-inner" style={{ position: "relative", zIndex: 1, maxWidth: 860, margin: "0 auto", padding: "0 16px", minHeight: 620, display: "flex", alignItems: "center", paddingTop: 80, paddingBottom: 80 }}>
