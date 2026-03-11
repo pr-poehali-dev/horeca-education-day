@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
 const SPEAKER_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/19f9c594-1cd1-4895-be57-c6a3612c38a5.jpg";
+const INTERIOR_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/9a67729f-c090-4bc8-b565-17d216d33fc3.jpg";
 const LOGO_URL = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/c9557609-04c7-411a-a6d8-97ee87fa41f3.png";
+
+const ACCENT = "#D4956A";
+const ACCENT_HOVER = "#C4845A";
 
 function useInView(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
@@ -85,9 +89,8 @@ export default function NadezdaEfirPage() {
   }
 
   return (
-    <div style={{ background: "#0A0A0A", minHeight: "100vh", color: "#fff", fontFamily: "'Basis Grotesque Pro', 'Inter', sans-serif" }}>
+    <div style={{ background: "#0D0C0B", minHeight: "100vh", color: "#fff", fontFamily: "'Basis Grotesque Pro', 'Inter', sans-serif" }}>
 
-      {/* Google Fonts */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
 
@@ -95,23 +98,25 @@ export default function NadezdaEfirPage() {
 
         .sangbleu { font-family: 'Cormorant', 'Georgia', serif; font-weight: 400; }
 
+        .accent { color: ${ACCENT}; }
+
         .cta-btn {
           display: inline-block;
-          background: #C0392B;
-          color: #fff;
+          background: ${ACCENT};
+          color: #0D0C0B;
           font-family: inherit;
-          font-size: 15px;
-          font-weight: 600;
+          font-size: 14px;
+          font-weight: 700;
           letter-spacing: 2px;
           text-transform: uppercase;
           text-decoration: none;
           padding: 18px 40px;
-          border-radius: 4px;
+          border-radius: 2px;
           border: none;
           cursor: pointer;
           transition: background 0.2s, transform 0.15s;
         }
-        .cta-btn:hover { background: #D44235; transform: translateY(-2px); }
+        .cta-btn:hover { background: ${ACCENT_HOVER}; transform: translateY(-2px); }
 
         @media (max-width: 767px) {
           .cta-btn { width: 100%; text-align: center; padding: 18px 24px; }
@@ -121,12 +126,14 @@ export default function NadezdaEfirPage() {
           .speaker-layout { flex-direction: column !important; }
           .speaker-photo-col { width: 100% !important; max-width: 320px !important; margin: 0 auto 32px !important; }
           .cards-grid { grid-template-columns: 1fr !important; }
-          .screen-pad { padding-top: 48px !important; padding-bottom: 48px !important; }
-          .h1-main { font-size: 30px !important; }
+          .screen-pad { padding-top: 56px !important; padding-bottom: 56px !important; }
+          .h1-large { font-size: clamp(34px, 8vw, 48px) !important; }
+          .h1-small { font-size: clamp(20px, 5vw, 28px) !important; }
           .h2-screen { font-size: 26px !important; }
           .h5-final { font-size: 28px !important; }
           .header-label { display: none !important; }
           .program-num { font-size: 36px !important; }
+          .hero-inner { min-height: auto !important; padding-top: 48px !important; padding-bottom: 48px !important; }
         }
       `}</style>
 
@@ -136,23 +143,23 @@ export default function NadezdaEfirPage() {
           onClick={handleOverlayClick}
           style={{
             position: "fixed", inset: 0, zIndex: 1000,
-            background: "rgba(0,0,0,0.80)",
+            background: "rgba(0,0,0,0.85)",
             display: "flex", alignItems: "center", justifyContent: "center",
             padding: "16px",
-            backdropFilter: "blur(6px)",
+            backdropFilter: "blur(8px)",
           }}
         >
           <div style={{
-            background: "#141414",
-            border: "1px solid rgba(255,255,255,0.12)",
-            borderRadius: 16,
+            background: "#18160F",
+            border: `1px solid rgba(212,149,106,0.2)`,
+            borderRadius: 8,
             padding: "clamp(32px, 4vw, 48px) clamp(24px, 4vw, 48px)",
             maxWidth: 440,
             width: "100%",
             textAlign: "center",
             boxShadow: "0 40px 100px rgba(0,0,0,0.9)",
           }}>
-            <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: "#C0392B", marginBottom: 16 }}>
+            <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: ACCENT, marginBottom: 16 }}>
               Регистрация на вебинар
             </div>
             <div className="sangbleu" style={{ fontSize: "clamp(22px, 3vw, 28px)", color: "#fff", lineHeight: 1.25, marginBottom: 12 }}>
@@ -165,9 +172,9 @@ export default function NadezdaEfirPage() {
               onClick={() => setShowModal(false)}
               style={{
                 background: "transparent",
-                border: "1px solid rgba(255,255,255,0.15)",
-                color: "rgba(255,255,255,0.5)",
-                borderRadius: 6,
+                border: "1px solid rgba(255,255,255,0.12)",
+                color: "rgba(255,255,255,0.45)",
+                borderRadius: 4,
                 padding: "10px 24px",
                 fontSize: 13,
                 cursor: "pointer",
@@ -188,113 +195,97 @@ export default function NadezdaEfirPage() {
         alignItems: "center",
         justifyContent: "space-between",
         padding: "0 32px",
-        borderBottom: "1px solid rgba(255,255,255,0.10)",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
         position: "sticky",
         top: 0,
         zIndex: 100,
-        background: "rgba(10,10,10,0.95)",
-        backdropFilter: "blur(12px)",
+        background: "rgba(13,12,11,0.96)",
+        backdropFilter: "blur(16px)",
       }}>
         <img
           src={LOGO_URL}
           alt="RAD ACADEMY"
-          style={{ height: 32, width: "auto", objectFit: "contain", filter: "invert(1) brightness(2)" }}
+          style={{ height: 30, width: "auto", objectFit: "contain", filter: "invert(1) brightness(2)" }}
         />
-        <span className="header-label" style={{ fontSize: 14, color: "rgba(255,255,255,0.55)", fontFamily: "inherit" }}>
+        <span className="header-label" style={{ fontSize: 13, color: "rgba(255,255,255,0.40)", letterSpacing: 1 }}>
           radacademy.ru
         </span>
       </header>
 
       {/* SCREEN 1 — HERO */}
-      <section className="screen-pad" style={{ paddingTop: 80, paddingBottom: 80, position: "relative", overflow: "hidden" }}>
-        <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 16px" }}>
-          <div className="hero-layout" style={{ display: "flex", alignItems: "flex-start", gap: 48 }}>
+      <section style={{ position: "relative", overflow: "hidden" }}>
+        {/* BG Interior Photo */}
+        <div style={{
+          position: "absolute", inset: 0,
+          backgroundImage: `url(${INTERIOR_PHOTO})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center 30%",
+          filter: "brightness(0.22) saturate(0.5)",
+        }} />
+        {/* Overlay gradient */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(to bottom, rgba(13,12,11,0.3) 0%, rgba(13,12,11,0.55) 60%, #0D0C0B 100%)",
+        }} />
 
-            {/* Left content */}
-            <div style={{ flex: 1, minWidth: 0 }}>
-              {/* Mobile photo */}
-              <div className="hero-photo-mobile" style={{ display: "none", marginBottom: 32, borderRadius: 12, overflow: "hidden", maxHeight: 320 }}>
-                <img
-                  src={SPEAKER_PHOTO}
-                  alt="Надежда Литовка"
-                  style={{ width: "100%", height: 320, objectFit: "cover", objectPosition: "top", filter: "grayscale(100%) contrast(1.05) brightness(0.9)" }}
-                />
-              </div>
+        <div className="hero-inner" style={{ position: "relative", zIndex: 1, maxWidth: 860, margin: "0 auto", padding: "0 16px", minHeight: 620, display: "flex", alignItems: "center", paddingTop: 80, paddingBottom: 80 }}>
+          <div style={{ maxWidth: 680 }}>
 
-              <FadeIn>
-                <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: 3, color: "#C0392B", marginBottom: 20 }}>
-                  БЕСПЛАТНЫЙ ВЕБИНАР · 18 МАРТА · 19:00 МСК
-                </div>
-              </FadeIn>
-
-              <FadeIn delay={0.1}>
-                <h1 className="sangbleu h1-main" style={{ fontSize: 48, lineHeight: 1.15, color: "#fff", marginBottom: 24 }}>
-                  Что будет с профессией<br />
-                  дизайнера через 2 года —<br />
-                  и почему те, кто не меняется<br />
-                  сейчас, рискуют остаться<br />
-                  без заказов
-                </h1>
-              </FadeIn>
-
-              <FadeIn delay={0.2}>
-                <p style={{ fontSize: "clamp(15px, 2vw, 18px)", color: "rgba(255,255,255,0.65)", lineHeight: 1.65, maxWidth: 520, marginBottom: 36 }}>
-                  Честный разговор о рынке дизайна:<br />
-                  что меняется, кто выигрывает<br />
-                  и как оказаться на правильной стороне
-                </p>
-              </FadeIn>
-
-              <FadeIn delay={0.3}>
-                <button className="cta-btn" onClick={handleCTAClick}>
-                  ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →
-                </button>
-                <div style={{ marginTop: 14, fontSize: 13, color: "rgba(255,255,255,0.40)" }}>
-                  Онлайн. Бесплатно. 18 марта в 19:00 мск
-                </div>
-              </FadeIn>
-            </div>
-
-            {/* Desktop photo */}
-            <div className="hero-photo-wrap" style={{ width: 340, flexShrink: 0, position: "relative", borderRadius: 12, overflow: "hidden" }}>
-              <div style={{
-                position: "absolute", inset: 0,
-                background: "linear-gradient(to right, #0A0A0A 0%, transparent 40%)",
-                zIndex: 1,
-              }} />
+            {/* Mobile speaker photo */}
+            <div className="hero-photo-mobile" style={{ display: "none", marginBottom: 28 }}>
               <img
                 src={SPEAKER_PHOTO}
                 alt="Надежда Литовка"
-                style={{
-                  width: "100%",
-                  height: 520,
-                  objectFit: "cover",
-                  objectPosition: "top",
-                  filter: "grayscale(100%) contrast(1.05) brightness(0.88)",
-                  display: "block",
-                }}
+                style={{ width: 120, height: 120, objectFit: "cover", objectPosition: "top", borderRadius: "50%", filter: "grayscale(80%) brightness(0.9)", border: `2px solid ${ACCENT}` }}
               />
             </div>
+
+            <FadeIn>
+              <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3.5, color: ACCENT, marginBottom: 24, fontWeight: 500 }}>
+                БЕСПЛАТНЫЙ ВЕБИНАР · 18 МАРТА · 19:00 МСК
+              </div>
+            </FadeIn>
+
+            <FadeIn delay={0.1}>
+              {/* Large part */}
+              <h1 className="sangbleu" style={{ lineHeight: 1.12, color: "#fff", marginBottom: 0 }}>
+                <span className="h1-large" style={{ fontSize: "clamp(42px, 6vw, 68px)", display: "block" }}>
+                  Что будет с{" "}
+                  <span style={{ color: ACCENT }}>профессией<br />дизайнера</span>{" "}
+                  через 2 года
+                </span>
+                <span className="h1-small" style={{ fontSize: "clamp(22px, 3.2vw, 32px)", display: "block", marginTop: 12, color: "rgba(255,255,255,0.82)", fontWeight: 300 }}>
+                  и почему те, кто не меняется сейчас,{" "}
+                  <span style={{ color: ACCENT }}>рискует остаться без заказов</span>
+                </span>
+              </h1>
+            </FadeIn>
+
+            <FadeIn delay={0.2}>
+              <p style={{ fontSize: "clamp(15px, 1.8vw, 17px)", color: "rgba(255,255,255,0.55)", lineHeight: 1.7, maxWidth: 500, marginTop: 28, marginBottom: 36 }}>
+                Честный разговор о рынке дизайна:<br />
+                что меняется, кто выигрывает<br />
+                и как оказаться на правильной стороне
+              </p>
+            </FadeIn>
+
+            <FadeIn delay={0.3}>
+              <button className="cta-btn" onClick={handleCTAClick}>
+                ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →
+              </button>
+              <div style={{ marginTop: 14, fontSize: 12, color: "rgba(255,255,255,0.30)", letterSpacing: 0.5 }}>
+                Онлайн. Бесплатно. 18 марта в 19:00 мск
+              </div>
+            </FadeIn>
           </div>
         </div>
-
-        {/* bg decoration */}
-        <div style={{
-          position: "absolute", top: "10%", right: "-10%",
-          width: 500, height: 500, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(192,57,43,0.06) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }} />
       </section>
 
       {/* SCREEN 2 — ДЛЯ КОГО */}
-      <section className="screen-pad" style={{
-        paddingTop: 80, paddingBottom: 80,
-        borderTop: "1px solid rgba(255,255,255,0.08)",
-      }}>
+      <section className="screen-pad" style={{ paddingTop: 80, paddingBottom: 80, borderTop: "1px solid rgba(255,255,255,0.07)" }}>
         <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 16px" }}>
           <FadeIn>
-            <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: "#C0392B", marginBottom: 16 }}>
+            <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: ACCENT, marginBottom: 16 }}>
               ВЫ НА ПРАВИЛЬНОЙ СТРАНИЦЕ, ЕСЛИ
             </div>
             <h2 className="sangbleu h2-screen" style={{ fontSize: 36, color: "#fff", marginBottom: 48 }}>
@@ -305,26 +296,27 @@ export default function NadezdaEfirPage() {
           <div className="cards-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             {CARDS.map((text, i) => (
               <FadeIn key={i} delay={i * 0.07}>
-                <div style={{
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  borderRadius: 12,
-                  padding: 24,
-                  height: "100%",
-                  transition: "border-color 0.3s, background 0.3s",
-                }}
+                <div
+                  style={{
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(255,255,255,0.07)",
+                    borderRadius: 8,
+                    padding: 24,
+                    height: "100%",
+                    transition: "border-color 0.3s, background 0.3s",
+                  }}
                   onMouseEnter={e => {
-                    (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(192,57,43,0.35)";
-                    (e.currentTarget as HTMLDivElement).style.background = "rgba(192,57,43,0.05)";
+                    (e.currentTarget as HTMLDivElement).style.borderColor = `rgba(212,149,106,0.3)`;
+                    (e.currentTarget as HTMLDivElement).style.background = "rgba(212,149,106,0.04)";
                   }}
                   onMouseLeave={e => {
-                    (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.08)";
-                    (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.04)";
+                    (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.07)";
+                    (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.03)";
                   }}
                 >
                   <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                    <span style={{ color: "#C0392B", fontSize: 18, lineHeight: 1.4, flexShrink: 0, marginTop: 1 }}>—</span>
-                    <p style={{ fontSize: 15, color: "rgba(255,255,255,0.75)", lineHeight: 1.65 }}>
+                    <span style={{ color: ACCENT, fontSize: 18, lineHeight: 1.4, flexShrink: 0, marginTop: 1 }}>—</span>
+                    <p style={{ fontSize: 15, color: "rgba(255,255,255,0.72)", lineHeight: 1.65 }}>
                       {text.split("\n").map((line, j) => (
                         <span key={j}>{line}{j < text.split("\n").length - 1 && <br />}</span>
                       ))}
@@ -340,12 +332,12 @@ export default function NadezdaEfirPage() {
       {/* SCREEN 3 — ПРОГРАММА */}
       <section className="screen-pad" style={{
         paddingTop: 80, paddingBottom: 80,
-        borderTop: "1px solid rgba(255,255,255,0.08)",
+        borderTop: "1px solid rgba(255,255,255,0.07)",
         background: "rgba(255,255,255,0.01)",
       }}>
         <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 16px" }}>
           <FadeIn>
-            <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: "#C0392B", marginBottom: 16 }}>
+            <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: ACCENT, marginBottom: 16 }}>
               ПРОГРАММА
             </div>
             <h2 className="sangbleu h2-screen" style={{ fontSize: 36, color: "#fff", marginBottom: 56 }}>
@@ -361,11 +353,11 @@ export default function NadezdaEfirPage() {
                   gap: 32,
                   alignItems: "flex-start",
                   padding: "32px 0",
-                  borderBottom: i < PROGRAM.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none",
+                  borderBottom: i < PROGRAM.length - 1 ? "1px solid rgba(255,255,255,0.07)" : "none",
                 }}>
                   <div className="program-num sangbleu" style={{
                     fontSize: 48,
-                    color: "rgba(192,57,43,0.28)",
+                    color: `rgba(212,149,106,0.22)`,
                     lineHeight: 1,
                     flexShrink: 0,
                     width: 64,
@@ -378,7 +370,7 @@ export default function NadezdaEfirPage() {
                       {item.title}
                     </div>
                     {item.desc && (
-                      <div style={{ fontSize: 15, color: "rgba(255,255,255,0.55)", lineHeight: 1.65 }}>
+                      <div style={{ fontSize: 15, color: "rgba(255,255,255,0.50)", lineHeight: 1.65 }}>
                         {item.desc}
                       </div>
                     )}
@@ -401,17 +393,16 @@ export default function NadezdaEfirPage() {
       {/* SCREEN 4 — СПИКЕР */}
       <section className="screen-pad" style={{
         paddingTop: 80, paddingBottom: 80,
-        borderTop: "1px solid rgba(255,255,255,0.08)",
+        borderTop: "1px solid rgba(255,255,255,0.07)",
       }}>
         <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 16px" }}>
           <FadeIn>
-            <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: "#C0392B", marginBottom: 48 }}>
+            <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: ACCENT, marginBottom: 48 }}>
               СПИКЕР ВЕБИНАРА
             </div>
           </FadeIn>
 
           <div className="speaker-layout" style={{ display: "flex", gap: 56, alignItems: "flex-start" }}>
-            {/* Photo */}
             <FadeIn style={{ flexShrink: 0 }}>
               <div className="speaker-photo-col" style={{ width: 280 }}>
                 <img
@@ -422,24 +413,23 @@ export default function NadezdaEfirPage() {
                     aspectRatio: "1/1",
                     objectFit: "cover",
                     objectPosition: "top",
-                    borderRadius: 12,
-                    filter: "grayscale(100%) contrast(1.05) brightness(0.85)",
+                    borderRadius: 8,
+                    filter: "grayscale(80%) contrast(1.05) brightness(0.88) sepia(20%)",
                     display: "block",
                   }}
                 />
               </div>
             </FadeIn>
 
-            {/* Text */}
             <div style={{ flex: 1, minWidth: 0 }}>
               <FadeIn delay={0.1}>
                 <h3 className="sangbleu h2-screen" style={{ fontSize: 36, color: "#fff", marginBottom: 8, lineHeight: 1.15 }}>
                   Надежда Литовка
                 </h3>
-                <div style={{ fontSize: 15, color: "#C0392B", marginBottom: 20 }}>
+                <div style={{ fontSize: 15, color: ACCENT, marginBottom: 20 }}>
                   Старший куратор RAD ACADEMY
                 </div>
-                <div style={{ width: 40, height: 1, background: "#C0392B", marginBottom: 28 }} />
+                <div style={{ width: 40, height: 1, background: ACCENT, marginBottom: 28, opacity: 0.7 }} />
               </FadeIn>
 
               <FadeIn delay={0.15}>
@@ -451,8 +441,8 @@ export default function NadezdaEfirPage() {
                     "Спикер отраслевых мероприятий: GSF, Московская неделя дизайна, ARTDOM",
                     "Член профессиональной ассоциации CISSA",
                   ].map((item, i) => (
-                    <li key={i} style={{ display: "flex", gap: 10, marginBottom: 12, fontSize: 15, color: "rgba(255,255,255,0.70)", lineHeight: 1.55 }}>
-                      <span style={{ color: "#C0392B", flexShrink: 0 }}>·</span>
+                    <li key={i} style={{ display: "flex", gap: 10, marginBottom: 12, fontSize: 15, color: "rgba(255,255,255,0.68)", lineHeight: 1.55 }}>
+                      <span style={{ color: ACCENT, flexShrink: 0 }}>·</span>
                       {item}
                     </li>
                   ))}
@@ -461,14 +451,14 @@ export default function NadezdaEfirPage() {
 
               <FadeIn delay={0.2}>
                 <blockquote style={{
-                  borderLeft: "2px solid #C0392B",
+                  borderLeft: `2px solid ${ACCENT}`,
                   paddingLeft: 24,
                   margin: 0,
                   fontFamily: "'Cormorant', 'Georgia', serif",
                   fontStyle: "italic",
                   fontSize: 20,
-                  color: "rgba(255,255,255,0.85)",
-                  lineHeight: 1.5,
+                  color: "rgba(255,255,255,0.82)",
+                  lineHeight: 1.55,
                 }}>
                   «Рынок не предупреждает — он просто
                   перераспределяет заказы. Мой вебинар
@@ -483,8 +473,8 @@ export default function NadezdaEfirPage() {
       {/* SCREEN 5 — ФИНАЛЬНЫЙ CTA */}
       <section className="screen-pad" style={{
         paddingTop: 80, paddingBottom: 80,
-        borderTop: "1px solid rgba(255,255,255,0.08)",
-        background: "#0A0A0A",
+        borderTop: "1px solid rgba(255,255,255,0.07)",
+        background: "#0D0C0B",
         textAlign: "center",
         position: "relative",
         overflow: "hidden",
@@ -492,20 +482,20 @@ export default function NadezdaEfirPage() {
         <div style={{
           position: "absolute", top: "50%", left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 600, height: 600, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(192,57,43,0.07) 0%, transparent 70%)",
+          width: 700, height: 700, borderRadius: "50%",
+          background: `radial-gradient(circle, rgba(212,149,106,0.06) 0%, transparent 70%)`,
           pointerEvents: "none",
         }} />
 
         <div style={{ maxWidth: 640, margin: "0 auto", padding: "0 16px", position: "relative", zIndex: 1 }}>
           <FadeIn>
-            <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: 3, color: "#C0392B", marginBottom: 24 }}>
+            <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3.5, color: ACCENT, marginBottom: 24 }}>
               БЕСПЛАТНЫЙ ВЕБИНАР · 18 МАРТА · 19:00 МСК
             </div>
             <h2 className="sangbleu h5-final" style={{ fontSize: 40, color: "#fff", lineHeight: 1.15, marginBottom: 20 }}>
               Узнайте как оказаться<br />на правильной стороне рынка
             </h2>
-            <p style={{ fontSize: 16, color: "rgba(255,255,255,0.55)", lineHeight: 1.65, marginBottom: 40 }}>
+            <p style={{ fontSize: 16, color: "rgba(255,255,255,0.45)", lineHeight: 1.7, marginBottom: 40 }}>
               Вебинар бесплатный. Онлайн.<br />
               Ссылка придёт на email после регистрации.
             </p>
@@ -525,11 +515,12 @@ export default function NadezdaEfirPage() {
 
       {/* FOOTER */}
       <footer style={{
-        borderTop: "1px solid rgba(255,255,255,0.08)",
-        padding: "24px 32px",
+        borderTop: "1px solid rgba(255,255,255,0.07)",
+        padding: "28px 32px",
         textAlign: "center",
         fontSize: 12,
-        color: "rgba(255,255,255,0.25)",
+        color: "rgba(255,255,255,0.20)",
+        letterSpacing: 0.5,
       }}>
         © 2026 RAD ACADEMY · radacademy.ru · mail@onlinerad.ru
       </footer>
