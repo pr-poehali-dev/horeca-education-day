@@ -4,8 +4,9 @@ const SPEAKER_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-
 const INTERIOR_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/9a67729f-c090-4bc8-b565-17d216d33fc3.jpg";
 const LOGO_URL = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/c9557609-04c7-411a-a6d8-97ee87fa41f3.png";
 
-const ACCENT = "#D4956A";
-const ACCENT_HOVER = "#C4845A";
+const ACCENT = "#F44E26";
+const ACCENT_HOVER = "#D93D17";
+const PDF_GUIDE = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/bf310a28-abe9-47e7-8339-5d7badd09da0.png";
 
 function useInView(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
@@ -501,28 +502,92 @@ export default function NadezdaEfirPage() {
             </p>
           </FadeIn>
 
+          {/* PDF Gift block */}
+          <FadeIn delay={0.25}>
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 28,
+              background: "rgba(244,78,38,0.07)",
+              border: "1px solid rgba(244,78,38,0.25)",
+              borderRadius: 12,
+              padding: "24px 28px",
+              marginTop: 40,
+              textAlign: "left",
+            }}>
+              <img
+                src={PDF_GUIDE}
+                alt="PDF-гайд"
+                style={{ width: 72, flexShrink: 0, borderRadius: 4, boxShadow: "0 8px 24px rgba(0,0,0,0.5)" }}
+              />
+              <div>
+                <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 2.5, color: ACCENT, marginBottom: 8, fontWeight: 600 }}>
+                  🎁 Подарок за регистрацию
+                </div>
+                <div style={{ fontFamily: "'Cormorant', Georgia, serif", fontSize: "clamp(17px, 2.5vw, 20px)", color: "#fff", lineHeight: 1.3, marginBottom: 6 }}>
+                  PDF-гайд «Портрет успешного<br />дизайнера сегмента HoReCa»
+                </div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.42)", lineHeight: 1.5 }}>
+                  Пришлём сразу после регистрации на вебинар
+                </div>
+              </div>
+            </div>
+          </FadeIn>
+
           <FadeIn delay={0.15}>
-            <button
-              className="cta-btn"
-              onClick={handleCTAClick}
-              style={{ padding: "20px 48px" }}
-            >
-              ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →
-            </button>
+            <div style={{ marginTop: 32 }}>
+              <button
+                className="cta-btn"
+                onClick={handleCTAClick}
+                style={{ padding: "20px 48px" }}
+              >
+                ЗАРЕГИСТРИРОВАТЬСЯ И ПОЛУЧИТЬ ГАЙД →
+              </button>
+            </div>
           </FadeIn>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer style={{
-        borderTop: "1px solid rgba(255,255,255,0.07)",
-        padding: "28px 32px",
-        textAlign: "center",
-        fontSize: 12,
-        color: "rgba(255,255,255,0.20)",
-        letterSpacing: 0.5,
-      }}>
-        © 2026 RAD ACADEMY · radacademy.ru · mail@onlinerad.ru
+      <footer style={{ background: "#0D0C0B", padding: "40px 48px", borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+        <div style={{ width: 40, height: 1, background: ACCENT, margin: "0 auto 36px", opacity: 0.6 }} />
+        <div style={{ maxWidth: 860, margin: "0 auto", display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: 28, width: "auto", objectFit: "contain", filter: "invert(1) brightness(2)" }} />
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.28)", margin: 0, lineHeight: 1.6, fontFamily: "inherit" }}>
+              © 2026 ИП Вылегжанина А.С.<br />
+              <a href="https://radacademy.ru" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255,255,255,0.28)", textDecoration: "none" }}>radacademy.ru</a>
+              {" · "}
+              <a href="mailto:mail@onlinerad.ru" style={{ color: "rgba(255,255,255,0.28)", textDecoration: "none" }}>mail@onlinerad.ru</a>
+            </p>
+            <div style={{ display: "flex", gap: 16 }}>
+              {[
+                { label: "Telegram", href: "https://t.me/rad_academy_design" },
+                { label: "ВКонтакте", href: "https://vk.com/radacademy" },
+              ].map((s, i) => (
+                <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
+                  style={{ fontSize: 13, color: "rgba(255,255,255,0.28)", textDecoration: "none", fontFamily: "inherit", transition: "color 0.2s" }}
+                  onMouseEnter={e => (e.currentTarget.style.color = ACCENT)}
+                  onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.28)")}
+                >{s.label}</a>
+              ))}
+            </div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {[
+              { label: "Публичная оферта", href: "https://radacademy.ru/offer" },
+              { label: "Политика обработки персональных данных", href: "https://radacademy.ru/privacy_policy" },
+              { label: "Согласие на обработку персональных данных", href: "https://radacademy.ru/consent_user" },
+              { label: "Контактная информация", href: "https://radacademy.ru/contacts" },
+            ].map((link, i) => (
+              <a key={i} href={link.href} target="_blank" rel="noopener noreferrer"
+                style={{ fontSize: 13, color: "rgba(255,255,255,0.28)", textDecoration: "none", lineHeight: 1.6, fontFamily: "inherit", transition: "color 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.color = ACCENT)}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.28)")}
+              >{link.label}</a>
+            ))}
+          </div>
+        </div>
       </footer>
     </div>
   );
