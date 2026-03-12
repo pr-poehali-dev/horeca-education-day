@@ -78,11 +78,24 @@ const PROGRAM = [
   },
 ];
 
+function reachGoal(goal: string) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const ym = (window as any).ym;
+  if (typeof ym === "function") {
+    ym(undefined, "reachGoal", goal);
+  }
+}
+
 export default function NadezdaEfirPage() {
   const [showModal, setShowModal] = useState(false);
 
-  function handleCTAClick() {
+  function handleCTAClick(source: string) {
+    reachGoal(`cta_click_${source}`);
     setShowModal(true);
+  }
+
+  function handleFormSubmit() {
+    reachGoal("form_submit");
   }
 
   function handleOverlayClick(e: React.MouseEvent<HTMLDivElement>) {
@@ -170,7 +183,7 @@ export default function NadezdaEfirPage() {
               Форма регистрации появится здесь совсем скоро
             </p>
             <button
-              onClick={() => setShowModal(false)}
+              onClick={() => { handleFormSubmit(); setShowModal(false); }}
               style={{
                 background: "transparent",
                 border: "1px solid rgba(255,255,255,0.12)",
@@ -271,7 +284,7 @@ export default function NadezdaEfirPage() {
             </FadeIn>
 
             <FadeIn delay={0.3}>
-              <button className="cta-btn" onClick={handleCTAClick}>
+              <button className="cta-btn" onClick={() => handleCTAClick("hero")}>
                 ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →
               </button>
               <div style={{ marginTop: 14, fontSize: 12, color: "rgba(255,255,255,0.30)", letterSpacing: 0.5 }}>
@@ -383,7 +396,7 @@ export default function NadezdaEfirPage() {
 
           <FadeIn delay={0.3}>
             <div style={{ textAlign: "center", marginTop: 56 }}>
-              <button className="cta-btn" onClick={handleCTAClick}>
+              <button className="cta-btn" onClick={() => handleCTAClick("program")}>
                 ХОЧУ ПОПАСТЬ НА ВЕБИНАР →
               </button>
             </div>
@@ -436,20 +449,23 @@ export default function NadezdaEfirPage() {
               <FadeIn delay={0.15}>
                 <ul style={{ listStyle: "none", marginBottom: 32 }}>
                   {[
-                    "18 лет практики в дизайне интерьера",
-                    "100+ реализованных объектов: жильё, HoReCa, коммерческие пространства",
-                    "Основатель студии и образовательного направления RAD ACADEMY",
-                    "Спикер отраслевых мероприятий: GSF, Московская неделя дизайна, ARTDOM",
-                    "Член профессиональной ассоциации CISSA",
-                  ].map((item, i) => (
-                    <li key={i} style={{ display: "flex", gap: 10, marginBottom: 12, fontSize: 15, color: "rgba(255,255,255,0.68)", lineHeight: 1.55 }}>
-                      <span style={{ color: ACCENT, flexShrink: 0 }}>·</span>
-                      {item}
+                    "Окончила МИФИ и Международную школу дизайна IDS",
+                    "Повышение квалификации: Британская высшая школа дизайна, школа светодизайна Yarko School",
+                    "С 2003 года проектирует интерьеры — реализовала более 160 коммерческих, офисных и жилых проектов",
+                    "Работала над проектами ABN Amrobank, группы «Астерос», Жигулевского пивного завода, Минтранса, РЖД, Транспортной прокуратуры, РУТ МИИТ",
+                    "Ведомственная награда Министра транспорта РФ за реконструкцию здания Минтранса",
+                    "Работала над объектами культурного наследия федерального значения",
+                    "Старший куратор Русской Академии Дизайна RAD с 2023 года",
+                    "За 3 года выпустила 12 курсов и более 600 учеников",
+                    "Спикер дизайн-конференций и выставок",
+                  ].map((fact, i) => (
+                    <li key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 14 }}>
+                      <span style={{ color: ACCENT, flexShrink: 0, marginTop: 4, fontSize: 10 }}>◆</span>
+                      <span style={{ fontSize: 15, color: "rgba(255,255,255,0.72)", lineHeight: 1.6 }}>{fact}</span>
                     </li>
                   ))}
                 </ul>
               </FadeIn>
-
               <FadeIn delay={0.2}>
                 <blockquote style={{
                   borderLeft: `2px solid ${ACCENT}`,
@@ -538,7 +554,7 @@ export default function NadezdaEfirPage() {
             <div style={{ marginTop: 32 }}>
               <button
                 className="cta-btn"
-                onClick={handleCTAClick}
+                onClick={() => handleCTAClick("final")}
                 style={{ padding: "20px 48px" }}
               >
                 ЗАРЕГИСТРИРОВАТЬСЯ И ПОЛУЧИТЬ ГАЙД →
