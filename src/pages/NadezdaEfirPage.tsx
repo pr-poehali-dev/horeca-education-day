@@ -88,6 +88,21 @@ function reachGoal() {
   }
 }
 
+function WidgetScript() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const container = ref.current;
+    if (!container) return;
+    container.innerHTML = "";
+    const s = document.createElement("script");
+    s.src = "https://cabinet.onlinerad.ru/pl/lite/widget/script?id=1575422";
+    s.async = true;
+    container.appendChild(s);
+    return () => { container.innerHTML = ""; };
+  }, []);
+  return <div ref={ref} style={{ minHeight: 350 }} />;
+}
+
 export default function NadezdaEfirPage() {
   const [showModal, setShowModal] = useState(false);
 
@@ -164,14 +179,14 @@ export default function NadezdaEfirPage() {
           }}
         >
           <div style={{
-            background: "#fff",
+            background: "#18160F",
+            border: `1px solid rgba(212,149,106,0.2)`,
             borderRadius: 8,
-            padding: 0,
+            padding: "clamp(24px, 4vw, 40px) clamp(20px, 4vw, 40px)",
             maxWidth: 520,
             width: "100%",
             boxShadow: "0 40px 100px rgba(0,0,0,0.9)",
             position: "relative",
-            overflow: "hidden",
           }}>
             <button
               onClick={() => setShowModal(false)}
@@ -192,19 +207,7 @@ export default function NadezdaEfirPage() {
             >
               ×
             </button>
-            <iframe
-              src="https://cabinet.onlinerad.ru/pl/lite/widget?id=1575422"
-              style={{
-                width: "100%",
-                height: 480,
-                border: "none",
-                borderRadius: 4,
-                display: "block",
-                background: "#fff",
-              }}
-              allow="payment"
-              title="Регистрация на вебинар"
-            />
+            <WidgetScript />
           </div>
         </div>
       )}
