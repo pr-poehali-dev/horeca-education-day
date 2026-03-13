@@ -78,29 +78,42 @@ const PROGRAM = [
   },
 ];
 
-function reachGoal(goal: string) {
+const WIDGET_SCRIPT_ID = "3866974609842dc55ba5f6359de20df7d4004025";
+const WIDGET_SCRIPT_SRC = "https://cabinet.onlinerad.ru/pl/lite/widget/script?id=1575422";
+
+function reachGoal() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ym = (window as any).ym;
   if (typeof ym === "function") {
-    ym(undefined, "reachGoal", goal);
+    ym(undefined, "reachGoal", "webinar_registration");
   }
 }
 
 export default function NadezdaEfirPage() {
   const [showModal, setShowModal] = useState(false);
+  const widgetLoaded = useRef(false);
 
-  function handleCTAClick(source: string) {
-    reachGoal(`cta_click_${source}`);
+  function handleCTAClick() {
+    reachGoal();
     setShowModal(true);
-  }
-
-  function handleFormSubmit() {
-    reachGoal("form_submit");
   }
 
   function handleOverlayClick(e: React.MouseEvent<HTMLDivElement>) {
     if (e.target === e.currentTarget) setShowModal(false);
   }
+
+  useEffect(() => {
+    if (!showModal || widgetLoaded.current) return;
+    widgetLoaded.current = true;
+    const existing = document.getElementById(WIDGET_SCRIPT_ID);
+    if (!existing) {
+      const script = document.createElement("script");
+      script.id = WIDGET_SCRIPT_ID;
+      script.src = WIDGET_SCRIPT_SRC;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, [showModal]);
 
   return (
     <div style={{ background: "#0D0C0B", minHeight: "100vh", color: "#fff", fontFamily: "'Basis Grotesque Pro', 'Inter', sans-serif" }}>
@@ -167,37 +180,31 @@ export default function NadezdaEfirPage() {
             background: "#18160F",
             border: `1px solid rgba(212,149,106,0.2)`,
             borderRadius: 8,
-            padding: "clamp(32px, 4vw, 48px) clamp(24px, 4vw, 48px)",
-            maxWidth: 440,
+            padding: "clamp(24px, 4vw, 40px) clamp(20px, 4vw, 40px)",
+            maxWidth: 520,
             width: "100%",
-            textAlign: "center",
             boxShadow: "0 40px 100px rgba(0,0,0,0.9)",
+            position: "relative",
           }}>
-            <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: 3, color: ACCENT, marginBottom: 16 }}>
-              Регистрация на вебинар
-            </div>
-            <div className="sangbleu" style={{ fontSize: "clamp(22px, 3vw, 28px)", color: "#fff", lineHeight: 1.25, marginBottom: 12 }}>
-              18 марта · 19:00 мск
-            </div>
-            <p style={{ fontSize: 14, color: "rgba(255,255,255,0.45)", marginBottom: 32, lineHeight: 1.6 }}>
-              Форма регистрации появится здесь совсем скоро
-            </p>
             <button
-              onClick={() => { handleFormSubmit(); setShowModal(false); }}
+              onClick={() => setShowModal(false)}
               style={{
+                position: "absolute",
+                top: 16,
+                right: 16,
                 background: "transparent",
-                border: "1px solid rgba(255,255,255,0.12)",
-                color: "rgba(255,255,255,0.45)",
-                borderRadius: 4,
-                padding: "10px 24px",
-                fontSize: 13,
+                border: "none",
+                color: "rgba(255,255,255,0.35)",
+                fontSize: 22,
                 cursor: "pointer",
-                fontFamily: "inherit",
-                transition: "border-color 0.2s",
+                lineHeight: 1,
+                padding: 4,
               }}
+              aria-label="Закрыть"
             >
-              Закрыть
+              ×
             </button>
+            <div id="rad-widget-container" style={{ minHeight: 200 }} />
           </div>
         </div>
       )}
@@ -284,7 +291,7 @@ export default function NadezdaEfirPage() {
             </FadeIn>
 
             <FadeIn delay={0.3}>
-              <button className="cta-btn" onClick={() => handleCTAClick("hero")}>
+              <button className="cta-btn" onClick={handleCTAClick}>
                 ЗАРЕГИСТРИРОВАТЬСЯ БЕСПЛАТНО →
               </button>
               <div style={{ marginTop: 14, fontSize: 12, color: "rgba(255,255,255,0.30)", letterSpacing: 0.5 }}>
@@ -396,7 +403,7 @@ export default function NadezdaEfirPage() {
 
           <FadeIn delay={0.3}>
             <div style={{ textAlign: "center", marginTop: 56 }}>
-              <button className="cta-btn" onClick={() => handleCTAClick("program")}>
+              <button className="cta-btn" onClick={handleCTAClick}>
                 ХОЧУ ПОПАСТЬ НА ВЕБИНАР →
               </button>
             </div>
@@ -554,7 +561,7 @@ export default function NadezdaEfirPage() {
             <div style={{ marginTop: 32 }}>
               <button
                 className="cta-btn"
-                onClick={() => handleCTAClick("final")}
+                onClick={handleCTAClick}
                 style={{ padding: "20px 48px" }}
               >
                 ЗАРЕГИСТРИРОВАТЬСЯ И ПОЛУЧИТЬ ГАЙД →
