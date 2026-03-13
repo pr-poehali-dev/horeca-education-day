@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 const SPEAKER_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/19f9c594-1cd1-4895-be57-c6a3612c38a5.jpg";
 const INTERIOR_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/9a67729f-c090-4bc8-b565-17d216d33fc3.jpg";
@@ -88,20 +88,7 @@ function reachGoal() {
   }
 }
 
-function WidgetScript() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const container = ref.current;
-    if (!container) return;
-    container.innerHTML = "";
-    const s = document.createElement("script");
-    s.src = "https://cabinet.onlinerad.ru/pl/lite/widget/script?id=1575422";
-    s.async = true;
-    container.appendChild(s);
-    return () => { container.innerHTML = ""; };
-  }, []);
-  return <div ref={ref} style={{ minHeight: 350 }} />;
-}
+const WIDGET_URL = "https://cabinet.onlinerad.ru/pl/lite/widget/widget?id=1575422";
 
 export default function NadezdaEfirPage() {
   const [showModal, setShowModal] = useState(false);
@@ -179,35 +166,45 @@ export default function NadezdaEfirPage() {
           }}
         >
           <div style={{
-            background: "#18160F",
-            border: `1px solid rgba(212,149,106,0.2)`,
-            borderRadius: 8,
-            padding: "clamp(24px, 4vw, 40px) clamp(20px, 4vw, 40px)",
-            maxWidth: 520,
+            background: "#fff",
+            borderRadius: 16,
             width: "100%",
-            boxShadow: "0 40px 100px rgba(0,0,0,0.9)",
+            maxWidth: 480,
             position: "relative",
+            boxShadow: "0 32px 80px rgba(0,0,0,0.6)",
+            overflow: "hidden",
           }}>
             <button
               onClick={() => setShowModal(false)}
               style={{
                 position: "absolute",
-                top: 8,
+                top: 12,
                 right: 12,
-                background: "transparent",
+                background: "rgba(0,0,0,0.12)",
                 border: "none",
-                color: "rgba(0,0,0,0.4)",
-                fontSize: 26,
+                color: "#333",
+                fontSize: 18,
                 cursor: "pointer",
                 lineHeight: 1,
-                padding: 4,
                 zIndex: 10,
+                padding: "6px 10px",
+                borderRadius: "50%",
               }}
               aria-label="Закрыть"
             >
-              ×
+              ✕
             </button>
-            <WidgetScript />
+            <iframe
+              src={`${WIDGET_URL}&ref=${encodeURIComponent(document.referrer)}&loc=${encodeURIComponent(window.location.href)}`}
+              style={{
+                width: "100%",
+                height: "min(680px, calc(100vh - 80px))",
+                border: "none",
+                display: "block",
+              }}
+              title="Регистрация"
+              allowFullScreen
+            />
           </div>
         </div>
       )}
