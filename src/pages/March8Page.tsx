@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const DEADLINE = new Date("2026-03-13T00:00:00+03:00");
+const DEADLINE = new Date("2026-03-19T23:59:59+03:00");
 
 function useTimer() {
   const [time, setTime] = useState({ days: 0, hours: 0, minutes: 0, expired: false });
