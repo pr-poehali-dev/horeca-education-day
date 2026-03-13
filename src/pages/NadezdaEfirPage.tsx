@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 const SPEAKER_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/19f9c594-1cd1-4895-be57-c6a3612c38a5.jpg";
 const INTERIOR_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/9a67729f-c090-4bc8-b565-17d216d33fc3.jpg";
@@ -90,7 +90,6 @@ function reachGoal() {
 
 export default function NadezdaEfirPage() {
   const [showModal, setShowModal] = useState(false);
-  const widgetContainerRef = useRef<HTMLDivElement>(null);
 
   function handleCTAClick() {
     reachGoal();
@@ -101,17 +100,7 @@ export default function NadezdaEfirPage() {
     if (e.target === e.currentTarget) setShowModal(false);
   }
 
-  useEffect(() => {
-    if (!showModal || !widgetContainerRef.current) return;
-    const container = widgetContainerRef.current;
-    container.innerHTML = "";
-    const script = document.createElement("script");
-    script.id = "3866974609842dc55ba5f6359de20df7d4004025";
-    script.src = "https://cabinet.onlinerad.ru/pl/lite/widget/script?id=1575422";
-    script.async = true;
-    container.appendChild(script);
-    return () => { container.innerHTML = ""; };
-  }, [showModal]);
+
 
   return (
     <div style={{ background: "#0D0C0B", minHeight: "100vh", color: "#fff", fontFamily: "'Basis Grotesque Pro', 'Inter', sans-serif" }}>
@@ -175,34 +164,47 @@ export default function NadezdaEfirPage() {
           }}
         >
           <div style={{
-            background: "#18160F",
-            border: `1px solid rgba(212,149,106,0.2)`,
+            background: "#fff",
             borderRadius: 8,
-            padding: "clamp(24px, 4vw, 40px) clamp(20px, 4vw, 40px)",
+            padding: 0,
             maxWidth: 520,
             width: "100%",
             boxShadow: "0 40px 100px rgba(0,0,0,0.9)",
             position: "relative",
+            overflow: "hidden",
           }}>
             <button
               onClick={() => setShowModal(false)}
               style={{
                 position: "absolute",
-                top: 16,
-                right: 16,
+                top: 8,
+                right: 12,
                 background: "transparent",
                 border: "none",
-                color: "rgba(255,255,255,0.35)",
-                fontSize: 22,
+                color: "rgba(0,0,0,0.4)",
+                fontSize: 26,
                 cursor: "pointer",
                 lineHeight: 1,
                 padding: 4,
+                zIndex: 10,
               }}
               aria-label="Закрыть"
             >
               ×
             </button>
-            <div ref={widgetContainerRef} style={{ minHeight: 300 }} />
+            <iframe
+              src="https://cabinet.onlinerad.ru/pl/lite/widget?id=1575422"
+              style={{
+                width: "100%",
+                height: 480,
+                border: "none",
+                borderRadius: 4,
+                display: "block",
+                background: "#fff",
+              }}
+              allow="payment"
+              title="Регистрация на вебинар"
+            />
           </div>
         </div>
       )}
