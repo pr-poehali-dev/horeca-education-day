@@ -78,8 +78,7 @@ const PROGRAM = [
   },
 ];
 
-const WIDGET_SCRIPT_ID = "3866974609842dc55ba5f6359de20df7d4004025";
-const WIDGET_SCRIPT_SRC = "https://cabinet.onlinerad.ru/pl/lite/widget/script?id=1575422";
+
 
 function reachGoal() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -91,7 +90,7 @@ function reachGoal() {
 
 export default function NadezdaEfirPage() {
   const [showModal, setShowModal] = useState(false);
-  const widgetLoaded = useRef(false);
+  const widgetContainerRef = useRef<HTMLDivElement>(null);
 
   function handleCTAClick() {
     reachGoal();
@@ -103,16 +102,15 @@ export default function NadezdaEfirPage() {
   }
 
   useEffect(() => {
-    if (!showModal || widgetLoaded.current) return;
-    widgetLoaded.current = true;
-    const existing = document.getElementById(WIDGET_SCRIPT_ID);
-    if (!existing) {
-      const script = document.createElement("script");
-      script.id = WIDGET_SCRIPT_ID;
-      script.src = WIDGET_SCRIPT_SRC;
-      script.async = true;
-      document.body.appendChild(script);
-    }
+    if (!showModal || !widgetContainerRef.current) return;
+    const container = widgetContainerRef.current;
+    container.innerHTML = "";
+    const script = document.createElement("script");
+    script.id = "3866974609842dc55ba5f6359de20df7d4004025";
+    script.src = "https://cabinet.onlinerad.ru/pl/lite/widget/script?id=1575422";
+    script.async = true;
+    container.appendChild(script);
+    return () => { container.innerHTML = ""; };
   }, [showModal]);
 
   return (
@@ -204,7 +202,7 @@ export default function NadezdaEfirPage() {
             >
               ×
             </button>
-            <div id="rad-widget-container" style={{ minHeight: 200 }} />
+            <div ref={widgetContainerRef} style={{ minHeight: 300 }} />
           </div>
         </div>
       )}
