@@ -220,8 +220,8 @@ export default function Index() {
     return () => observer.disconnect();
   }, []);
 
-  // Countdown до 11 марта 2026 19:00 мск (UTC+3)
-  const TARGET = new Date("2026-03-11T19:00:00+03:00").getTime();
+  // Countdown до 24 марта 2026 19:00 мск (UTC+3)
+  const TARGET = new Date("2026-03-24T19:00:00+03:00").getTime();
   const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0 });
 
   useEffect(() => {
@@ -265,7 +265,7 @@ export default function Index() {
           {/* Left */}
           <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
             <div className="aos" style={{ ...aosBase, display: "flex", flexWrap: "wrap", gap: "12px" }}>
-              <Badge>🗓 11–12 марта</Badge>
+              <Badge>🗓 24 марта</Badge>
               <Badge>💻 Онлайн</Badge>
               <Badge>🎓 Бесплатно</Badge>
             </div>
@@ -368,7 +368,7 @@ export default function Index() {
       <section style={{ backgroundColor: BG, padding: "96px 48px" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <h2 className="aos" style={{ ...aosBase, ...ffH, fontSize: "clamp(28px, 3.8vw, 56px)", fontWeight: 600, lineHeight: 1.15, color: WHITE, textAlign: "center", maxWidth: "780px", margin: "0 auto 56px" }}>
-            За 2 вечера вы получите то, на что другие тратят <span style={{ color: GOLD }}>годы проб и ошибок</span>
+            За 1 вечер вы получите то, на что другие тратят <span style={{ color: GOLD }}>годы проб и ошибок</span>
           </h2>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "20px" }}>
@@ -427,36 +427,53 @@ export default function Index() {
           </p>
 
           <div className="prog-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
-            {[
-              {
-                day: "ДЕНЬ 1 — 11 МАРТА",
-                title: "CASE STUDY: ЖИВОЙ РАЗБОР КЕЙСА ОТЕЛЯ",
-                items: ["Разбор реального кейса отеля студии RADDESIGN", "Как устроена работа с HoReCa-клиентом изнутри", "Авторская методология расчёта стоимости услуг в HoReCa", "Практическое задание участникам"],
-                format: "онлайн-вебинар · ~2 часа · 19:00 мск",
-              },
-              {
-                day: "ДЕНЬ 2 — 12 МАРТА",
-                title: "АЛГОРИТМ СОЗДАНИЯ ДИЗАЙН-КОНЦЕПЦИИ В HORECA",
-                items: ["Структура, логика и этапы профессиональной концепции", "Реальные примеры концепций RADDESIGN — отели, рестораны, кафе", "Типичные ошибки дизайнеров при входе в HoReCa", "Разбор заданий участников и ответы на вопросы"],
-                format: "онлайн-вебинар · ~2 часа · 19:00 мск",
-              },
-            ].map((prog, i) => (
-              <div key={i} className="aos" style={{ ...aosBase, transitionDelay: `${i * 0.15}s`, backgroundColor: CARD_BG, borderRadius: "16px", padding: "32px", border: "1px solid rgba(201,169,110,0.2)", display: "flex", flexDirection: "column", gap: "20px" }}>
-                <div>
-                  <span style={{ ...ff, fontSize: "11px", color: GOLD, letterSpacing: "0.22em", fontWeight: 600 }}>{prog.day}</span>
-                  <h3 style={{ ...ffH, color: WHITE, fontSize: "clamp(17px, 1.4vw, 22px)", lineHeight: 1.2, fontWeight: 600, margin: "8px 0 0" }}>{prog.title}</h3>
-                </div>
-                <div style={{ borderTop: "1px solid rgba(201,169,110,0.2)", paddingTop: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
-                  {prog.items.map((item, j) => (
-                    <div key={j} style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
-                      <span style={{ color: GOLD, flexShrink: 0 }}>•</span>
-                      <span style={{ ...ff, color: "rgba(255,255,255,0.82)", fontSize: "15px", lineHeight: 1.55 }}>{item}</span>
-                    </div>
-                  ))}
-                </div>
-                <div style={{ ...ff, color: "rgba(255,255,255,0.4)", fontSize: "13px", borderTop: "1px solid rgba(201,169,110,0.15)", paddingTop: "16px", marginTop: "auto", letterSpacing: "0.03em" }}>{prog.format}</div>
+            {/* День 1 */}
+            <div className="aos" style={{ ...aosBase, backgroundColor: CARD_BG, borderRadius: "16px", padding: "32px", border: "1px solid rgba(201,169,110,0.2)", display: "flex", flexDirection: "column", gap: "20px" }}>
+              <div>
+                <span style={{ ...ff, fontSize: "11px", color: GOLD, letterSpacing: "0.22em", fontWeight: 600 }}>ДЕНЬ 1 — 24 МАРТА</span>
+                <h3 style={{ ...ffH, color: WHITE, fontSize: "clamp(17px, 1.4vw, 22px)", lineHeight: 1.2, fontWeight: 600, margin: "8px 0 0" }}>РАЗБОР РЕАЛЬНОГО КЕЙСА РЕСТОРАНА</h3>
               </div>
-            ))}
+              <div style={{ borderTop: "1px solid rgba(201,169,110,0.2)", paddingTop: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                {[
+                  { num: "01", title: "Разбор реального кейса ресторана", desc: "Не учебный пример — реальный объект\nиз практики. Разбираем вживую:\nконцепция, ошибки, решения,\nкак это работает на практике." },
+                  { num: "02", title: "Задание по кейсу — для тех кто хочет расти", desc: "После эфира участники получают\nзадание на основе разобранного кейса.\nВыполняете самостоятельно,\nв своём темпе — и присылаете на разбор." },
+                ].map((item, j) => (
+                  <div key={j} style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
+                    <span style={{ color: GOLD, flexShrink: 0, ...ffH, fontWeight: 700, fontSize: "22px", lineHeight: 1.2 }}>{item.num}</span>
+                    <div>
+                      <p style={{ ...ff, color: WHITE, fontSize: "15px", fontWeight: 600, margin: "0 0 6px", lineHeight: 1.3 }}>{item.title}</p>
+                      <p style={{ ...ff, color: "rgba(255,255,255,0.7)", fontSize: "14px", lineHeight: 1.6, margin: 0, whiteSpace: "pre-line" }}>{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ ...ff, color: "rgba(255,255,255,0.4)", fontSize: "13px", borderTop: "1px solid rgba(201,169,110,0.15)", paddingTop: "16px", marginTop: "auto", letterSpacing: "0.03em" }}>онлайн-вебинар · ~2 часа · 19:00 мск</div>
+            </div>
+
+            {/* День 2 */}
+            <div className="aos" style={{ ...aosBase, transitionDelay: "0.15s", backgroundColor: CARD_BG, borderRadius: "16px", padding: "32px", border: "1px solid rgba(201,169,110,0.2)", display: "flex", flexDirection: "column", gap: "20px" }}>
+              <div>
+                <span style={{ ...ff, fontSize: "11px", color: GOLD, letterSpacing: "0.22em", fontWeight: 600 }}>ДЕНЬ 2 — 31 МАРТА</span>
+                <h3 style={{ ...ffH, color: WHITE, fontSize: "clamp(17px, 1.4vw, 22px)", lineHeight: 1.2, fontWeight: 600, margin: "8px 0 0" }}>ОТДЕЛЬНЫЙ ЭФИР С РАЗБОРОМ РАБОТ</h3>
+              </div>
+              <div style={{ borderTop: "1px solid rgba(201,169,110,0.2)", paddingTop: "20px", display: "flex", flexDirection: "column", gap: "16px" }}>
+                <p style={{ ...ff, color: "rgba(255,255,255,0.82)", fontSize: "15px", lineHeight: 1.6, margin: 0 }}>
+                  Все присланные работы разбираем в прямом эфире. Живая обратная связь, разбор решений, ответы на вопросы. Бесплатно для всех участников.
+                </p>
+                <div style={{
+                  background: "rgba(192,57,43,0.10)",
+                  border: "1px solid rgba(192,57,43,0.30)",
+                  borderRadius: "8px",
+                  padding: "20px 24px",
+                }}>
+                  <p style={{ ...ff, color: "rgba(255,255,255,0.9)", fontSize: "15px", lineHeight: 1.65, margin: 0 }}>
+                    Это не просто просмотр эфира.<br />
+                    Это возможность получить разбор своей работы от Анны Симоновой — <strong style={{ color: WHITE }}>бесплатно.</strong>
+                  </p>
+                </div>
+              </div>
+              <div style={{ ...ff, color: "rgba(255,255,255,0.4)", fontSize: "13px", borderTop: "1px solid rgba(201,169,110,0.15)", paddingTop: "16px", marginTop: "auto", letterSpacing: "0.03em" }}>онлайн-вебинар · 19:00 мск</div>
+            </div>
           </div>
 
           <div className="aos" style={{ ...aosBase, display: "flex", justifyContent: "center", marginTop: "48px", transitionDelay: "0.2s" }}>
@@ -638,10 +655,10 @@ export default function Index() {
             <div style={{ width: "48px", height: "2px", backgroundColor: GOLD, margin: "0 auto 40px" }} />
             <p style={{ ...ff, fontSize: "clamp(16px, 1.3vw, 20px)", lineHeight: 1.75, color: "rgba(255,255,255,0.85)", maxWidth: "640px", margin: "0 auto" }}>
               Мы слышим это каждый раз.{" "}
-              <strong style={{ color: WHITE }}>2 вечера. По 2 часа. Онлайн</strong> — из любой точки.
+              <strong style={{ color: WHITE }}>1 вечер. 2 часа. Онлайн</strong> — из любой точки.
               Один живой кейс — и вы уже понимаете систему.
               <br /><br />
-              Вопрос не в том, есть ли у вас 4 часа.
+              Вопрос не в том, есть ли у вас 2 часа.
               Вопрос в том —{" "}
               <em style={{ color: GOLD }}>что изменится в карьере, если вы их найдёте.</em>
             </p>
@@ -666,7 +683,7 @@ export default function Index() {
             Зарегистрируйтесь на<br /><span style={{ color: GOLD }}>HoReCa Education Day</span>
           </h2>
           <p className="aos" style={{ ...aosBase, ...ff, fontSize: "clamp(16px, 1.2vw, 18px)", color: GOLD, letterSpacing: "0.05em", margin: "0 0 48px", transitionDelay: "0.05s" }}>
-            11–12 марта | Онлайн | Бесплатно
+            24 марта | Онлайн | Бесплатно
           </p>
 
           {/* Countdown */}
