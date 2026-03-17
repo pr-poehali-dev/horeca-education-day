@@ -48,18 +48,18 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "IBM Plex Sans", sans-serif;
+    font-family: "Basis Grotesque Pro", "IBM Plex Sans", sans-serif;
     font-size: 16px;
   }
 }
 
 @layer utilities {
   .font-heading {
-    font-family: "Cormorant", Georgia, serif;
+    font-family: "SangBleu Kingdom", "Cormorant", Georgia, serif;
   }
 
   .font-body {
-    font-family: "IBM Plex Sans", sans-serif;
+    font-family: "Basis Grotesque Pro", "IBM Plex Sans", sans-serif;
   }
 
   .text-gold {
@@ -87,7 +87,7 @@
     background-color: #ffffff;
     color: #5b090a;
     border-radius: 9999px;
-    font-family: "IBM Plex Sans", sans-serif;
+    font-family: "Basis Grotesque Pro", "IBM Plex Sans", sans-serif;
     font-weight: 600;
     font-size: 16px;
     letter-spacing: 0.05em;
