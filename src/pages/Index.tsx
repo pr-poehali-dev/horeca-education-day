@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-const SPEAKER_IMG = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/8fef5519-af2c-41c3-98d5-a53897cfe18b.jpg";
-const HERO_IMG = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/cc881503-d42a-4112-b895-26f7a3bc30ad.jpg";
+const SPEAKER_IMG = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/de6895f0-5c32-4517-bdca-8a92e59d8d34.jpg";
+const HERO_IMG = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/81fb7ff7-0365-4d7f-88e1-8f9ee7503af6.jpg";
 const LOGO_FIGURE = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/90299185-f0e1-4b53-9a1c-60b619e39683.jpg";
 
 const BG = "#5B090A";
@@ -372,22 +372,22 @@ export default function Index() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "20px" }}>
             {[
               {
-                img: "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/c8f4ce82-417f-410b-aa02-7119749abe8e.jpg",
+                img: "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/81fb7ff7-0365-4d7f-88e1-8f9ee7503af6.jpg",
                 title: "МЕТОДОЛОГИЯ РАСЧЁТА УСЛУГ",
                 desc: "Как считать стоимость услуг в HoReCa — не квадратными метрами, а по профессиональной системе",
               },
               {
-                img: "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/131d7402-7e7b-4a10-8e49-36ec747bd1a2.jpg",
+                img: "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/c9e96325-c32d-4897-a98c-c2f2aed36fd5.jpg",
                 title: "РАЗБОР ЖИВОГО КЕЙСА ОТЕЛЯ",
                 desc: "Реальный объект студии RADDESIGN, реальные цифры и решения в формате Case Study",
               },
               {
-                img: "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/a274cd45-4f35-47f6-a0aa-e0d1cac0718e.jpg",
+                img: "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/6dd936c2-1f85-4441-9bbb-c7b34833aec6.jpg",
                 title: "ПРАКТИКА НА ВОРКШОПЕ",
                 desc: "Получите задание, выполните, получите разбор от эксперта — это навык, а не просто знание",
               },
               {
-                img: "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/0ed263cd-33b1-4b30-8707-a29059b1e098.jpg",
+                img: "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/46111da1-1708-41c4-9e9f-3a578492b392.jpg",
                 title: "АЛГОРИТМ СОЗДАНИЯ ДИЗАЙН-КОНЦЕПЦИИ В HORECA",
                 desc: "Реальные примеры концепций от студии RADDESIGN — структура, логика, этапы",
               },

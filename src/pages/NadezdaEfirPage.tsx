@@ -3,12 +3,6 @@ import { useEffect, useRef, useState } from "react";
 const SPEAKER_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/9d2f05c5-05e8-4d56-9208-d0a79618898f.jpg";
 const INTERIOR_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/aab30f9c-c9a0-4ea7-b26a-53a941a62279.jpg";
 const LOGO_URL = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/c9557609-04c7-411a-a6d8-97ee87fa41f3.png";
-const PORTFOLIO_PHOTOS = [
-  "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/aab30f9c-c9a0-4ea7-b26a-53a941a62279.jpg",
-  "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/4f29854b-a3f6-4191-9409-d969496533c4.jpg",
-  "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/9549567f-24ff-4049-ad12-b7bd64989b5b.jpg",
-  "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/a6152a7d-7496-42e2-80b7-ca84c7454f42.jpg",
-];
 
 const ACCENT = "#D4956A";
 const ACCENT_HOVER = "#C4845A";
@@ -165,10 +159,6 @@ export default function NadezdaEfirPage() {
           .header-label { display: none !important; }
           .program-num { font-size: 36px !important; }
           .hero-inner { min-height: auto !important; padding-top: 48px !important; padding-bottom: 48px !important; }
-          .portfolio-strip { height: 180px !important; }
-          .portfolio-strip > div { min-width: 50% !important; }
-          .portfolio-strip > div:nth-child(3),
-          .portfolio-strip > div:nth-child(4) { display: none !important; }
         }
       `}</style>
 
@@ -430,31 +420,6 @@ export default function NadezdaEfirPage() {
               </button>
             </div>
           </FadeIn>
-        </div>
-      </section>
-
-      {/* SCREEN 3.5 — PORTFOLIO STRIP */}
-      <section style={{ borderTop: "1px solid rgba(255,255,255,0.07)", overflow: "hidden" }}>
-        <div className="portfolio-strip" style={{ display: "flex", height: 260 }}>
-          {PORTFOLIO_PHOTOS.map((src, i) => (
-            <div key={i} style={{ flex: 1, overflow: "hidden", position: "relative" }}>
-              <img
-                src={src}
-                alt=""
-                loading="lazy"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  filter: "brightness(0.75) saturate(0.8)",
-                  transition: "transform 0.6s ease",
-                  display: "block",
-                }}
-                onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; (e.currentTarget as HTMLImageElement).style.filter = "brightness(0.95) saturate(1)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; (e.currentTarget as HTMLImageElement).style.filter = "brightness(0.75) saturate(0.8)"; }}
-              />
-            </div>
-          ))}
         </div>
       </section>
 
