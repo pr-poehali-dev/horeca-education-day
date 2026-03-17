@@ -6,15 +6,32 @@
     <title>Эфир для дизайнеров интерьера от RAD ACADEMY </title>
     <meta name="description" content="Что будет с профессией дизайнера через 2 года. Онлайн-эфир 18 марта. Бесплатно.">
     <meta name="author" content="RAD ACADEMY"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- DNS prefetch для внешних ресурсов -->
+    <link rel="dns-prefetch" href="https://cdn.poehali.dev">
+    <link rel="dns-prefetch" href="https://api.fontshare.com">
+    <link rel="dns-prefetch" href="https://use.typekit.net">
+    <link rel="dns-prefetch" href="https://mc.yandex.ru">
+    <link rel="dns-prefetch" href="https://cabinet.onlinerad.ru">
+
+    <!-- Preconnect только к самым критичным -->
+    <link rel="preconnect" href="https://cdn.poehali.dev" crossorigin>
     <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-    <!-- Basis Grotesque Pro via Fontshare -->
-    <link href="https://api.fontshare.com/v2/css?f[]=basis-grotesque-pro@400,500,600,700,400i&display=swap" rel="stylesheet">
-    <!-- SangBleu Kingdom via Swiss Typefaces CDN -->
-    <link href="https://use.typekit.net/dzy2vbh.css" rel="stylesheet">
-    <!-- Fallback serifs from Google Fonts (если SangBleu не загрузится) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin>
+
+    <!-- Preload LCP-картинки (hero, первый экран) -->
+    <link rel="preload" as="image" href="https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/c8f4ce82-417f-410b-aa02-7119749abe8e.jpg" fetchpriority="high">
+
+    <!-- Basis Grotesque Pro via Fontshare — с display=swap -->
+    <link href="https://api.fontshare.com/v2/css?f[]=basis-grotesque-pro@400,700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://api.fontshare.com/v2/css?f[]=basis-grotesque-pro@400,700&display=swap" rel="stylesheet"></noscript>
+
+    <!-- SangBleu Kingdom via Adobe Typekit — отложенно -->
+    <link href="https://use.typekit.net/dzy2vbh.css" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://use.typekit.net/dzy2vbh.css" rel="stylesheet"></noscript>
+
+    <!-- Cormorant fallback — только если нужен (асинхронно) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"></noscript>
     <link rel="icon" type="image/png" href="https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/files/favicon-1772524520373.png">
     <meta property="og:title" content="Эфир для дизайнеров интерьера от RAD ACADEMY ">
     <meta property="og:description" content="Что будет с профессией дизайнера через 2 года. Онлайн-эфир 18 марта. Бесплатно.">
@@ -35,16 +52,19 @@
     <meta name="pp-name" value="horeca-education-day">
       <script src="https://cdn.poehali.dev/intertnal/js/inspector-min.js"></script>
 
-    <!-- Yandex.Metrika counter -->
-    <script type="text/javascript">
-        (function(m,e,t,r,i,k,a){
+    <!-- Yandex.Metrika counter — отложен до idle -->
+    <script>
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          (function(m,e,t,r,i,k,a){
             m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
             m[i].l=1*new Date();
             for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
             k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=107087337', 'ym');
-
-        ym(107087337, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+          })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=107087337', 'ym');
+          ym(107087337, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+        }, 500);
+      });
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/107087337" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->

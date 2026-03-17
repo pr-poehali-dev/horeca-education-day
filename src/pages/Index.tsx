@@ -317,7 +317,7 @@ export default function Index() {
               border: "1px solid rgba(201,169,110,0.25)",
               position: "relative",
             }}>
-              <img src={HERO_IMG} alt="HoReCa интерьер" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <img src={HERO_IMG} alt="HoReCa интерьер" fetchPriority="high" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
           </div>
         </div>
@@ -395,7 +395,7 @@ export default function Index() {
             ].map((card, i) => (
               <div key={i} className="aos" style={{ ...aosBase, transitionDelay: `${i * 0.1}s`, backgroundColor: CARD_BG, borderRadius: "16px", overflow: "hidden", border: "1px solid rgba(201,169,110,0.18)", display: "flex", flexDirection: "column" }}>
                 <div style={{ height: "200px", overflow: "hidden", position: "relative", flexShrink: 0 }}>
-                  <img src={card.img} alt={card.title} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.5s ease" }}
+                  <img src={card.img} alt={card.title} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.5s ease" }}
                     onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.05)")}
                     onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
                   />
@@ -494,7 +494,7 @@ export default function Index() {
           <div className="speaker-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "64px", alignItems: "start" }}>
             <div className="aos" style={{ ...aosBase }}>
               <div style={{ borderRadius: "20px", overflow: "hidden", height: "clamp(380px, 60vh, 680px)", boxShadow: "0 24px 70px rgba(0,0,0,0.5)", border: "1px solid rgba(201,169,110,0.3)", position: "relative" }}>
-                <img src={SPEAKER_IMG} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
+                <img src={SPEAKER_IMG} alt="Анна Симонова" loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "28px", background: "linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.55) 100%)" }}>
                   <p style={{ ...ffH, color: WHITE, fontWeight: 600, fontSize: "30px", margin: 0 }}>Анна Симонова</p>
                   <p style={{ ...ff, color: "rgba(255,255,255,0.65)", fontSize: "14px", margin: "4px 0 0" }}>Основатель RAD ACADEMY и студии RADDESIGN</p>
