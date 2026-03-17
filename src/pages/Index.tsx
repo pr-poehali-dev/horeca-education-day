@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 
-const SPEAKER_IMG = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/b78c81d9-6408-4fa1-97d9-2a3133881431.jpg";
-const HERO_IMG = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/c8f4ce82-417f-410b-aa02-7119749abe8e.jpg";
-// Логотип — фигура (картинка 2 из вложенных фото интерьеров используем как символ)
-const LOGO_FIGURE = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/131d7402-7e7b-4a10-8e49-36ec747bd1a2.jpg";
+const SPEAKER_IMG = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/8fef5519-af2c-41c3-98d5-a53897cfe18b.jpg";
+const HERO_IMG = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/cc881503-d42a-4112-b895-26f7a3bc30ad.jpg";
+const LOGO_FIGURE = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/90299185-f0e1-4b53-9a1c-60b619e39683.jpg";
 
 const BG = "#5B090A";
 const CARD_BG = "#7A1012";
