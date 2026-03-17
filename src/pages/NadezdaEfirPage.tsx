@@ -1,8 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
 const SPEAKER_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/9d2f05c5-05e8-4d56-9208-d0a79618898f.jpg";
-const INTERIOR_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/846799b2-8b1a-4946-b6db-48baa0f96751.jpg";
+const INTERIOR_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/aab30f9c-c9a0-4ea7-b26a-53a941a62279.jpg";
 const LOGO_URL = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/c9557609-04c7-411a-a6d8-97ee87fa41f3.png";
+const PORTFOLIO_PHOTOS = [
+  "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/aab30f9c-c9a0-4ea7-b26a-53a941a62279.jpg",
+  "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/4f29854b-a3f6-4191-9409-d969496533c4.jpg",
+  "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/9549567f-24ff-4049-ad12-b7bd64989b5b.jpg",
+  "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/a6152a7d-7496-42e2-80b7-ca84c7454f42.jpg",
+];
 
 const ACCENT = "#D4956A";
 const ACCENT_HOVER = "#C4845A";
@@ -93,6 +99,15 @@ const WIDGET_URL = "https://cabinet.onlinerad.ru/pl/lite/widget/widget?id=157542
 export default function NadezdaEfirPage() {
   const [showModal, setShowModal] = useState(false);
 
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = INTERIOR_PHOTO;
+    document.head.appendChild(link);
+    return () => { document.head.removeChild(link); };
+  }, []);
+
   function handleCTAClick() {
     reachGoal();
     setShowModal(true);
@@ -150,6 +165,10 @@ export default function NadezdaEfirPage() {
           .header-label { display: none !important; }
           .program-num { font-size: 36px !important; }
           .hero-inner { min-height: auto !important; padding-top: 48px !important; padding-bottom: 48px !important; }
+          .portfolio-strip { height: 180px !important; }
+          .portfolio-strip > div { min-width: 50% !important; }
+          .portfolio-strip > div:nth-child(3),
+          .portfolio-strip > div:nth-child(4) { display: none !important; }
         }
       `}</style>
 
@@ -234,22 +253,24 @@ export default function NadezdaEfirPage() {
       </header>
 
       {/* SCREEN 1 — HERO */}
-      <section style={{ position: "relative", overflow: "hidden" }}>
+      <section style={{ position: "relative", overflow: "hidden", background: "#0D0C0B" }}>
         {/* BG Interior Photo */}
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: `url(${INTERIOR_PHOTO})`,
           backgroundSize: "cover",
           backgroundPosition: "center 30%",
-          filter: "brightness(0.45) saturate(0.6)",
+          filter: "brightness(0.40) saturate(0.6)",
+          zIndex: 0,
         }} />
         {/* Overlay gradient */}
         <div style={{
           position: "absolute", inset: 0,
-          background: "linear-gradient(to bottom, rgba(13,12,11,0.15) 0%, rgba(13,12,11,0.45) 60%, #0D0C0B 100%)",
+          background: "linear-gradient(to bottom, rgba(13,12,11,0.30) 0%, rgba(13,12,11,0.55) 60%, #0D0C0B 100%)",
+          zIndex: 1,
         }} />
 
-        <div className="hero-inner" style={{ position: "relative", zIndex: 1, maxWidth: 860, margin: "0 auto", padding: "0 16px", minHeight: 620, display: "flex", alignItems: "center", paddingTop: 80, paddingBottom: 80 }}>
+        <div className="hero-inner" style={{ position: "relative", zIndex: 2, maxWidth: 860, margin: "0 auto", padding: "0 16px", minHeight: 620, display: "flex", alignItems: "center", paddingTop: 80, paddingBottom: 80 }}>
           <div style={{ maxWidth: 680 }}>
 
             {/* Mobile speaker photo */}
@@ -257,6 +278,7 @@ export default function NadezdaEfirPage() {
               <img
                 src={SPEAKER_PHOTO}
                 alt="Надежда Литовка"
+                fetchPriority="high"
                 style={{ width: 120, height: 120, objectFit: "cover", objectPosition: "top", borderRadius: "50%", filter: "grayscale(80%) brightness(0.9)", border: `2px solid ${ACCENT}` }}
               />
             </div>
@@ -411,6 +433,31 @@ export default function NadezdaEfirPage() {
         </div>
       </section>
 
+      {/* SCREEN 3.5 — PORTFOLIO STRIP */}
+      <section style={{ borderTop: "1px solid rgba(255,255,255,0.07)", overflow: "hidden" }}>
+        <div className="portfolio-strip" style={{ display: "flex", height: 260 }}>
+          {PORTFOLIO_PHOTOS.map((src, i) => (
+            <div key={i} style={{ flex: 1, overflow: "hidden", position: "relative" }}>
+              <img
+                src={src}
+                alt=""
+                loading="lazy"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  filter: "brightness(0.75) saturate(0.8)",
+                  transition: "transform 0.6s ease",
+                  display: "block",
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; (e.currentTarget as HTMLImageElement).style.filter = "brightness(0.95) saturate(1)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; (e.currentTarget as HTMLImageElement).style.filter = "brightness(0.75) saturate(0.8)"; }}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* SCREEN 4 — СПИКЕР */}
       <section className="screen-pad" style={{
         paddingTop: 80, paddingBottom: 80,
@@ -429,6 +476,7 @@ export default function NadezdaEfirPage() {
                 <img
                   src={SPEAKER_PHOTO}
                   alt="Надежда Литовка"
+                  loading="lazy"
                   style={{
                     width: "100%",
                     aspectRatio: "1/1",
