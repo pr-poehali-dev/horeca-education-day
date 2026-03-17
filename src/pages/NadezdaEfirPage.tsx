@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const SPEAKER_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/8fef5519-af2c-41c3-98d5-a53897cfe18b.jpg";
+const SPEAKER_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/9d2f05c5-05e8-4d56-9208-d0a79618898f.jpg";
 const INTERIOR_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/846799b2-8b1a-4946-b6db-48baa0f96751.jpg";
 const LOGO_URL = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/c9557609-04c7-411a-a6d8-97ee87fa41f3.png";
 
