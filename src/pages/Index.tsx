@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const SPEAKER_IMG = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/de6895f0-5c32-4517-bdca-8a92e59d8d34.jpg";
 const HERO_IMG = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/81fb7ff7-0365-4d7f-88e1-8f9ee7503af6.jpg";
@@ -101,14 +101,23 @@ const BtnWhite = ({
 // ──────────────────────────────────────
 
 // ──────────────────────────────────────
-// ПОПАП С ГЕТКУРС (нативная форма)
+// ПОПАП С ГЕТКУРС (iframe + UTM в URL)
 // ──────────────────────────────────────
 
 const THANK_YOU_URL = "https://cabinet.onlinerad.ru/giftthankyou_hedonline";
+const GC_WIDGET_BASE = "https://cabinet.onlinerad.ru/pl/lite/widget/widget?id=1568955";
+
+const buildWidgetUrl = () => {
+  const params = new URLSearchParams(window.location.search);
+  const utm = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+  const extra = new URLSearchParams();
+  utm.forEach(k => { const v = params.get(k); if (v) extra.set(k, v); });
+  extra.set("ref", document.referrer);
+  extra.set("loc", window.location.href);
+  return `${GC_WIDGET_BASE}&${extra.toString()}`;
+};
 
 const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
-  const scriptLoaded = useRef(false);
-
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "";
@@ -116,43 +125,17 @@ const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   }, [open]);
 
   useEffect(() => {
-    if (!open || scriptLoaded.current) return;
-    scriptLoaded.current = true;
-
-    const fillUtm = () => {
-      const params = new URLSearchParams(window.location.search);
-      const get = (key: string) => params.get(key) || "";
-      const fieldMap: Record<string, string> = {
-        "988427": get("utm_source"),
-        "988428": get("utm_medium"),
-        "988429": get("utm_campaign"),
-        "988430": get("utm_content"),
-        "988431": get("utm_term"),
-      };
-      Object.entries(fieldMap).forEach(([id, val]) => {
-        document.querySelectorAll<HTMLInputElement>(
-          `input[name="formParams[dealCustomFields][${id}]"]`
-        ).forEach(el => { el.value = val; });
-      });
-    };
-
-    // Загружаем оригинальный скрипт виджета GetCourse — он сам рендерит форму
-    const s = document.createElement("script");
-    s.id = "86103eb0664cfd810877d0b170fd16bdf8bdd17a";
-    s.src = "https://cabinet.onlinerad.ru/pl/lite/widget/script?id=1568955";
-    s.async = true;
-    // После загрузки скрипта заполняем UTM (даём 500мс на рендер формы)
-    s.onload = () => setTimeout(fillUtm, 500);
-    document.body.appendChild(s);
-
-    // Страховочный повтор через 2с
-    setTimeout(fillUtm, 2000);
-
-    // Перехватываем успешную отправку
-    const observer = new MutationObserver(() => {
-      const success = document.querySelector(".lt-success, .lt-form-success, [data-form-success]");
-      if (success) {
-        observer.disconnect();
+    if (!open) return;
+    const handler = (e: MessageEvent) => {
+      const d = e.data;
+      const isSuccess =
+        d &&
+        (d.type === "gc:form:success" ||
+          d.event === "formSubmit" ||
+          d.type === "form_success" ||
+          d.action === "formSubmitted" ||
+          (typeof d === "string" && (d.includes("success") || d.includes("formSubmit"))));
+      if (isSuccess) {
         const ym = (window as unknown as Record<string, (...args: unknown[]) => void>)['ym'];
         if (ym) {
           ym(107087337, 'reachGoal', 'submit_registration_form', {}, () => {
@@ -163,10 +146,9 @@ const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
           window.location.href = THANK_YOU_URL;
         }
       }
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    return () => observer.disconnect();
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
   }, [open]);
 
   if (!open) return null;
@@ -188,24 +170,32 @@ const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
           borderRadius: "16px",
           width: "100%",
           maxWidth: "480px",
-          maxHeight: "calc(100vh - 48px)",
-          overflowY: "auto",
           position: "relative",
           boxShadow: "0 32px 80px rgba(0,0,0,0.6)",
+          overflow: "hidden",
         }}
       >
         <button
           onClick={onClose}
           style={{
-            position: "sticky", top: "12px", float: "right", marginRight: "12px",
+            position: "absolute", top: "12px", right: "12px",
             background: "rgba(0,0,0,0.12)", border: "none", cursor: "pointer",
             color: "#333", fontSize: "18px", lineHeight: 1,
             zIndex: 10, padding: "6px 10px", borderRadius: "50%",
           }}
         >✕</button>
 
-        {/* Контейнер — скрипт GetCourse сам рендерит сюда форму */}
-        <div id="gc-widget-1568955" />
+        <iframe
+          src={buildWidgetUrl()}
+          style={{
+            width: "100%",
+            height: "min(680px, calc(100vh - 80px))",
+            border: "none",
+            display: "block",
+          }}
+          title="Регистрация"
+          allowFullScreen
+        />
       </div>
     </div>
   );
