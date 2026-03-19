@@ -119,14 +119,6 @@ const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
     if (!open || scriptLoaded.current) return;
     scriptLoaded.current = true;
 
-    // Загружаем скрипт виджета GetCourse
-    const s = document.createElement("script");
-    s.id = "86103eb0664cfd810877d0b170fd16bdf8bdd17a";
-    s.src = "https://cabinet.onlinerad.ru/pl/lite/widget/script?id=1568955";
-    s.async = true;
-    document.body.appendChild(s);
-
-    // Заполняем UTM-поля из URL текущей страницы
     const fillUtm = () => {
       const params = new URLSearchParams(window.location.search);
       const get = (key: string) => params.get(key) || "";
@@ -142,20 +134,21 @@ const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
           `input[name="formParams[dealCustomFields][${id}]"]`
         ).forEach(el => { el.value = val; });
       });
-      // loc / ref скрытые поля
-      const locEl = document.getElementById("156895569bc2ca237a61") as HTMLInputElement | null;
-      const refEl = document.getElementById("156895569bc2ca237a61ref") as HTMLInputElement | null;
-      if (locEl) locEl.value = window.location.href;
-      if (refEl) refEl.value = document.referrer;
     };
 
-    // Заполняем сразу (поля уже в DOM через dangerouslySetInnerHTML)
-    fillUtm();
-    // Повторяем после инициализации скрипта GetCourse — он может перезаписать поля
-    s.onload = () => setTimeout(fillUtm, 300);
-    setTimeout(fillUtm, 1500);
+    // Загружаем оригинальный скрипт виджета GetCourse — он сам рендерит форму
+    const s = document.createElement("script");
+    s.id = "86103eb0664cfd810877d0b170fd16bdf8bdd17a";
+    s.src = "https://cabinet.onlinerad.ru/pl/lite/widget/script?id=1568955";
+    s.async = true;
+    // После загрузки скрипта заполняем UTM (даём 500мс на рендер формы)
+    s.onload = () => setTimeout(fillUtm, 500);
+    document.body.appendChild(s);
 
-    // Перехватываем успешную отправку через MutationObserver (GetCourse меняет DOM)
+    // Страховочный повтор через 2с
+    setTimeout(fillUtm, 2000);
+
+    // Перехватываем успешную отправку
     const observer = new MutationObserver(() => {
       const success = document.querySelector(".lt-success, .lt-form-success, [data-form-success]");
       if (success) {
@@ -211,64 +204,8 @@ const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
           }}
         >✕</button>
 
-        {/* Контейнер куда GetCourse рендерит форму */}
-        <div
-          id="gc-widget-container"
-          style={{ padding: "16px 24px 32px" }}
-          dangerouslySetInnerHTML={{
-            __html: `
-              <form
-                id="ltForm7596258"
-                class="lt-normal-form lt-form-inner lt-form"
-                data-id="2215531451"
-                action="https://cabinet.onlinerad.ru/pl/lite/block-public/process-html?id=2215531451"
-                method="post"
-                data-open-new-window="0"
-                data-sequential-request="1"
-              >
-                <input type="hidden" name="formParams[setted_offer_id]">
-                <input type="hidden" name="formParams[willCreatePaidDeal]" value="">
-                <input type="hidden" name="__gc__internal__form__helper" value="">
-                <input type="hidden" name="__gc__internal__form__helper_ref" value="">
-                <input type="hidden" name="formParams[dealCustomFields][988427]" value="">
-                <input type="hidden" name="formParams[dealCustomFields][988428]" value="">
-                <input type="hidden" name="formParams[dealCustomFields][988429]" value="">
-                <input type="hidden" name="formParams[dealCustomFields][988430]" value="">
-                <input type="hidden" name="formParams[dealCustomFields][988431]" value="">
-                <div style="margin-bottom:12px">
-                  <input type="text" maxlength="60" placeholder="Введите ваш эл. адрес" name="formParams[email]" value="" style="width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:8px;font-size:15px;box-sizing:border-box">
-                </div>
-                <div style="margin-bottom:12px">
-                  <input type="text" maxlength="60" placeholder="Введите ваше имя" name="formParams[full_name]" value="" style="width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:8px;font-size:15px;box-sizing:border-box">
-                </div>
-                <div style="margin-bottom:20px">
-                  <input type="text" maxlength="60" placeholder="Введите ваш телефон" name="formParams[phone]" value="" style="width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:8px;font-size:15px;box-sizing:border-box">
-                </div>
-                <input name="formParams[userCustomFields][1396727]" type="hidden">
-                <input name="formParams[userCustomFields][10946093]" type="hidden">
-                <input name="formParams[userCustomFields][10946094]" type="hidden">
-                <input name="formParams[userCustomFields][1396733]" type="hidden">
-                <input name="formParams[userCustomFields][707760]" type="hidden">
-                <button type="submit" id="button658142"
-                  style="width:100%;color:#FFFFFF;background-color:#F34D26;border:none;border-radius:30px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.05em"
-                  onclick="if(window['btnprs69bc2ca242f3b']){return false;}window['btnprs69bc2ca242f3b']=true;setTimeout(function(){window['btnprs69bc2ca242f3b']=false},6000);return true;">
-                  ГОТОВО
-                </button>
-                <input name="formParams[dealCustomFields][988427]" type="hidden">
-                <input name="formParams[dealCustomFields][988428]" type="hidden">
-                <input name="formParams[dealCustomFields][988429]" type="hidden">
-                <input name="formParams[dealCustomFields][988430]" type="hidden">
-                <input name="formParams[dealCustomFields][988431]" type="hidden">
-                <input type="hidden" id="156895569bc2ca237a61" name="__gc__internal__form__helper" class="__gc__internal__form__helper" value="">
-                <input type="hidden" id="156895569bc2ca237a61ref" name="__gc__internal__form__helper_ref" class="__gc__internal__form__helper_ref" value="">
-                <input type="hidden" name="requestTime" value="1773939874">
-                <input type="hidden" name="requestSimpleSign" value="b8580a9a5c06e69997f4537cfa03a739">
-                <input type="hidden" name="isHtmlWidget" value="1">
-              </form>
-              <span id="gccounterImgContainer"></span>
-            `
-          }}
-        />
+        {/* Контейнер — скрипт GetCourse сам рендерит сюда форму */}
+        <div id="gc-widget-1568955" />
       </div>
     </div>
   );
