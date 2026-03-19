@@ -149,7 +149,10 @@ const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
       if (refEl) refEl.value = document.referrer;
     };
 
-    // Даём GetCourse 1.5 с на инициализацию, потом заполняем UTM
+    // Заполняем сразу (поля уже в DOM через dangerouslySetInnerHTML)
+    fillUtm();
+    // Повторяем после инициализации скрипта GetCourse — он может перезаписать поля
+    s.onload = () => setTimeout(fillUtm, 300);
     setTimeout(fillUtm, 1500);
 
     // Перехватываем успешную отправку через MutationObserver (GetCourse меняет DOM)
