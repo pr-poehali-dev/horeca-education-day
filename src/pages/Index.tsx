@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const SPEAKER_IMG = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/de6895f0-5c32-4517-bdca-8a92e59d8d34.jpg";
 const HERO_IMG = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/81fb7ff7-0365-4d7f-88e1-8f9ee7503af6.jpg";
@@ -100,35 +100,63 @@ const BtnWhite = ({
 // ГЛАВНЫЙ КОМПОНЕНТ
 // ──────────────────────────────────────
 
-const GC_WIDGET_URL = "https://cabinet.onlinerad.ru/pl/lite/widget/widget?id=1568955";
-
-
 // ──────────────────────────────────────
-// ПОПАП С ГЕТКУРС
+// ПОПАП С ГЕТКУРС (нативная форма)
 // ──────────────────────────────────────
 
 const THANK_YOU_URL = "https://cabinet.onlinerad.ru/giftthankyou_hedonline";
 
 const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  const scriptLoaded = useRef(false);
+
   useEffect(() => {
     if (open) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "";
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  // Слушаем postMessage от iframe Геткурса об успешной отправке
   useEffect(() => {
-    const handler = (e: MessageEvent) => {
-      const d = e.data;
-      const isSuccess =
-        d &&
-        (d.type === "gc:form:success" ||
-          d.event === "formSubmit" ||
-          d.type === "form_success" ||
-          d.action === "formSubmitted" ||
-          (typeof d === "string" && (d.includes("success") || d.includes("formSubmit"))));
+    if (!open || scriptLoaded.current) return;
+    scriptLoaded.current = true;
 
-      if (isSuccess) {
+    // Загружаем скрипт виджета GetCourse
+    const s = document.createElement("script");
+    s.id = "86103eb0664cfd810877d0b170fd16bdf8bdd17a";
+    s.src = "https://cabinet.onlinerad.ru/pl/lite/widget/script?id=1568955";
+    s.async = true;
+    document.body.appendChild(s);
+
+    // Заполняем UTM-поля из URL текущей страницы
+    const fillUtm = () => {
+      const params = new URLSearchParams(window.location.search);
+      const get = (key: string) => params.get(key) || "";
+      const fieldMap: Record<string, string> = {
+        "988427": get("utm_source"),
+        "988428": get("utm_medium"),
+        "988429": get("utm_campaign"),
+        "988430": get("utm_content"),
+        "988431": get("utm_term"),
+      };
+      Object.entries(fieldMap).forEach(([id, val]) => {
+        document.querySelectorAll<HTMLInputElement>(
+          `input[name="formParams[dealCustomFields][${id}]"]`
+        ).forEach(el => { el.value = val; });
+      });
+      // loc / ref скрытые поля
+      const locEl = document.getElementById("156895569bc2ca237a61") as HTMLInputElement | null;
+      const refEl = document.getElementById("156895569bc2ca237a61ref") as HTMLInputElement | null;
+      if (locEl) locEl.value = window.location.href;
+      if (refEl) refEl.value = document.referrer;
+    };
+
+    // Даём GetCourse 1.5 с на инициализацию, потом заполняем UTM
+    setTimeout(fillUtm, 1500);
+
+    // Перехватываем успешную отправку через MutationObserver (GetCourse меняет DOM)
+    const observer = new MutationObserver(() => {
+      const success = document.querySelector(".lt-success, .lt-form-success, [data-form-success]");
+      if (success) {
+        observer.disconnect();
         const ym = (window as unknown as Record<string, (...args: unknown[]) => void>)['ym'];
         if (ym) {
           ym(107087337, 'reachGoal', 'submit_registration_form', {}, () => {
@@ -139,10 +167,11 @@ const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
           window.location.href = THANK_YOU_URL;
         }
       }
-    };
-    window.addEventListener("message", handler);
-    return () => window.removeEventListener("message", handler);
-  }, []);
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [open]);
 
   if (!open) return null;
 
@@ -163,31 +192,79 @@ const GCModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
           borderRadius: "16px",
           width: "100%",
           maxWidth: "480px",
+          maxHeight: "calc(100vh - 48px)",
+          overflowY: "auto",
           position: "relative",
           boxShadow: "0 32px 80px rgba(0,0,0,0.6)",
-          overflow: "hidden",
         }}
       >
         <button
           onClick={onClose}
           style={{
-            position: "absolute", top: "12px", right: "12px",
+            position: "sticky", top: "12px", float: "right", marginRight: "12px",
             background: "rgba(0,0,0,0.12)", border: "none", cursor: "pointer",
             color: "#333", fontSize: "18px", lineHeight: 1,
             zIndex: 10, padding: "6px 10px", borderRadius: "50%",
           }}
         >✕</button>
 
-        <iframe
-          src={`${GC_WIDGET_URL}&ref=${encodeURIComponent(document.referrer)}&loc=${encodeURIComponent(window.location.href)}`}
-          style={{
-            width: "100%",
-            height: "min(680px, calc(100vh - 80px))",
-            border: "none",
-            display: "block",
+        {/* Контейнер куда GetCourse рендерит форму */}
+        <div
+          id="gc-widget-container"
+          style={{ padding: "16px 24px 32px" }}
+          dangerouslySetInnerHTML={{
+            __html: `
+              <form
+                id="ltForm7596258"
+                class="lt-normal-form lt-form-inner lt-form"
+                data-id="2215531451"
+                action="https://cabinet.onlinerad.ru/pl/lite/block-public/process-html?id=2215531451"
+                method="post"
+                data-open-new-window="0"
+                data-sequential-request="1"
+              >
+                <input type="hidden" name="formParams[setted_offer_id]">
+                <input type="hidden" name="formParams[willCreatePaidDeal]" value="">
+                <input type="hidden" name="__gc__internal__form__helper" value="">
+                <input type="hidden" name="__gc__internal__form__helper_ref" value="">
+                <input type="hidden" name="formParams[dealCustomFields][988427]" value="">
+                <input type="hidden" name="formParams[dealCustomFields][988428]" value="">
+                <input type="hidden" name="formParams[dealCustomFields][988429]" value="">
+                <input type="hidden" name="formParams[dealCustomFields][988430]" value="">
+                <input type="hidden" name="formParams[dealCustomFields][988431]" value="">
+                <div style="margin-bottom:12px">
+                  <input type="text" maxlength="60" placeholder="Введите ваш эл. адрес" name="formParams[email]" value="" style="width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:8px;font-size:15px;box-sizing:border-box">
+                </div>
+                <div style="margin-bottom:12px">
+                  <input type="text" maxlength="60" placeholder="Введите ваше имя" name="formParams[full_name]" value="" style="width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:8px;font-size:15px;box-sizing:border-box">
+                </div>
+                <div style="margin-bottom:20px">
+                  <input type="text" maxlength="60" placeholder="Введите ваш телефон" name="formParams[phone]" value="" style="width:100%;padding:12px 16px;border:1px solid #ddd;border-radius:8px;font-size:15px;box-sizing:border-box">
+                </div>
+                <input name="formParams[userCustomFields][1396727]" type="hidden">
+                <input name="formParams[userCustomFields][10946093]" type="hidden">
+                <input name="formParams[userCustomFields][10946094]" type="hidden">
+                <input name="formParams[userCustomFields][1396733]" type="hidden">
+                <input name="formParams[userCustomFields][707760]" type="hidden">
+                <button type="submit" id="button658142"
+                  style="width:100%;color:#FFFFFF;background-color:#F34D26;border:none;border-radius:30px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:0.05em"
+                  onclick="if(window['btnprs69bc2ca242f3b']){return false;}window['btnprs69bc2ca242f3b']=true;setTimeout(function(){window['btnprs69bc2ca242f3b']=false},6000);return true;">
+                  ГОТОВО
+                </button>
+                <input name="formParams[dealCustomFields][988427]" type="hidden">
+                <input name="formParams[dealCustomFields][988428]" type="hidden">
+                <input name="formParams[dealCustomFields][988429]" type="hidden">
+                <input name="formParams[dealCustomFields][988430]" type="hidden">
+                <input name="formParams[dealCustomFields][988431]" type="hidden">
+                <input type="hidden" id="156895569bc2ca237a61" name="__gc__internal__form__helper" class="__gc__internal__form__helper" value="">
+                <input type="hidden" id="156895569bc2ca237a61ref" name="__gc__internal__form__helper_ref" class="__gc__internal__form__helper_ref" value="">
+                <input type="hidden" name="requestTime" value="1773939874">
+                <input type="hidden" name="requestSimpleSign" value="b8580a9a5c06e69997f4537cfa03a739">
+                <input type="hidden" name="isHtmlWidget" value="1">
+              </form>
+              <span id="gccounterImgContainer"></span>
+            `
           }}
-          title="Регистрация"
-          allowFullScreen
         />
       </div>
     </div>
