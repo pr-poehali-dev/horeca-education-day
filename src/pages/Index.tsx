@@ -226,8 +226,8 @@ export default function Index() {
     return () => observer.disconnect();
   }, []);
 
-  // Countdown до 24 марта 2026 19:00 мск (UTC+3)
-  const TARGET = new Date("2026-03-24T19:00:00+03:00").getTime();
+  // Countdown до 24 марта 2026 15:00 мск (UTC+3)
+  const TARGET = new Date("2026-03-24T15:00:00+03:00").getTime();
   const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0 });
 
   useEffect(() => {
@@ -451,7 +451,7 @@ export default function Index() {
                   </div>
                 ))}
               </div>
-              <div style={{ ...ff, color: "rgba(255,255,255,0.4)", fontSize: "13px", borderTop: "1px solid rgba(201,169,110,0.15)", paddingTop: "16px", marginTop: "auto", letterSpacing: "0.03em" }}>онлайн-вебинар · ~2 часа · 19:00 мск</div>
+              <div style={{ ...ff, color: "rgba(255,255,255,0.4)", fontSize: "13px", borderTop: "1px solid rgba(201,169,110,0.15)", paddingTop: "16px", marginTop: "auto", letterSpacing: "0.03em" }}>онлайн-вебинар · ~2 часа · 15:00 мск</div>
             </div>
 
             {/* День 2 */}
@@ -476,7 +476,7 @@ export default function Index() {
                   </p>
                 </div>
               </div>
-              <div style={{ ...ff, color: "rgba(255,255,255,0.4)", fontSize: "13px", borderTop: "1px solid rgba(201,169,110,0.15)", paddingTop: "16px", marginTop: "auto", letterSpacing: "0.03em" }}>онлайн-вебинар · 19:00 мск</div>
+              <div style={{ ...ff, color: "rgba(255,255,255,0.4)", fontSize: "13px", borderTop: "1px solid rgba(201,169,110,0.15)", paddingTop: "16px", marginTop: "auto", letterSpacing: "0.03em" }}>онлайн-вебинар · 15:00 мск</div>
             </div>
           </div>
 
