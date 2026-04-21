@@ -149,36 +149,52 @@ export default function TrendsC2026Page() {
 
       {/* ── ШАПКА ── */}
       <header style={{
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: isMobile ? "14px 20px" : "16px 48px",
+        padding: isMobile ? "12px 20px" : "16px 48px",
         borderBottom: `1px solid rgba(196,149,106,0.2)`,
         background: BG,
         flexShrink: 0,
       }}>
-        {/* Логотип — тёмно-синий */}
-        <img src={LOGO_URL} alt="RAD ACADEMY"
-          style={{ height: isMobile ? 20 : 26, filter: "invert(18%) sepia(60%) saturate(500%) hue-rotate(185deg) brightness(50%)" }} />
-
-        {/* Лейбл */}
-        <div style={{
-          display: "flex", alignItems: "center", gap: 7,
-          background: `rgba(196,149,106,0.13)`,
-          border: `1px solid rgba(196,149,106,0.4)`,
-          borderRadius: 40, padding: isMobile ? "4px 10px" : "5px 14px",
-        }}>
-          <span style={{ color: GOLD, fontSize: 10 }}>✦</span>
-          <span style={{ fontSize: isMobile ? 10 : 11, fontWeight: 600, letterSpacing: "0.06em", color: GOLD, textTransform: "uppercase", fontFamily: FF_SANS }}>
-            {isMobile ? "Бесплатный эфир" : "Бесплатный онлайн-эфир"}
-          </span>
-        </div>
-
-        {/* Дата */}
-        <div style={{ fontSize: isMobile ? 11 : 13, color: MUTED, fontWeight: 500, display: "flex", alignItems: "center", gap: 5 }}>
-          <span>📅</span>
-          <span>{isMobile ? eventShort : eventDate}</span>
-          <span style={{ color: "rgba(0,0,0,0.2)" }}>·</span>
-          <span>19:00 МСК</span>
-        </div>
+        {isMobile ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <img src={LOGO_URL} alt="RAD ACADEMY"
+                style={{ height: 20, filter: "invert(18%) sepia(60%) saturate(500%) hue-rotate(185deg) brightness(50%)" }} />
+              <div style={{
+                display: "flex", alignItems: "center", gap: 6,
+                background: `rgba(196,149,106,0.13)`,
+                border: `1px solid rgba(196,149,106,0.4)`,
+                borderRadius: 40, padding: "4px 10px",
+              }}>
+                <span style={{ color: GOLD, fontSize: 10 }}>✦</span>
+                <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.06em", color: GOLD, textTransform: "uppercase", fontFamily: FF_SANS }}>Бесплатный эфир</span>
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 500, color: MUTED, fontFamily: FF_SANS }}>
+              <span>📅</span><span>{eventShort}</span>
+              <span style={{ color: "rgba(0,0,0,0.2)" }}>·</span>
+              <span>19:00 МСК</span>
+            </div>
+          </div>
+        ) : (
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <img src={LOGO_URL} alt="RAD ACADEMY"
+              style={{ height: 26, filter: "invert(18%) sepia(60%) saturate(500%) hue-rotate(185deg) brightness(50%)" }} />
+            <div style={{
+              display: "flex", alignItems: "center", gap: 7,
+              background: `rgba(196,149,106,0.13)`,
+              border: `1px solid rgba(196,149,106,0.4)`,
+              borderRadius: 40, padding: "5px 14px",
+            }}>
+              <span style={{ color: GOLD, fontSize: 10 }}>✦</span>
+              <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.06em", color: GOLD, textTransform: "uppercase", fontFamily: FF_SANS }}>Бесплатный онлайн-эфир</span>
+            </div>
+            <div style={{ fontSize: 13, color: MUTED, fontWeight: 500, display: "flex", alignItems: "center", gap: 5 }}>
+              <span>📅</span><span>{eventDate}</span>
+              <span style={{ color: "rgba(0,0,0,0.2)" }}>·</span>
+              <span>19:00 МСК</span>
+            </div>
+          </div>
+        )}
       </header>
 
       {isMobile ? (
@@ -200,14 +216,12 @@ export default function TrendsC2026Page() {
           </div>
 
           {/* СПИКЕР */}
-          <div style={{ margin: "0 20px 24px", background: `rgba(27,58,92,0.05)`, borderRadius: 12, padding: "16px 20px", display: "flex", alignItems: "center", gap: 14 }}>
-            <div style={{ flexShrink: 0, width: 64, height: 64, borderRadius: "50%", border: `2px solid ${GOLD}`, overflow: "hidden" }}>
+          <div style={{ margin: "0 0 24px", background: `rgba(27,58,92,0.05)`, padding: "24px 20px", textAlign: "center" }}>
+            <div style={{ width: "min(220px, 60vw)", height: "min(220px, 60vw)", borderRadius: "50%", border: `3px solid ${GOLD}`, overflow: "hidden", margin: "0 auto 16px" }}>
               <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
             </div>
-            <div>
-              <div style={{ fontSize: 15, fontWeight: 700, color: TEXT, marginBottom: 2 }}>Анна Симонова</div>
-              <div style={{ fontSize: 12, color: MUTED, lineHeight: 1.4 }}>Основатель RAD ACADEMY<br />Практикующий дизайнер интерьеров</div>
-            </div>
+            <div style={{ fontSize: 17, fontWeight: 700, color: TEXT, marginBottom: 4 }}>Анна Симонова</div>
+            <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.5 }}>Основатель RAD ACADEMY<br />Практикующий дизайнер интерьеров</div>
           </div>
 
           {/* БУЛЛИТЫ */}
@@ -275,13 +289,13 @@ export default function TrendsC2026Page() {
           </div>
 
           {/* СПИКЕР */}
-          <div style={{ background: `rgba(27,58,92,0.05)`, borderRadius: 12, padding: "20px 28px", display: "flex", alignItems: "center", gap: 20, marginBottom: 36, maxWidth: 600, margin: "0 auto 36px" }}>
-            <div style={{ flexShrink: 0, width: 72, height: 72, borderRadius: "50%", border: `2px solid ${GOLD}`, overflow: "hidden" }}>
+          <div style={{ background: `rgba(27,58,92,0.05)`, borderRadius: 12, padding: "28px 36px", display: "flex", alignItems: "center", gap: 28, marginBottom: 36, maxWidth: 620, margin: "0 auto 36px" }}>
+            <div style={{ flexShrink: 0, width: 160, height: 160, borderRadius: "50%", border: `3px solid ${GOLD}`, overflow: "hidden" }}>
               <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
             </div>
             <div>
-              <div style={{ fontSize: 17, fontWeight: 700, color: TEXT, marginBottom: 4 }}>Анна Симонова</div>
-              <div style={{ fontSize: 13, color: MUTED }}>Основатель RAD ACADEMY · Практикующий дизайнер интерьеров</div>
+              <div style={{ fontSize: 20, fontWeight: 700, color: TEXT, marginBottom: 6 }}>Анна Симонова</div>
+              <div style={{ fontSize: 14, color: MUTED, lineHeight: 1.5 }}>Основатель RAD ACADEMY<br />Практикующий дизайнер интерьеров</div>
             </div>
           </div>
 

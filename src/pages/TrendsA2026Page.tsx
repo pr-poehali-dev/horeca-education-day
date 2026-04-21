@@ -91,22 +91,42 @@ export default function TrendsA2026Page() {
 
       {/* TOP BAR */}
       <header style={{
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: isMobile ? "16px 20px" : "18px 48px",
+        padding: isMobile ? "12px 20px" : "18px 48px",
         borderBottom: "1px solid rgba(255,255,255,0.07)",
         flexShrink: 0, position: "relative", zIndex: 10,
       }}>
-        <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: isMobile ? 22 : 28, filter: "invert(1)" }} />
-        <div style={{
-          display: "flex", alignItems: "center", gap: 8,
-          background: "rgba(232,86,58,0.12)", border: "1px solid rgba(232,86,58,0.35)",
-          borderRadius: 40, padding: isMobile ? "5px 12px" : "6px 16px",
-        }}>
-          <span style={{ fontSize: 9, color: ACCENT }}>●</span>
-          <span style={{ fontSize: isMobile ? 11 : 12, fontWeight: 600, letterSpacing: "0.05em", color: ACCENT, textTransform: "uppercase" }}>
-            {isMobile ? "Бесплатный эфир" : "Бесплатный онлайн-эфир"}
-          </span>
-        </div>
+        {isMobile ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: 20, filter: "invert(1)" }} />
+              <div style={{
+                display: "flex", alignItems: "center", gap: 6,
+                background: "rgba(232,86,58,0.12)", border: "1px solid rgba(232,86,58,0.35)",
+                borderRadius: 40, padding: "4px 12px",
+              }}>
+                <span style={{ fontSize: 8, color: ACCENT }}>●</span>
+                <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.05em", color: ACCENT, textTransform: "uppercase" }}>Бесплатный эфир</span>
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 600 }}>
+              <span>📅</span><span>{eventDate}</span>
+              <span style={{ color: "rgba(255,255,255,0.25)" }}>·</span>
+              <span>⏰</span><span>19:00 МСК</span>
+            </div>
+          </div>
+        ) : (
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: 28, filter: "invert(1)" }} />
+            <div style={{
+              display: "flex", alignItems: "center", gap: 8,
+              background: "rgba(232,86,58,0.12)", border: "1px solid rgba(232,86,58,0.35)",
+              borderRadius: 40, padding: "6px 16px",
+            }}>
+              <span style={{ fontSize: 9, color: ACCENT }}>●</span>
+              <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.05em", color: ACCENT, textTransform: "uppercase" }}>Бесплатный онлайн-эфир</span>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* MAIN */}
@@ -117,16 +137,9 @@ export default function TrendsA2026Page() {
             <div style={{ fontSize: 10, letterSpacing: "0.12em", color: ACCENT, fontWeight: 600, textTransform: "uppercase", marginBottom: 14 }}>
               Бесплатный онлайн-эфир Анны Симоновой
             </div>
-            <h1 style={{ fontSize: 26, fontWeight: 800, lineHeight: 1.15, letterSpacing: "-0.02em", textTransform: "uppercase", margin: "0 0 18px", color: "#fff" }}>
+            <h1 style={{ fontSize: 26, fontWeight: 800, lineHeight: 1.15, letterSpacing: "-0.02em", textTransform: "uppercase", margin: "0 0 24px", color: "#fff" }}>
               Тренды в дизайне интерьера. Как в 2026 году зарабатывать больше и выйти на новый уровень клиентов
             </h1>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 24 }}>
-              <span>📅</span>
-              <span style={{ fontSize: 15, fontWeight: 700 }}>{eventDate}</span>
-              <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
-              <span>⏰</span>
-              <span style={{ fontSize: 15, fontWeight: 700 }}>19:00 МСК</span>
-            </div>
           </div>
 
           {/* Фото — вписано в блок с градиентом */}

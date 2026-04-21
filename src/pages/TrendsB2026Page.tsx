@@ -102,13 +102,30 @@ export default function TrendsB2026Page() {
 
       {/* ── TOP BAR ── */}
       <header style={{
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: isMobile ? "14px 20px" : "16px 40px",
+        padding: isMobile ? "12px 20px" : "16px 40px",
         borderBottom: "1px solid rgba(255,255,255,0.06)",
         flexShrink: 0, position: "relative", zIndex: 20,
         background: BG_DARK,
       }}>
-        <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: isMobile ? 20 : 26, filter: "invert(1)" }} />
+        {isMobile ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: 20, filter: "invert(1)" }} />
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(232,86,58,0.12)", border: "1px solid rgba(232,86,58,0.35)", borderRadius: 40, padding: "4px 12px", fontSize: 11, fontWeight: 600, color: ACCENT, letterSpacing: "0.04em" }}>
+                <span style={{ fontSize: 7 }}>●</span> Бесплатный эфир
+              </span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.75)" }}>
+              <span>📅</span><span>{eventShort}</span>
+              <span style={{ color: "rgba(255,255,255,0.25)" }}>·</span>
+              <span>⏰</span><span>19:00 МСК</span>
+            </div>
+          </div>
+        ) : (
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: 26, filter: "invert(1)" }} />
+          </div>
+        )}
       </header>
 
       {isMobile ? (
@@ -125,15 +142,7 @@ export default function TrendsB2026Page() {
                 style={{ width: "100%", height: "auto", display: "block", marginTop: "-8%" }}
               />
             </div>
-            {/* Баблы */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(232,86,58,0.12)", border: "1px solid rgba(232,86,58,0.35)", borderRadius: 40, padding: "5px 12px", fontSize: 11, fontWeight: 600, color: ACCENT, letterSpacing: "0.04em" }}>
-                <span style={{ fontSize: 7 }}>●</span> Бесплатный онлайн-эфир
-              </span>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 40, padding: "5px 12px", fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)" }}>
-                📅 {eventShort} · 19:00 МСК
-              </span>
-            </div>
+
             {/* Имя */}
             <div style={{ padding: "0 0 28px" }}>
               <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 3 }}>Анна Симонова</div>
