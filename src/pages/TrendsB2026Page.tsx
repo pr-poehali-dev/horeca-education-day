@@ -109,19 +109,6 @@ export default function TrendsB2026Page() {
         background: BG_DARK,
       }}>
         <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: isMobile ? 20 : 26, filter: "invert(1)" }} />
-        <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(232,86,58,0.12)", border: "1px solid rgba(232,86,58,0.35)", borderRadius: 40, padding: isMobile ? "4px 10px" : "5px 14px" }}>
-          <span style={{ fontSize: 8, color: ACCENT }}>●</span>
-          <span style={{ fontSize: isMobile ? 10 : 11, fontWeight: 600, letterSpacing: "0.05em", color: ACCENT, textTransform: "uppercase" }}>
-            {isMobile ? "Бесплатный эфир" : "Бесплатный онлайн-эфир"}
-          </span>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: isMobile ? 11 : 13, fontWeight: 600, color: "rgba(255,255,255,0.7)" }}>
-          <span>📅</span>
-          <span>{isMobile ? eventShort : eventDate}</span>
-          <span style={{ color: "rgba(255,255,255,0.3)" }}>·</span>
-          <span>⏰</span>
-          <span>19:00 МСК</span>
-        </div>
       </header>
 
       {isMobile ? (
@@ -130,12 +117,23 @@ export default function TrendsB2026Page() {
 
           {/* 1. БЛОК СПИКЕРА */}
           <div style={{ background: "#0d0d0d", padding: "24px 20px 0" }}>
-            {/* Фото целиком */}
-            <img
-              src={SPEAKER_PHOTO}
-              alt="Анна Симонова"
-              style={{ width: "100%", height: "auto", display: "block", borderRadius: 12, marginBottom: 20 }}
-            />
+            {/* Фото — обрезано сверху, показываем с уровня головы */}
+            <div style={{ width: "100%", overflow: "hidden", borderRadius: 12, marginBottom: 20, maxHeight: 340 }}>
+              <img
+                src={SPEAKER_PHOTO}
+                alt="Анна Симонова"
+                style={{ width: "100%", height: "auto", display: "block", marginTop: "-8%" }}
+              />
+            </div>
+            {/* Баблы */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(232,86,58,0.12)", border: "1px solid rgba(232,86,58,0.35)", borderRadius: 40, padding: "5px 12px", fontSize: 11, fontWeight: 600, color: ACCENT, letterSpacing: "0.04em" }}>
+                <span style={{ fontSize: 7 }}>●</span> Бесплатный онлайн-эфир
+              </span>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 40, padding: "5px 12px", fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.7)" }}>
+                📅 {eventShort} · 19:00 МСК
+              </span>
+            </div>
             {/* Имя */}
             <div style={{ padding: "0 0 28px" }}>
               <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 3 }}>Анна Симонова</div>
@@ -218,26 +216,37 @@ export default function TrendsB2026Page() {
           {/* ── РЯД 1: СПИКЕР — ФОТО + РЕГАЛИИ ── */}
           <div style={{ display: "flex", background: "#0d0d0d", alignItems: "stretch" }}>
 
-            {/* Фото — левая часть, целиком без обрезки */}
-            <div style={{ width: "42%", flexShrink: 0, background: "#0d0d0d", display: "flex", alignItems: "center", justifyContent: "center", padding: "32px 0 32px 32px" }}>
-              <img
-                src={SPEAKER_PHOTO}
-                alt="Анна Симонова"
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  display: "block",
-                  borderRadius: 12,
-                }}
-              />
+            {/* Фото — обрезано сверху на ~10%, чтобы начиналось с головы */}
+            <div style={{ width: "38%", flexShrink: 0, background: "#0d0d0d", overflow: "hidden", padding: "32px 0 32px 32px" }}>
+              <div style={{ overflow: "hidden", borderRadius: 12, height: "100%" }}>
+                <img
+                  src={SPEAKER_PHOTO}
+                  alt="Анна Симонова"
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    display: "block",
+                    marginTop: "-10%",
+                  }}
+                />
+              </div>
             </div>
 
             {/* Регалии — правая часть */}
-            <div style={{ flex: 1, padding: "52px 56px 52px 48px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <div style={{ flex: 1, padding: "44px 56px 44px 48px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              {/* Баблы */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 24 }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(232,86,58,0.12)", border: "1px solid rgba(232,86,58,0.35)", borderRadius: 40, padding: "6px 16px", fontSize: 12, fontWeight: 600, color: ACCENT, letterSpacing: "0.04em" }}>
+                  <span style={{ fontSize: 7 }}>●</span> Бесплатный онлайн-эфир
+                </span>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 40, padding: "6px 16px", fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.7)" }}>
+                  📅 {eventDate} · ⏰ 19:00 МСК
+                </span>
+              </div>
               <div style={{ fontSize: "clamp(28px, 2.8vw, 44px)", fontWeight: 900, color: "#fff", lineHeight: 1.1, marginBottom: 8, letterSpacing: "-0.02em" }}>
                 Анна Симонова
               </div>
-              <div style={{ fontSize: 12, color: ACCENT, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 36 }}>
+              <div style={{ fontSize: 12, color: ACCENT, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 32 }}>
                 Основатель RAD ACADEMY · Практикующий дизайнер интерьеров
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
