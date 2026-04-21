@@ -64,6 +64,7 @@ export default function TrendsA2026Page() {
   const [isMobile, setIsMobile] = useState(false);
   const [checkPrivacy, setCheckPrivacy] = useState(false);
   const [checkConsent, setCheckConsent] = useState(false);
+  const [showConsentError, setShowConsentError] = useState(false);
   const eventDate = getTomorrowDate();
 
   useEffect(() => {
@@ -366,7 +367,7 @@ export default function TrendsA2026Page() {
                 <input
                   type="checkbox"
                   checked={checkPrivacy}
-                  onChange={(e) => setCheckPrivacy(e.target.checked)}
+                  onChange={(e) => { setCheckPrivacy(e.target.checked); setShowConsentError(false); }}
                   style={{ marginTop: 2, accentColor: ACCENT, width: 16, height: 16, flexShrink: 0 }}
                 />
                 <span style={{ fontSize: 12, color: "#888", lineHeight: 1.5 }}>
@@ -380,7 +381,7 @@ export default function TrendsA2026Page() {
                 <input
                   type="checkbox"
                   checked={checkConsent}
-                  onChange={(e) => setCheckConsent(e.target.checked)}
+                  onChange={(e) => { setCheckConsent(e.target.checked); setShowConsentError(false); }}
                   style={{ marginTop: 2, accentColor: ACCENT, width: 16, height: 16, flexShrink: 0 }}
                 />
                 <span style={{ fontSize: 12, color: "#888", lineHeight: 1.5 }}>
@@ -394,13 +395,12 @@ export default function TrendsA2026Page() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               <button
-                onClick={handleTg}
-                disabled={!checkPrivacy || !checkConsent}
+                onClick={() => { if (!checkPrivacy || !checkConsent) { setShowConsentError(true); return; } handleTg(); }}
                 style={{
                   background: checkPrivacy && checkConsent ? "#229ED9" : "#333", color: checkPrivacy && checkConsent ? "#fff" : "#666",
                   border: "none", borderRadius: 10,
                   padding: "15px 20px", fontSize: 15, fontWeight: 700,
-                  cursor: checkPrivacy && checkConsent ? "pointer" : "not-allowed",
+                  cursor: "pointer",
                   display: "flex", alignItems: "center", justifyContent: "center", gap: 10, fontFamily: FF,
                   transition: "background 0.2s, color 0.2s",
                 }}
@@ -408,19 +408,23 @@ export default function TrendsA2026Page() {
                 <span style={{ fontSize: 20 }}>✈️</span> Зарегистрироваться через Telegram
               </button>
               <button
-                onClick={handleVk}
-                disabled={!checkPrivacy || !checkConsent}
+                onClick={() => { if (!checkPrivacy || !checkConsent) { setShowConsentError(true); return; } handleVk(); }}
                 style={{
                   background: checkPrivacy && checkConsent ? "#0077FF" : "#333", color: checkPrivacy && checkConsent ? "#fff" : "#666",
                   border: "none", borderRadius: 10,
                   padding: "15px 20px", fontSize: 15, fontWeight: 700,
-                  cursor: checkPrivacy && checkConsent ? "pointer" : "not-allowed",
+                  cursor: "pointer",
                   display: "flex", alignItems: "center", justifyContent: "center", gap: 10, fontFamily: FF,
                   transition: "background 0.2s, color 0.2s",
                 }}
               >
                 <span style={{ fontSize: 20 }}>🔵</span> Зарегистрироваться через ВКонтакте
               </button>
+              {showConsentError && (
+                <div style={{ fontSize: 13, color: "#E53935", fontWeight: 600, textAlign: "center", marginTop: 4 }}>
+                  Пожалуйста, поставьте галочки Согласия
+                </div>
+              )}
             </div>
           </div>
         </div>

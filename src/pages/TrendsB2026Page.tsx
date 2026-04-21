@@ -73,6 +73,7 @@ export default function TrendsB2026Page() {
   const [isMobile, setIsMobile] = useState(false);
   const [checkPrivacy, setCheckPrivacy] = useState(false);
   const [checkConsent, setCheckConsent] = useState(false);
+  const [showConsentError, setShowConsentError] = useState(false);
   const { full: eventDate, short: eventShort } = getTomorrowDate();
 
   useEffect(() => {
@@ -346,14 +347,14 @@ export default function TrendsB2026Page() {
             <div style={{ fontSize: 13, color: "#555", marginBottom: 24 }}>Ссылка на эфир придёт после регистрации</div>
             <div style={{ textAlign: "left", marginBottom: 20, display: "flex", flexDirection: "column", gap: 10 }}>
               <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
-                <input type="checkbox" checked={checkPrivacy} onChange={(e) => setCheckPrivacy(e.target.checked)} style={{ marginTop: 2, accentColor: ACCENT, width: 16, height: 16, flexShrink: 0 }} />
+                <input type="checkbox" checked={checkPrivacy} onChange={(e) => { setCheckPrivacy(e.target.checked); setShowConsentError(false); }} style={{ marginTop: 2, accentColor: ACCENT, width: 16, height: 16, flexShrink: 0 }} />
                 <span style={{ fontSize: 12, color: "#777", lineHeight: 1.5 }}>
                   Я ознакомился(-ась) с{" "}
                   <a href="https://onlinerad.ru/privacy_policy" target="_blank" rel="noopener noreferrer" style={{ color: "#999", textDecoration: "underline" }}>Политикой конфиденциальности</a>
                 </span>
               </label>
               <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
-                <input type="checkbox" checked={checkConsent} onChange={(e) => setCheckConsent(e.target.checked)} style={{ marginTop: 2, accentColor: ACCENT, width: 16, height: 16, flexShrink: 0 }} />
+                <input type="checkbox" checked={checkConsent} onChange={(e) => { setCheckConsent(e.target.checked); setShowConsentError(false); }} style={{ marginTop: 2, accentColor: ACCENT, width: 16, height: 16, flexShrink: 0 }} />
                 <span style={{ fontSize: 12, color: "#777", lineHeight: 1.5 }}>
                   Я даю{" "}
                   <a href="https://radacademy.ru/consent_user" target="_blank" rel="noopener noreferrer" style={{ color: "#999", textDecoration: "underline" }}>Согласие на обработку персональных данных</a>
@@ -361,12 +362,17 @@ export default function TrendsB2026Page() {
               </label>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <button onClick={handleTg} disabled={!canSubmit} style={{ background: canSubmit ? "#229ED9" : "#2a2a2a", color: canSubmit ? "#fff" : "#555", border: "none", borderRadius: 10, padding: "15px 20px", fontSize: 15, fontWeight: 700, cursor: canSubmit ? "pointer" : "not-allowed", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, fontFamily: FF, transition: "background 0.2s, color 0.2s" }}>
+              <button onClick={() => { if (!canSubmit) { setShowConsentError(true); return; } handleTg(); }} style={{ background: canSubmit ? "#229ED9" : "#2a2a2a", color: canSubmit ? "#fff" : "#555", border: "none", borderRadius: 10, padding: "15px 20px", fontSize: 15, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, fontFamily: FF, transition: "background 0.2s, color 0.2s" }}>
                 <span style={{ fontSize: 20 }}>✈️</span> Зарегистрироваться через Telegram
               </button>
-              <button onClick={handleVk} disabled={!canSubmit} style={{ background: canSubmit ? "#0077FF" : "#2a2a2a", color: canSubmit ? "#fff" : "#555", border: "none", borderRadius: 10, padding: "15px 20px", fontSize: 15, fontWeight: 700, cursor: canSubmit ? "pointer" : "not-allowed", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, fontFamily: FF, transition: "background 0.2s, color 0.2s" }}>
+              <button onClick={() => { if (!canSubmit) { setShowConsentError(true); return; } handleVk(); }} style={{ background: canSubmit ? "#0077FF" : "#2a2a2a", color: canSubmit ? "#fff" : "#555", border: "none", borderRadius: 10, padding: "15px 20px", fontSize: 15, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, fontFamily: FF, transition: "background 0.2s, color 0.2s" }}>
                 <span style={{ fontSize: 20 }}>🔵</span> Зарегистрироваться через ВКонтакте
               </button>
+              {showConsentError && (
+                <div style={{ fontSize: 13, color: "#E53935", fontWeight: 600, textAlign: "center", marginTop: 4 }}>
+                  Пожалуйста, поставьте галочки Согласия
+                </div>
+              )}
             </div>
           </div>
         </div>

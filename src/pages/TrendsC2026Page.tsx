@@ -120,6 +120,7 @@ export default function TrendsC2026Page() {
   const [isMobile, setIsMobile] = useState(false);
   const [checkPrivacy, setCheckPrivacy] = useState(false);
   const [checkConsent, setCheckConsent] = useState(false);
+  const [showConsentError, setShowConsentError] = useState(false);
   const { full: eventDate, short: eventShort } = getTomorrowDate();
 
   useEffect(() => {
@@ -366,7 +367,7 @@ export default function TrendsC2026Page() {
             {/* Галочки */}
             <div style={{ textAlign: "left", marginBottom: 20, display: "flex", flexDirection: "column", gap: 12 }}>
               <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
-                <input type="checkbox" checked={checkPrivacy} onChange={(e) => setCheckPrivacy(e.target.checked)}
+                <input type="checkbox" checked={checkPrivacy} onChange={(e) => { setCheckPrivacy(e.target.checked); setShowConsentError(false); }}
                   style={{ marginTop: 2, accentColor: NAVY, width: 16, height: 16, flexShrink: 0 }} />
                 <span style={{ fontSize: 12, color: MUTED, lineHeight: 1.5 }}>
                   Я ознакомился(-ась) с{" "}
@@ -375,7 +376,7 @@ export default function TrendsC2026Page() {
                 </span>
               </label>
               <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
-                <input type="checkbox" checked={checkConsent} onChange={(e) => setCheckConsent(e.target.checked)}
+                <input type="checkbox" checked={checkConsent} onChange={(e) => { setCheckConsent(e.target.checked); setShowConsentError(false); }}
                   style={{ marginTop: 2, accentColor: NAVY, width: 16, height: 16, flexShrink: 0 }} />
                 <span style={{ fontSize: 12, color: MUTED, lineHeight: 1.5 }}>
                   Я даю{" "}
@@ -387,26 +388,31 @@ export default function TrendsC2026Page() {
 
             {/* Кнопки */}
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <button onClick={handleTg} disabled={!canSubmit} style={{
+              <button onClick={() => { if (!canSubmit) { setShowConsentError(true); return; } handleTg(); }} style={{
                 background: canSubmit ? "#229ED9" : "#e8e8e8",
                 color: canSubmit ? "#fff" : "#aaa",
                 border: "none", borderRadius: 10, padding: "15px 20px", fontSize: 15, fontWeight: 700,
-                cursor: canSubmit ? "pointer" : "not-allowed",
+                cursor: "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
                 fontFamily: FF_SANS, transition: "all 0.2s",
               }}>
                 <span style={{ fontSize: 20 }}>✈️</span> Зарегистрироваться через Telegram
               </button>
-              <button onClick={handleVk} disabled={!canSubmit} style={{
+              <button onClick={() => { if (!canSubmit) { setShowConsentError(true); return; } handleVk(); }} style={{
                 background: canSubmit ? "#0077FF" : "#e8e8e8",
                 color: canSubmit ? "#fff" : "#aaa",
                 border: "none", borderRadius: 10, padding: "15px 20px", fontSize: 15, fontWeight: 700,
-                cursor: canSubmit ? "pointer" : "not-allowed",
+                cursor: "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
                 fontFamily: FF_SANS, transition: "all 0.2s",
               }}>
                 <span style={{ fontSize: 20 }}>🔵</span> Зарегистрироваться через ВКонтакте
               </button>
+              {showConsentError && (
+                <div style={{ fontSize: 13, color: "#E53935", fontWeight: 600, textAlign: "center", marginTop: 4 }}>
+                  Пожалуйста, поставьте галочки Согласия
+                </div>
+              )}
             </div>
           </div>
         </div>
