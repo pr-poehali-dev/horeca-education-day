@@ -10,6 +10,7 @@ const Index = lazy(() => import("./pages/Index"));
 const March8Page = lazy(() => import("./pages/March8Page"));
 const March8ohPage = lazy(() => import("./pages/March8ohPage"));
 const NadezdaEfirPage = lazy(() => import("./pages/NadezdaEfirPage"));
+const TrendsA2026Page = lazy(() => import("./pages/TrendsA2026Page"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/8march" element={<March8Page />} />
             <Route path="/8maroh" element={<March8ohPage />} />
             <Route path="/nadezda_efir" element={<NadezdaEfirPage />} />
+            <Route path="/trendsa2026" element={<TrendsA2026Page />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
