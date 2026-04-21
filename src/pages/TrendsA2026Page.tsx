@@ -62,6 +62,8 @@ const BULLETS = [
 export default function TrendsA2026Page() {
   const [showModal, setShowModal] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [checkPrivacy, setCheckPrivacy] = useState(false);
+  const [checkConsent, setCheckConsent] = useState(false);
   const eventDate = getTomorrowDate();
 
   useEffect(() => {
@@ -138,14 +140,6 @@ export default function TrendsA2026Page() {
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 60, background: `linear-gradient(to bottom, ${BG}, transparent)` }} />
             {/* Градиент снизу */}
             <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 100, background: `linear-gradient(to top, ${BG}, transparent)` }} />
-            {/* Бейдж */}
-            <div style={{
-              position: "absolute", bottom: 16, left: 16,
-              background: "rgba(232,86,58,0.92)", borderRadius: 6, padding: "6px 12px",
-              fontSize: 12, fontWeight: 700, color: "#fff",
-            }}>
-              Кейсы выпускников: рост дохода ×3–5
-            </div>
           </div>
 
           <div style={{ padding: "0 20px" }}>
@@ -172,8 +166,13 @@ export default function TrendsA2026Page() {
               </div>
             </div>
 
-            <div style={{ fontSize: 12, color: "#555", textAlign: "center", paddingBottom: 8 }}>
+            <div style={{ fontSize: 12, color: "#555", textAlign: "center", paddingBottom: 4 }}>
               Количество мест ограничено · Ссылка на эфир придёт в Telegram-бот
+            </div>
+            <div style={{ fontSize: 11, color: "#444", textAlign: "center", lineHeight: 1.8, paddingBottom: 8 }}>
+              <a href="https://onlinerad.ru/privacy_policy" target="_blank" rel="noopener noreferrer" style={{ color: "#555", textDecoration: "underline" }}>Политика конфиденциальности</a>
+              <br />
+              <a href="https://radacademy.ru/consent_user" target="_blank" rel="noopener noreferrer" style={{ color: "#555", textDecoration: "underline" }}>Согласие на обработку персональных данных</a>
             </div>
           </div>
 
@@ -231,16 +230,6 @@ export default function TrendsA2026Page() {
               position: "absolute", bottom: 0, left: 0, right: 0, height: 200,
               background: `linear-gradient(to top, ${BG} 0%, transparent 100%)`,
             }} />
-
-            {/* Бейдж */}
-            <div style={{
-              position: "absolute", bottom: 100, left: 32,
-              background: "rgba(232,86,58,0.9)", backdropFilter: "blur(6px)",
-              borderRadius: 8, padding: "8px 16px",
-              fontSize: 13, fontWeight: 700, color: "#fff",
-            }}>
-              Кейсы выпускников: рост дохода ×3–5
-            </div>
 
             {/* Подпись спикера */}
             <div style={{ position: "absolute", bottom: 40, left: 32 }}>
@@ -319,8 +308,13 @@ export default function TrendsA2026Page() {
               </div>
             </div>
 
-            <div style={{ fontSize: 12, color: "#555" }}>
+            <div style={{ fontSize: 12, color: "#555", marginBottom: 6 }}>
               Количество мест ограничено · Ссылка на эфир придёт в Telegram-бот
+            </div>
+            <div style={{ fontSize: 11, color: "#444", lineHeight: 1.9, maxWidth: 480 }}>
+              <a href="https://onlinerad.ru/privacy_policy" target="_blank" rel="noopener noreferrer" style={{ color: "#555", textDecoration: "underline" }}>Политика конфиденциальности</a>
+              <br />
+              <a href="https://radacademy.ru/consent_user" target="_blank" rel="noopener noreferrer" style={{ color: "#555", textDecoration: "underline" }}>Согласие на обработку персональных данных</a>
             </div>
           </div>
         </main>
@@ -353,23 +347,63 @@ export default function TrendsA2026Page() {
               Ссылка на эфир придёт после регистрации
             </div>
 
+            {/* Галочки согласий */}
+            <div style={{ textAlign: "left", marginBottom: 20, display: "flex", flexDirection: "column", gap: 10 }}>
+              <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
+                <input
+                  type="checkbox"
+                  checked={checkPrivacy}
+                  onChange={(e) => setCheckPrivacy(e.target.checked)}
+                  style={{ marginTop: 2, accentColor: ACCENT, width: 16, height: 16, flexShrink: 0 }}
+                />
+                <span style={{ fontSize: 12, color: "#888", lineHeight: 1.5 }}>
+                  Я ознакомился(-ась) с{" "}
+                  <a href="https://onlinerad.ru/privacy_policy" target="_blank" rel="noopener noreferrer" style={{ color: "#aaa", textDecoration: "underline" }}>
+                    Политикой конфиденциальности
+                  </a>
+                </span>
+              </label>
+              <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
+                <input
+                  type="checkbox"
+                  checked={checkConsent}
+                  onChange={(e) => setCheckConsent(e.target.checked)}
+                  style={{ marginTop: 2, accentColor: ACCENT, width: 16, height: 16, flexShrink: 0 }}
+                />
+                <span style={{ fontSize: 12, color: "#888", lineHeight: 1.5 }}>
+                  Я даю{" "}
+                  <a href="https://radacademy.ru/consent_user" target="_blank" rel="noopener noreferrer" style={{ color: "#aaa", textDecoration: "underline" }}>
+                    Согласие на обработку персональных данных
+                  </a>
+                </span>
+              </label>
+            </div>
+
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               <button
                 onClick={handleTg}
+                disabled={!checkPrivacy || !checkConsent}
                 style={{
-                  background: "#229ED9", color: "#fff", border: "none", borderRadius: 10,
-                  padding: "15px 20px", fontSize: 15, fontWeight: 700, cursor: "pointer",
+                  background: checkPrivacy && checkConsent ? "#229ED9" : "#333", color: checkPrivacy && checkConsent ? "#fff" : "#666",
+                  border: "none", borderRadius: 10,
+                  padding: "15px 20px", fontSize: 15, fontWeight: 700,
+                  cursor: checkPrivacy && checkConsent ? "pointer" : "not-allowed",
                   display: "flex", alignItems: "center", justifyContent: "center", gap: 10, fontFamily: FF,
+                  transition: "background 0.2s, color 0.2s",
                 }}
               >
                 <span style={{ fontSize: 20 }}>✈️</span> Зарегистрироваться через Telegram
               </button>
               <button
                 onClick={handleVk}
+                disabled={!checkPrivacy || !checkConsent}
                 style={{
-                  background: "#0077FF", color: "#fff", border: "none", borderRadius: 10,
-                  padding: "15px 20px", fontSize: 15, fontWeight: 700, cursor: "pointer",
+                  background: checkPrivacy && checkConsent ? "#0077FF" : "#333", color: checkPrivacy && checkConsent ? "#fff" : "#666",
+                  border: "none", borderRadius: 10,
+                  padding: "15px 20px", fontSize: 15, fontWeight: 700,
+                  cursor: checkPrivacy && checkConsent ? "pointer" : "not-allowed",
                   display: "flex", alignItems: "center", justifyContent: "center", gap: 10, fontFamily: FF,
+                  transition: "background 0.2s, color 0.2s",
                 }}
               >
                 <span style={{ fontSize: 20 }}>🔵</span> Зарегистрироваться через ВКонтакте
