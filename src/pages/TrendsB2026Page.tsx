@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 
 const LOGO_URL = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/91d703e7-36fb-4865-bdab-1bea39a75ee0.png";
-// Новое фото с белым/светлым фоном — убираем его через mix-blend-mode: luminosity + инверсия
-const SPEAKER_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/76ebfbca-61c1-4645-9780-979a171353c5.jpg";
+const SPEAKER_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/871ac838-40c9-4f5f-ab5d-2f119d76a250.jpg";
 
 const ACCENT = "#E8563A";
 const BG_DARK = "#111111";
@@ -19,8 +18,7 @@ const CSS = `
 .cta-pulse:hover { animation: none; background: #d0462c !important; }
 .pain-line { display: block; font-size: clamp(20px, 2.5vw, 38px); font-weight: 800; line-height: 1.2; letter-spacing: -0.02em; color: #fff; margin-bottom: 6px; }
 .speaker-photo {
-  mix-blend-mode: luminosity;
-  filter: contrast(1.08) brightness(0.92);
+  display: block;
 }
 `;
 
@@ -131,24 +129,15 @@ export default function TrendsB2026Page() {
         <main style={{ flex: 1, paddingBottom: 120 }}>
 
           {/* 1. БЛОК СПИКЕРА */}
-          <div style={{ position: "relative", background: "#0d0d0d", overflow: "hidden" }}>
-            {/* Акцентное свечение за фото */}
-            <div style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: 320, height: 320, background: "radial-gradient(circle, rgba(232,86,58,0.15) 0%, transparent 70%)", pointerEvents: "none", zIndex: 1 }} />
-            {/* Фото */}
-            <div style={{ position: "relative", zIndex: 2 }}>
-              <img
-                src={SPEAKER_PHOTO}
-                alt="Анна Симонова"
-                className="speaker-photo"
-                style={{ width: "100%", height: 380, objectFit: "cover", objectPosition: "top center", display: "block" }}
-              />
-              {/* Скрываем светлый фон внизу */}
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 120, background: "linear-gradient(to top, #0d0d0d 30%, transparent)" }} />
-              {/* Скрываем по краям */}
-              <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse at center top, transparent 40%, #0d0d0d 100%)" }} />
-            </div>
-            {/* Имя поверх */}
-            <div style={{ position: "relative", zIndex: 3, padding: "0 20px 28px" }}>
+          <div style={{ background: "#0d0d0d", padding: "24px 20px 0" }}>
+            {/* Фото целиком */}
+            <img
+              src={SPEAKER_PHOTO}
+              alt="Анна Симонова"
+              style={{ width: "100%", height: "auto", display: "block", borderRadius: 12, marginBottom: 20 }}
+            />
+            {/* Имя */}
+            <div style={{ padding: "0 0 28px" }}>
               <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", marginBottom: 3 }}>Анна Симонова</div>
               <div style={{ fontSize: 11, color: ACCENT, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", marginBottom: 20 }}>
                 Основатель RAD ACADEMY
@@ -227,36 +216,24 @@ export default function TrendsB2026Page() {
         <main style={{ flex: 1, display: "flex", flexDirection: "column" }}>
 
           {/* ── РЯД 1: СПИКЕР — ФОТО + РЕГАЛИИ ── */}
-          <div style={{ display: "flex", minHeight: "58vh", background: "#0d0d0d", position: "relative", overflow: "hidden" }}>
+          <div style={{ display: "flex", background: "#0d0d0d", alignItems: "stretch" }}>
 
-            {/* Фоновое свечение */}
-            <div style={{ position: "absolute", bottom: 0, left: "25%", width: 600, height: 500, background: "radial-gradient(ellipse, rgba(232,86,58,0.1) 0%, transparent 65%)", pointerEvents: "none", zIndex: 0 }} />
-
-            {/* Фото — левая часть, большое */}
-            <div style={{ width: "42%", flexShrink: 0, position: "relative", zIndex: 1 }}>
+            {/* Фото — левая часть, целиком без обрезки */}
+            <div style={{ width: "42%", flexShrink: 0, background: "#0d0d0d", display: "flex", alignItems: "center", justifyContent: "center", padding: "32px 0 32px 32px" }}>
               <img
                 src={SPEAKER_PHOTO}
                 alt="Анна Симонова"
-                className="speaker-photo"
                 style={{
                   width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  objectPosition: "center top",
+                  height: "auto",
                   display: "block",
-                  position: "absolute",
-                  inset: 0,
+                  borderRadius: 12,
                 }}
               />
-              {/* Убираем светлый фон фото — градиенты по всем краям */}
-              <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 90% 100% at 50% 0%, transparent 40%, #0d0d0d 100%)" }} />
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "35%", background: "linear-gradient(to top, #0d0d0d 20%, transparent)" }} />
-              <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "30%", background: "linear-gradient(to right, transparent, #0d0d0d)" }} />
-              <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "8%", background: "linear-gradient(to left, transparent, #0d0d0d)" }} />
             </div>
 
             {/* Регалии — правая часть */}
-            <div style={{ flex: 1, padding: "52px 56px 52px 24px", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", zIndex: 2 }}>
+            <div style={{ flex: 1, padding: "52px 56px 52px 48px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <div style={{ fontSize: "clamp(28px, 2.8vw, 44px)", fontWeight: 900, color: "#fff", lineHeight: 1.1, marginBottom: 8, letterSpacing: "-0.02em" }}>
                 Анна Симонова
               </div>
