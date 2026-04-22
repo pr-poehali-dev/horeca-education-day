@@ -49,8 +49,8 @@ function buildBotUrl(base: string) {
   return `${base}?start=${encodeURIComponent(startParam)}`;
 }
 
-const TG_BOT_BASE = "https://t.me/radacademy_bot";
-const VK_BOT_BASE = "https://vk.me/radacademy";
+const TG_BOT_BASE = "https://t.me/RADACADEMY_HELPER_bot?start=dl-1776843228851382c0b2f5";
+const VK_BOT_BASE = "https://vk.com/app6379730_-209389887#l=6&auto=1";
 
 const SPEAKER_CREDS = [
   "18 лет в коммерческом дизайне, более 100 реальных кейсов HoReCa по России и СНГ",
@@ -92,8 +92,22 @@ export default function TrendsB2026Page() {
     setShowModal(true);
   }
 
-  function handleTg() { window.open(buildBotUrl(TG_BOT_BASE), "_blank"); }
-  function handleVk() { window.open(buildBotUrl(VK_BOT_BASE), "_blank"); }
+  function handleTg() {
+    if (typeof window !== "undefined") {
+      const w = window as Window & { ym?: (id: unknown, a: string, g: string) => void; VK?: { Goal: (g: string) => void } };
+      if (w.ym) w.ym(undefined, "reachGoal", "tg_click");
+      if (w.VK) w.VK.Goal("lead");
+    }
+    window.open(TG_BOT_BASE, "_blank");
+  }
+  function handleVk() {
+    if (typeof window !== "undefined") {
+      const w = window as Window & { ym?: (id: unknown, a: string, g: string) => void; VK?: { Goal: (g: string) => void } };
+      if (w.ym) w.ym(undefined, "reachGoal", "vk_click");
+      if (w.VK) w.VK.Goal("purchase");
+    }
+    window.open(VK_BOT_BASE, "_blank");
+  }
 
   const canSubmit = checkPrivacy && checkConsent;
 
