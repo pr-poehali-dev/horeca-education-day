@@ -3,8 +3,8 @@ import { useState, useEffect, useRef } from "react";
 const SPEAKER_PHOTO = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/871ac838-40c9-4f5f-ab5d-2f119d76a250.jpg";
 const LOGO_URL = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/44a27379-1a68-407c-9292-41e3c0efbb68.png";
 
-const TG_URL = "https://t.me/RADACADEMY_HELPER_bot?start=dl-1776858800f2d9791d16e1";
-const VK_URL = "https://vk.com/app6379730_-209389887#l=8&auto=1";
+const TG_URL = "https://t.me/RADACADEMY_HELPER_bot?start=dl-1776878685cf23a694fe2d";
+const VK_URL = "https://vk.com/app6379730_-209389887#l=9&auto=1";
 
 const ACCENT = "#E8563A";
 const ACCENT2 = "#FF8F5C";
