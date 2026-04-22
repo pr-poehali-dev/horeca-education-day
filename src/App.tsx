@@ -14,6 +14,7 @@ const TrendsA2026Page = lazy(() => import("./pages/TrendsA2026Page"));
 const TrendsB2026Page = lazy(() => import("./pages/TrendsB2026Page"));
 const TrendsC2026Page = lazy(() => import("./pages/TrendsC2026Page"));
 const TrendsD2026Page = lazy(() => import("./pages/TrendsD2026Page"));
+const TrendsE2026Page = lazy(() => import("./pages/TrendsE2026Page"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/trendsb2026" element={<TrendsB2026Page />} />
             <Route path="/trendsc2026" element={<TrendsC2026Page />} />
             <Route path="/trendsd2026" element={<TrendsD2026Page />} />
+            <Route path="/trendse2026" element={<TrendsE2026Page />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

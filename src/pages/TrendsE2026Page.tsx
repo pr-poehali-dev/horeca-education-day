@@ -39,31 +39,18 @@ const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
   * { box-sizing: border-box; }
   body { margin: 0; }
-  .d-cta-btn { transition: transform 0.18s, box-shadow 0.18s, background 0.18s; }
-  .d-cta-btn:hover { transform: scale(1.025); box-shadow: 0 0 60px rgba(232,86,58,0.5) !important; background: linear-gradient(135deg,#D04A2F,#F07840) !important; }
-  .d-tg-btn { transition: background 0.18s, opacity 0.18s; }
-  .d-tg-btn:hover:not(:disabled) { background: #1a8ac5 !important; }
-  .d-vk-btn { transition: background 0.18s; }
-  .d-vk-btn:hover:not(:disabled) { background: #0060cc !important; }
-  @keyframes noise-anim {
-    0% { transform: translate(0,0); }
-    10% { transform: translate(-2%,-3%); }
-    20% { transform: translate(3%,2%); }
-    30% { transform: translate(-1%,4%); }
-    40% { transform: translate(2%,-2%); }
-    50% { transform: translate(-3%,1%); }
-    60% { transform: translate(1%,3%); }
-    70% { transform: translate(-2%,-1%); }
-    80% { transform: translate(3%,-3%); }
-    90% { transform: translate(-1%,2%); }
-    100% { transform: translate(0,0); }
-  }
-  @keyframes float1 { 0%,100%{transform:translateY(0) rotate(-5deg)} 50%{transform:translateY(-10px) rotate(3deg)} }
-  @keyframes float2 { 0%,100%{transform:translateY(0) rotate(8deg)} 50%{transform:translateY(-8px) rotate(-4deg)} }
-  @keyframes float3 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-12px) rotate(6deg)} }
-  @keyframes float4 { 0%,100%{transform:translateY(0) rotate(-8deg)} 50%{transform:translateY(-6px) rotate(2deg)} }
-  @keyframes timer-pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-  .timer-sep { animation: timer-pulse 1s infinite; }
+  .e-cta-btn { transition: transform 0.18s, box-shadow 0.18s, background 0.18s; }
+  .e-cta-btn:hover { transform: scale(1.025); box-shadow: 0 0 60px rgba(232,86,58,0.5) !important; background: linear-gradient(135deg,#D04A2F,#F07840) !important; }
+  .e-tg-btn { transition: background 0.18s, opacity 0.18s; }
+  .e-tg-btn:hover:not(:disabled) { background: #1a8ac5 !important; }
+  .e-vk-btn { transition: background 0.18s; }
+  .e-vk-btn:hover:not(:disabled) { background: #0060cc !important; }
+  @keyframes float1e { 0%,100%{transform:translateY(0) rotate(-5deg)} 50%{transform:translateY(-10px) rotate(3deg)} }
+  @keyframes float2e { 0%,100%{transform:translateY(0) rotate(8deg)} 50%{transform:translateY(-8px) rotate(-4deg)} }
+  @keyframes float3e { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-12px) rotate(6deg)} }
+  @keyframes float4e { 0%,100%{transform:translateY(0) rotate(-8deg)} 50%{transform:translateY(-6px) rotate(2deg)} }
+  @keyframes timer-pulse-e { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .timer-sep-e { animation: timer-pulse-e 1s infinite; }
 `;
 
 function Timer({ targetDate }: { targetDate: Date }) {
@@ -97,14 +84,14 @@ function Timer({ targetDate }: { targetDate: Date }) {
             <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", lineHeight: 1 }}>{b.val}</div>
             <div style={{ fontSize: 9, color: MUTED, marginTop: 3, textTransform: "uppercase", letterSpacing: "0.06em" }}>{b.label}</div>
           </div>
-          {i < 3 && <span className="timer-sep" style={{ color: ACCENT, fontWeight: 700, fontSize: 18 }}>:</span>}
+          {i < 3 && <span className="timer-sep-e" style={{ color: ACCENT, fontWeight: 700, fontSize: 18 }}>:</span>}
         </div>
       ))}
     </div>
   );
 }
 
-export default function TrendsD2026Page() {
+export default function TrendsE2026Page() {
   const [showModal, setShowModal] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [checkPrivacy, setCheckPrivacy] = useState(false);
@@ -163,10 +150,10 @@ export default function TrendsD2026Page() {
       {/* Noise texture */}
       <div style={{ position: "fixed", inset: 0, backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`, opacity: 0.03, pointerEvents: "none", zIndex: 0 }} />
 
-      {/* Dashed arc SVG decoration */}
+      {/* Dashed arc SVG decoration — зеркальные */}
       <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 1 }} viewBox="0 0 1440 900" preserveAspectRatio="none">
-        <path d="M 100 750 Q 400 300 800 200 Q 1100 100 1350 400" stroke={ACCENT} strokeWidth="1.5" strokeDasharray="6 10" fill="none" opacity="0.12" />
-        <path d="M 50 400 Q 300 600 600 650 Q 900 700 1200 500" stroke={ACCENT} strokeWidth="1" strokeDasharray="4 8" fill="none" opacity="0.08" />
+        <path d="M 1340 750 Q 1040 300 640 200 Q 340 100 90 400" stroke={ACCENT} strokeWidth="1.5" strokeDasharray="6 10" fill="none" opacity="0.12" />
+        <path d="M 1390 400 Q 1140 600 840 650 Q 540 700 240 500" stroke={ACCENT} strokeWidth="1" strokeDasharray="4 8" fill="none" opacity="0.08" />
       </svg>
 
       {/* ═══ TOP BAR ═══ */}
@@ -193,34 +180,10 @@ export default function TrendsD2026Page() {
 
       {/* ═══ MAIN ═══ */}
       {isMobile ? (
-        /* ═══ MOBILE ═══ */
+        /* ═══ MOBILE — начинаем с текста, затем фото ═══ */
         <main style={{ paddingBottom: 100, position: "relative", zIndex: 2 }}>
 
-          {/* Speaker photo */}
-          <div style={{ position: "relative", width: "100%", overflow: "hidden", height: 360 }}>
-            <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block" }} />
-            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 40, background: `linear-gradient(to bottom, ${BG}, transparent)` }} />
-            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 120, background: `linear-gradient(to top, ${BG}, transparent)` }} />
-
-            {/* Name tags */}
-            <div style={{ position: "absolute", bottom: 60, left: 20 }}>
-              <div style={{ background: "#C62828", borderRadius: 6, padding: "4px 12px", marginBottom: 4, display: "inline-block" }}>
-                <span style={{ fontSize: 18, fontWeight: 800, color: "#fff" }}>Анна</span>
-              </div>
-              <br />
-              <div style={{ background: "#C62828", borderRadius: 6, padding: "4px 12px", display: "inline-block" }}>
-                <span style={{ fontSize: 18, fontWeight: 800, color: "#fff" }}>Симонова</span>
-              </div>
-            </div>
-
-            {/* Badge */}
-            <div style={{ position: "absolute", bottom: 48, right: 20, width: 90, height: 90, borderRadius: "50%", background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)", border: "1px solid rgba(232,86,58,0.25)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", boxShadow: "0 0 20px rgba(232,86,58,0.15)" }}>
-              <span style={{ fontSize: 18, fontWeight: 800, color: "#fff", lineHeight: 1 }}>2000+</span>
-              <span style={{ fontSize: 7, color: MUTED, textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center", marginTop: 3, lineHeight: 1.3 }}>ВЫПУСКНИКОВ<br />АКАДЕМИИ</span>
-            </div>
-          </div>
-
-          {/* Offer block */}
+          {/* Offer block FIRST */}
           <div style={{ padding: "24px 20px 0" }}>
             {/* Label */}
             <div style={{ display: "inline-block", background: `linear-gradient(135deg,${ACCENT},${ACCENT2})`, borderRadius: 6, padding: "5px 14px", marginBottom: 10 }}>
@@ -260,68 +223,56 @@ export default function TrendsD2026Page() {
               <span style={{ color: "#fff" }}>Регистрируйтесь и получите <span style={{ color: ACCENT, fontWeight: 600 }}>2 бонуса:</span></span><br />
               Чек-лист «10 шагов к проектам мечты в HoReCa» + «10 каналов продаж»
             </div>
+          </div>
 
-            <div style={{ fontSize: 11, color: "#555", marginBottom: 8 }}>Ссылка на эфир придёт в Telegram-бот · Места ограничены</div>
+          {/* Speaker photo SECOND */}
+          <div style={{ position: "relative", width: "100%", overflow: "hidden", height: 360 }}>
+            <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block" }} />
+            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 60, background: `linear-gradient(to bottom, ${BG}, transparent)` }} />
+            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 120, background: `linear-gradient(to top, ${BG}, transparent)` }} />
+
+            {/* Name tags */}
+            <div style={{ position: "absolute", bottom: 60, left: 20 }}>
+              <div style={{ background: "#C62828", borderRadius: 6, padding: "4px 12px", marginBottom: 4, display: "inline-block" }}>
+                <span style={{ fontSize: 18, fontWeight: 800, color: "#fff" }}>Анна</span>
+              </div>
+              <br />
+              <div style={{ background: "#C62828", borderRadius: 6, padding: "4px 12px", display: "inline-block" }}>
+                <span style={{ fontSize: 18, fontWeight: 800, color: "#fff" }}>Симонова</span>
+              </div>
+            </div>
+
+            {/* Badge */}
+            <div style={{ position: "absolute", bottom: 48, right: 20, width: 90, height: 90, borderRadius: "50%", background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)", border: "1px solid rgba(232,86,58,0.25)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", boxShadow: "0 0 20px rgba(232,86,58,0.15)" }}>
+              <span style={{ fontSize: 18, fontWeight: 800, color: "#fff", lineHeight: 1 }}>2000+</span>
+              <span style={{ fontSize: 7, color: MUTED, textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center", marginTop: 3, lineHeight: 1.3 }}>ВЫПУСКНИКОВ<br />АКАДЕМИИ</span>
+            </div>
+          </div>
+
+          {/* Политика — после фото */}
+          <div style={{ padding: "16px 20px 0", display: "flex", flexDirection: "column", gap: 6 }}>
+            <a href="https://onlinerad.ru/privacy_policy" target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: "#555", textDecoration: "underline", fontFamily: FF }}>Политика конфиденциальности</a>
+            <a href="https://radacademy.ru/consent_user" target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: "#555", textDecoration: "underline", fontFamily: FF }}>Согласие на обработку персональных данных</a>
           </div>
 
           {/* Sticky CTA */}
           <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, padding: "12px 20px 16px", background: `linear-gradient(to top, ${BG} 60%, transparent)`, zIndex: 50 }}>
-            <button className="d-cta-btn" onClick={handleCTA} style={{ width: "100%", background: `linear-gradient(135deg,${ACCENT},${ACCENT2})`, color: "#fff", border: "none", borderRadius: 12, padding: "16px 20px", fontSize: 15, fontWeight: 800, cursor: "pointer", textTransform: "uppercase", letterSpacing: "0.08em", boxShadow: `0 0 40px rgba(232,86,58,0.3)` }}>
+            <button className="e-cta-btn" onClick={handleCTA} style={{ width: "100%", background: `linear-gradient(135deg,${ACCENT},${ACCENT2})`, color: "#fff", border: "none", borderRadius: 12, padding: "16px 20px", fontSize: 15, fontWeight: 800, cursor: "pointer", textTransform: "uppercase", letterSpacing: "0.08em", boxShadow: `0 0 40px rgba(232,86,58,0.3)` }}>
               Зарегистрироваться на эфир
             </button>
           </div>
         </main>
       ) : (
-        /* ═══ DESKTOP ═══ */
-        <main style={{ display: "grid", gridTemplateColumns: "45% 55%", minHeight: "calc(100vh - 80px)", position: "relative", zIndex: 2, maxWidth: 1440, margin: "0 auto" }}>
+        /* ═══ DESKTOP — текст слева, фото справа ═══ */
+        <main style={{ display: "grid", gridTemplateColumns: "55% 45%", minHeight: "calc(100vh - 80px)", position: "relative", zIndex: 2, maxWidth: 1440, margin: "0 auto" }}>
 
-          {/* ══ LEFT — SPEAKER ══ */}
-          <div style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "flex-end", overflow: "hidden" }}>
-
-            {/* Title role */}
-            <div style={{ position: "absolute", top: 32, left: 48, zIndex: 5 }}>
-              <span style={{ fontSize: 13, color: MUTED }}>— Основатель RAD ACADEMY</span>
-            </div>
-
-            {/* Photo */}
-            <div style={{ position: "absolute", inset: 0, top: 40 }}>
-              <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "35%", background: `linear-gradient(to top, ${BG}, transparent)` }} />
-              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "15%", background: `linear-gradient(to bottom, ${BG}, transparent)` }} />
-              <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "25%", background: `linear-gradient(to left, ${BG}, transparent)` }} />
-            </div>
-
-            {/* Name tags */}
-            <div style={{ position: "absolute", bottom: 180, left: 48, zIndex: 6 }}>
-              <div style={{ background: "#C62828", borderRadius: 7, padding: "5px 16px", marginBottom: 5, display: "inline-block" }}>
-                <span style={{ fontSize: 22, fontWeight: 800, color: "#fff" }}>Анна</span>
-              </div>
-              <br />
-              <div style={{ background: "#C62828", borderRadius: 7, padding: "5px 16px", display: "inline-block" }}>
-                <span style={{ fontSize: 22, fontWeight: 800, color: "#fff" }}>Симонова</span>
-              </div>
-              <div style={{ marginTop: 10, fontSize: 12, color: MUTED, lineHeight: 1.6 }}>
-                Практикующий дизайнер интерьеров<br />Специализация: HoReCa-объекты
-              </div>
-            </div>
-
-            {/* Badge */}
-            <div style={{ position: "absolute", bottom: 80, right: 60, width: 110, height: 110, borderRadius: "50%", background: "rgba(0,0,0,0.65)", backdropFilter: "blur(8px)", border: "1px solid rgba(232,86,58,0.2)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", zIndex: 6, boxShadow: "0 0 30px rgba(232,86,58,0.12)" }}>
-              <span style={{ fontSize: 22, fontWeight: 800, color: "#fff", lineHeight: 1 }}>2000+</span>
-              <span style={{ fontSize: 8, color: MUTED, textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center", marginTop: 4, lineHeight: 1.4 }}>ВЫПУСКНИКОВ<br />АКАДЕМИИ</span>
-            </div>
-
-            {/* 3D icon building */}
-            <div style={{ position: "absolute", top: "35%", right: 20, fontSize: 40, zIndex: 6, animation: "float3 5s ease-in-out infinite" }}>🏨</div>
-          </div>
-
-          {/* ══ RIGHT — OFFER ══ */}
-          <div style={{ padding: "40px 56px 48px 40px", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative" }}>
+          {/* ══ LEFT — OFFER ══ */}
+          <div style={{ padding: "40px 40px 48px 56px", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative" }}>
 
             {/* Decorative 3D icons */}
-            <div style={{ position: "absolute", top: 24, right: 80, fontSize: 36, animation: "float1 4s ease-in-out infinite" }}>📐</div>
-            <div style={{ position: "absolute", top: "38%", right: 24, fontSize: 34, animation: "float2 6s ease-in-out infinite" }}>🍴</div>
-            <div style={{ position: "absolute", bottom: 80, right: 56, fontSize: 30, animation: "float4 5.5s ease-in-out infinite" }}>💰</div>
+            <div style={{ position: "absolute", top: 24, left: 80, fontSize: 36, animation: "float1e 4s ease-in-out infinite" }}>📐</div>
+            <div style={{ position: "absolute", top: "38%", left: 24, fontSize: 34, animation: "float2e 6s ease-in-out infinite" }}>🍴</div>
+            <div style={{ position: "absolute", bottom: 80, left: 56, fontSize: 30, animation: "float4e 5.5s ease-in-out infinite" }}>💰</div>
 
             {/* Label */}
             <div style={{ marginBottom: 8 }}>
@@ -366,17 +317,62 @@ export default function TrendsD2026Page() {
             <Timer targetDate={targetDate} />
 
             {/* CTA button */}
-            <button className="d-cta-btn" onClick={handleCTA} style={{ alignSelf: "flex-start", background: `linear-gradient(135deg,${ACCENT},${ACCENT2})`, color: "#fff", border: "none", borderRadius: 14, padding: "17px 40px", fontSize: 16, fontWeight: 800, cursor: "pointer", textTransform: "uppercase", letterSpacing: "0.1em", boxShadow: `0 0 40px rgba(232,86,58,0.3)`, marginBottom: 14, display: "flex", alignItems: "center", gap: 10 }}>
+            <button className="e-cta-btn" onClick={handleCTA} style={{ alignSelf: "flex-start", background: `linear-gradient(135deg,${ACCENT},${ACCENT2})`, color: "#fff", border: "none", borderRadius: 14, padding: "17px 40px", fontSize: 16, fontWeight: 800, cursor: "pointer", textTransform: "uppercase", letterSpacing: "0.1em", boxShadow: `0 0 40px rgba(232,86,58,0.3)`, marginBottom: 14, display: "flex", alignItems: "center", gap: 10 }}>
               Зарегистрироваться на эфир
               <span style={{ fontSize: 18 }}>→</span>
             </button>
 
             {/* Bonus */}
-            <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.7, marginBottom: 6 }}>
+            <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.7, marginBottom: 12 }}>
               <span style={{ color: "#fff" }}>Регистрируйтесь и получите <span style={{ color: ACCENT, fontWeight: 600 }}>2 бонуса:</span></span><br />
               Чек-лист «10 шагов к проектам мечты в HoReCa» + «10 каналов продаж для дизайнера»
             </div>
-            <div style={{ fontSize: 11, color: "#555" }}>Ссылка на эфир придёт в Telegram-бот · Места ограничены</div>
+
+            {/* Политика */}
+            <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+              <a href="https://onlinerad.ru/privacy_policy" target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: "#555", textDecoration: "underline", fontFamily: FF }}>Политика конфиденциальности</a>
+              <a href="https://radacademy.ru/consent_user" target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: "#555", textDecoration: "underline", fontFamily: FF }}>Согласие на обработку персональных данных</a>
+            </div>
+          </div>
+
+          {/* ══ RIGHT — SPEAKER ══ */}
+          <div style={{ position: "relative", display: "flex", flexDirection: "column", justifyContent: "flex-end", overflow: "hidden" }}>
+
+            {/* Title role */}
+            <div style={{ position: "absolute", top: 32, right: 48, zIndex: 5 }}>
+              <span style={{ fontSize: 13, color: MUTED }}>Основатель RAD ACADEMY —</span>
+            </div>
+
+            {/* Photo */}
+            <div style={{ position: "absolute", inset: 0, top: 40 }}>
+              <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "35%", background: `linear-gradient(to top, ${BG}, transparent)` }} />
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "15%", background: `linear-gradient(to bottom, ${BG}, transparent)` }} />
+              <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "25%", background: `linear-gradient(to right, ${BG}, transparent)` }} />
+            </div>
+
+            {/* Name tags */}
+            <div style={{ position: "absolute", bottom: 180, right: 48, zIndex: 6, textAlign: "right" }}>
+              <div style={{ background: "#C62828", borderRadius: 7, padding: "5px 16px", marginBottom: 5, display: "inline-block" }}>
+                <span style={{ fontSize: 22, fontWeight: 800, color: "#fff" }}>Анна</span>
+              </div>
+              <br />
+              <div style={{ background: "#C62828", borderRadius: 7, padding: "5px 16px", display: "inline-block" }}>
+                <span style={{ fontSize: 22, fontWeight: 800, color: "#fff" }}>Симонова</span>
+              </div>
+              <div style={{ marginTop: 10, fontSize: 12, color: MUTED, lineHeight: 1.6, textAlign: "right" }}>
+                Практикующий дизайнер интерьеров<br />Специализация: HoReCa-объекты
+              </div>
+            </div>
+
+            {/* Badge */}
+            <div style={{ position: "absolute", bottom: 80, left: 60, width: 110, height: 110, borderRadius: "50%", background: "rgba(0,0,0,0.65)", backdropFilter: "blur(8px)", border: "1px solid rgba(232,86,58,0.2)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", zIndex: 6, boxShadow: "0 0 30px rgba(232,86,58,0.12)" }}>
+              <span style={{ fontSize: 22, fontWeight: 800, color: "#fff", lineHeight: 1 }}>2000+</span>
+              <span style={{ fontSize: 8, color: MUTED, textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center", marginTop: 4, lineHeight: 1.4 }}>ВЫПУСКНИКОВ<br />АКАДЕМИИ</span>
+            </div>
+
+            {/* 3D icon */}
+            <div style={{ position: "absolute", top: "35%", left: 20, fontSize: 40, zIndex: 6, animation: "float3e 5s ease-in-out infinite" }}>🏨</div>
           </div>
         </main>
       )}
@@ -389,7 +385,6 @@ export default function TrendsD2026Page() {
             <div style={{ fontSize: isMobile ? 18 : 22, fontWeight: 700, marginBottom: 8, color: "#fff" }}>
               Выберите удобный способ<br />регистрации на эфир
             </div>
-            <div style={{ fontSize: 13, color: "#555", marginBottom: 24 }}>Ссылка на эфир придёт после регистрации</div>
 
             {/* Checkboxes */}
             <div style={{ textAlign: "left", marginBottom: 20, display: "flex", flexDirection: "column", gap: 10 }}>
@@ -410,10 +405,10 @@ export default function TrendsD2026Page() {
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <button className="d-tg-btn" onClick={() => { if (!canSubmit) { setShowConsentError(true); return; } handleTg(); }} style={{ background: canSubmit ? "#229ED9" : "#2a2a2a", color: canSubmit ? "#fff" : "#555", border: "none", borderRadius: 10, padding: "15px 20px", fontSize: 15, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, fontFamily: FF, transition: "background 0.2s, color 0.2s" }}>
+              <button className="e-tg-btn" onClick={() => { if (!canSubmit) { setShowConsentError(true); return; } handleTg(); }} style={{ background: canSubmit ? "#229ED9" : "#2a2a2a", color: canSubmit ? "#fff" : "#555", border: "none", borderRadius: 10, padding: "15px 20px", fontSize: 15, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, fontFamily: FF, transition: "background 0.2s, color 0.2s" }}>
                 <span style={{ fontSize: 20 }}>✈️</span> Зарегистрироваться через Telegram
               </button>
-              <button className="d-vk-btn" onClick={() => { if (!canSubmit) { setShowConsentError(true); return; } handleVk(); }} style={{ background: canSubmit ? "#0077FF" : "#2a2a2a", color: canSubmit ? "#fff" : "#555", border: "none", borderRadius: 10, padding: "15px 20px", fontSize: 15, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, fontFamily: FF, transition: "background 0.2s, color 0.2s" }}>
+              <button className="e-vk-btn" onClick={() => { if (!canSubmit) { setShowConsentError(true); return; } handleVk(); }} style={{ background: canSubmit ? "#0077FF" : "#2a2a2a", color: canSubmit ? "#fff" : "#555", border: "none", borderRadius: 10, padding: "15px 20px", fontSize: 15, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10, fontFamily: FF, transition: "background 0.2s, color 0.2s" }}>
                 <span style={{ fontSize: 20 }}>🔵</span> Зарегистрироваться через ВКонтакте
               </button>
               {showConsentError && (
