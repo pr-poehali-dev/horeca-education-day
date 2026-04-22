@@ -262,6 +262,9 @@ export default function TrendsD2026Page() {
             </div>
 
             <div style={{ fontSize: 11, color: "#555", marginBottom: 8 }}>Ссылка на эфир придёт в Telegram-бот · Места ограничены</div>
+            <div style={{ fontSize: 11, color: "#444", lineHeight: 1.7, marginTop: 4 }}>
+              ИП Вылегжанина А.С. · ОГРНИП 309504516000011 · ИНН 504507471939 · mail@onlinerad.ru
+            </div>
           </div>
 
           {/* Sticky CTA */}
@@ -377,6 +380,9 @@ export default function TrendsD2026Page() {
               Чек-лист «10 шагов к проектам мечты в HoReCa» + «10 каналов продаж для дизайнера»
             </div>
             <div style={{ fontSize: 11, color: "#555" }}>Ссылка на эфир придёт в Telegram-бот · Места ограничены</div>
+            <div style={{ fontSize: 11, color: "#444", lineHeight: 1.7, marginTop: 8 }}>
+              ИП Вылегжанина А.С. · ОГРНИП 309504516000011 · ИНН 504507471939 · mail@onlinerad.ru
+            </div>
           </div>
         </main>
       )}

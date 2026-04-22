@@ -224,6 +224,9 @@ export default function TrendsB2026Page() {
               <div style={{ fontSize: 34, fontWeight: 900, color: ACCENT, letterSpacing: "-0.02em", lineHeight: 1 }}>до 1 500 000 ₽</div>
               <div style={{ fontSize: 17, fontWeight: 700, color: "#fff", marginTop: 20 }}>Те же навыки. Другой рынок.</div>
             </div>
+            <div style={{ fontSize: 11, color: "#444", lineHeight: 1.7, marginTop: 16, position: "relative", zIndex: 1 }}>
+              ИП Вылегжанина А.С. · ОГРНИП 309504516000011 · ИНН 504507471939 · mail@onlinerad.ru
+            </div>
           </div>
 
           {/* Sticky кнопка */}
@@ -310,6 +313,9 @@ export default function TrendsB2026Page() {
               Места ограничены · Ссылка на эфир придёт в Telegram-бот
             </div>
             {LEGAL_LINKS}
+            <div style={{ fontSize: 11, color: "#444", lineHeight: 1.7, marginTop: 8 }}>
+              ИП Вылегжанина А.С. · ОГРНИП 309504516000011 · ИНН 504507471939 · mail@onlinerad.ru
+            </div>
           </div>
 
           {/* ── РЯД 3: ДВУХЗОННЫЙ БЛОК ЗНАКОМО / А МОЖНО ТАК ── */}

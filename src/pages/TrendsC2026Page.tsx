@@ -275,6 +275,9 @@ export default function TrendsC2026Page() {
               Места ограничены · Ссылка на эфир придёт в Telegram-бот
             </div>
             <div style={{ marginTop: 8 }}>{LEGAL_LINKS(true)}</div>
+            <div style={{ fontSize: 11, color: "#444", lineHeight: 1.7, marginTop: 8 }}>
+              ИП Вылегжанина А.С. · ОГРНИП 309504516000011 · ИНН 504507471939 · mail@onlinerad.ru
+            </div>
           </div>
 
           {/* STICKY КНОПКА */}
@@ -356,6 +359,9 @@ export default function TrendsC2026Page() {
               Места ограничены · Ссылка на эфир придёт в Telegram-бот
             </div>
             {LEGAL_LINKS(false)}
+            <div style={{ fontSize: 11, color: "#444", lineHeight: 1.7, marginTop: 8 }}>
+              ИП Вылегжанина А.С. · ОГРНИП 309504516000011 · ИНН 504507471939 · mail@onlinerad.ru
+            </div>
           </div>
         </main>
       )}

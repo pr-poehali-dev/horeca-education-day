@@ -202,6 +202,9 @@ export default function TrendsA2026Page() {
               <br />
               <a href="https://radacademy.ru/consent_user" target="_blank" rel="noopener noreferrer" style={{ color: "#555", textDecoration: "underline" }}>Согласие на обработку персональных данных</a>
             </div>
+            <div style={{ fontSize: 11, color: "#444", textAlign: "center", lineHeight: 1.7, paddingBottom: 16 }}>
+              ИП Вылегжанина А.С. · ОГРНИП 309504516000011 · ИНН 504507471939 · mail@onlinerad.ru
+            </div>
           </div>
 
           {/* Sticky кнопка */}
@@ -343,6 +346,9 @@ export default function TrendsA2026Page() {
               <a href="https://onlinerad.ru/privacy_policy" target="_blank" rel="noopener noreferrer" style={{ color: "#555", textDecoration: "underline" }}>Политика конфиденциальности</a>
               <br />
               <a href="https://radacademy.ru/consent_user" target="_blank" rel="noopener noreferrer" style={{ color: "#555", textDecoration: "underline" }}>Согласие на обработку персональных данных</a>
+            </div>
+            <div style={{ fontSize: 11, color: "#444", lineHeight: 1.7, marginTop: 8 }}>
+              ИП Вылегжанина А.С. · ОГРНИП 309504516000011 · ИНН 504507471939 · mail@onlinerad.ru
             </div>
           </div>
         </main>

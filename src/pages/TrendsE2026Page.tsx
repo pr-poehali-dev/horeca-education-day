@@ -253,6 +253,9 @@ export default function TrendsE2026Page() {
           <div style={{ padding: "16px 20px 0", display: "flex", flexDirection: "column", gap: 6 }}>
             <a href="https://onlinerad.ru/privacy_policy" target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: "#555", textDecoration: "underline", fontFamily: FF }}>Политика конфиденциальности</a>
             <a href="https://radacademy.ru/consent_user" target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: "#555", textDecoration: "underline", fontFamily: FF }}>Согласие на обработку персональных данных</a>
+            <div style={{ fontSize: 11, color: "#444", lineHeight: 1.7, marginTop: 4 }}>
+              ИП Вылегжанина А.С. · ОГРНИП 309504516000011 · ИНН 504507471939 · mail@onlinerad.ru
+            </div>
           </div>
 
           {/* Sticky CTA */}
@@ -332,6 +335,9 @@ export default function TrendsE2026Page() {
             <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
               <a href="https://onlinerad.ru/privacy_policy" target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: "#555", textDecoration: "underline", fontFamily: FF }}>Политика конфиденциальности</a>
               <a href="https://radacademy.ru/consent_user" target="_blank" rel="noopener noreferrer" style={{ fontSize: 11, color: "#555", textDecoration: "underline", fontFamily: FF }}>Согласие на обработку персональных данных</a>
+            </div>
+            <div style={{ fontSize: 11, color: "#444", lineHeight: 1.7, marginTop: 8 }}>
+              ИП Вылегжанина А.С. · ОГРНИП 309504516000011 · ИНН 504507471939 · mail@onlinerad.ru
             </div>
           </div>
 
