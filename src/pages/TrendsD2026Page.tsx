@@ -137,11 +137,12 @@ export default function TrendsD2026Page() {
     return () => { document.head.removeChild(link); };
   }, []);
 
-  function track(goal: string, vkGoal: string) {
+  function track(goal: string, tmrGoalName: string) {
     if (typeof window !== "undefined") {
-      const w = window as Window & { ym?: (id: unknown, a: string, g: string) => void; VK?: { Goal: (g: string) => void } };
+      const w = window as Window & { ym?: (id: unknown, a: string, g: string) => void };
       if (w.ym) w.ym(undefined, "reachGoal", goal);
-      if (w.VK) w.VK.Goal(vkGoal);
+      const tmr = (window as unknown as Record<string, unknown[]>)['_tmr'];
+      if (Array.isArray(tmr)) tmr.push({ id: "3761153", type: "reachGoal", goal: tmrGoalName });
     }
   }
 

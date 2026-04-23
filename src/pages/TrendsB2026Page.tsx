@@ -92,28 +92,33 @@ export default function TrendsB2026Page() {
     return () => { document.head.removeChild(link); };
   }, []);
 
+  function tmrGoal(goal: string) {
+    const tmr = (window as unknown as Record<string, unknown[]>)['_tmr'];
+    if (Array.isArray(tmr)) tmr.push({ id: "3761153", type: "reachGoal", goal });
+  }
+
   function handleCTA() {
     if (typeof window !== "undefined") {
-      const w = window as Window & { ym?: (id: unknown, action: string, goal: string) => void; VK?: { Goal: (g: string) => void } };
+      const w = window as Window & { ym?: (id: unknown, action: string, goal: string) => void };
       if (w.ym) w.ym(undefined, "reachGoal", "cta_click");
-      if (w.VK) w.VK.Goal("conversion");
+      tmrGoal("conversion");
     }
     setShowModal(true);
   }
 
   function handleTg() {
     if (typeof window !== "undefined") {
-      const w = window as Window & { ym?: (id: unknown, a: string, g: string) => void; VK?: { Goal: (g: string) => void } };
+      const w = window as Window & { ym?: (id: unknown, a: string, g: string) => void };
       if (w.ym) w.ym(undefined, "reachGoal", "tg_click");
-      if (w.VK) w.VK.Goal("lead");
+      tmrGoal("lead");
     }
     window.open(TG_BOT_BASE, "_blank");
   }
   function handleVk() {
     if (typeof window !== "undefined") {
-      const w = window as Window & { ym?: (id: unknown, a: string, g: string) => void; VK?: { Goal: (g: string) => void } };
+      const w = window as Window & { ym?: (id: unknown, a: string, g: string) => void };
       if (w.ym) w.ym(undefined, "reachGoal", "vk_click");
-      if (w.VK) w.VK.Goal("purchase");
+      tmrGoal("purchase");
     }
     window.open(VK_BOT_BASE, "_blank");
   }
