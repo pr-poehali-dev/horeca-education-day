@@ -158,11 +158,11 @@ export default function TrendsA2026Page() {
           </div>
 
           {/* Фото — вписано в блок с градиентом */}
-          <div style={{ position: "relative", width: "100%", height: 340, overflow: "hidden" }}>
+          <div style={{ position: "relative", width: "100%" }}>
             <img
               src={SPEAKER_PHOTO}
               alt="Анна Симонова"
-              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block" }}
+              style={{ width: "100%", height: "auto", display: "block" }}
             />
             {/* Градиент сверху — вливается в фон */}
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 60, background: `linear-gradient(to bottom, ${BG}, transparent)` }} />

@@ -149,12 +149,12 @@ export default function TrendsB2026Page() {
 
           {/* 1. БЛОК СПИКЕРА */}
           <div style={{ background: "#0d0d0d", padding: "24px 20px 0" }}>
-            {/* Фото — обрезано сверху, показываем с уровня головы */}
-            <div style={{ width: "100%", overflow: "hidden", borderRadius: 12, marginBottom: 20, maxHeight: 340 }}>
+            {/* Фото — полностью */}
+            <div style={{ width: "100%", borderRadius: 12, marginBottom: 20 }}>
               <img
                 src={SPEAKER_PHOTO}
                 alt="Анна Симонова"
-                style={{ width: "100%", height: "auto", display: "block", marginTop: "-8%" }}
+                style={{ width: "100%", height: "auto", display: "block", borderRadius: 12 }}
               />
             </div>
 

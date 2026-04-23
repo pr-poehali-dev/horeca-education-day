@@ -232,8 +232,8 @@ export default function TrendsC2026Page() {
 
           {/* СПИКЕР */}
           <div style={{ margin: "0 0 24px", background: `rgba(27,58,92,0.05)`, padding: "24px 20px", textAlign: "center" }}>
-            <div style={{ width: "min(220px, 60vw)", height: "min(220px, 60vw)", borderRadius: "50%", border: `3px solid ${GOLD}`, overflow: "hidden", margin: "0 auto 16px" }}>
-              <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
+            <div style={{ width: "min(280px, 80vw)", margin: "0 auto 16px", borderRadius: 16, border: `3px solid ${GOLD}`, overflow: "hidden" }}>
+              <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "auto", display: "block" }} />
             </div>
             <div style={{ fontSize: 17, fontWeight: 700, color: TEXT, marginBottom: 4 }}>Анна Симонова</div>
             <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.5 }}>Основатель RAD ACADEMY<br />Практикующий дизайнер интерьеров</div>

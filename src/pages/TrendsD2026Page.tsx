@@ -197,13 +197,15 @@ export default function TrendsD2026Page() {
         <main style={{ paddingBottom: 100, position: "relative", zIndex: 2 }}>
 
           {/* Speaker photo */}
-          <div style={{ position: "relative", width: "100%", overflow: "hidden", height: 360 }}>
-            <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block" }} />
+          <div style={{ position: "relative", width: "100%" }}>
+            <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "auto", display: "block" }} />
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 40, background: `linear-gradient(to bottom, ${BG}, transparent)` }} />
-            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 120, background: `linear-gradient(to top, ${BG}, transparent)` }} />
+            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 80, background: `linear-gradient(to top, ${BG}, transparent)` }} />
+          </div>
 
-            {/* Name tags */}
-            <div style={{ position: "absolute", bottom: 60, left: 20 }}>
+          {/* Name tags + Badge */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px 0" }}>
+            <div>
               <div style={{ background: "#C62828", borderRadius: 6, padding: "4px 12px", marginBottom: 4, display: "inline-block" }}>
                 <span style={{ fontSize: 18, fontWeight: 800, color: "#fff" }}>Анна</span>
               </div>
@@ -212,9 +214,7 @@ export default function TrendsD2026Page() {
                 <span style={{ fontSize: 18, fontWeight: 800, color: "#fff" }}>Симонова</span>
               </div>
             </div>
-
-            {/* Badge */}
-            <div style={{ position: "absolute", bottom: 48, right: 20, width: 90, height: 90, borderRadius: "50%", background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)", border: "1px solid rgba(232,86,58,0.25)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", boxShadow: "0 0 20px rgba(232,86,58,0.15)" }}>
+            <div style={{ width: 90, height: 90, borderRadius: "50%", background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)", border: "1px solid rgba(232,86,58,0.25)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", boxShadow: "0 0 20px rgba(232,86,58,0.15)" }}>
               <span style={{ fontSize: 18, fontWeight: 800, color: "#fff", lineHeight: 1 }}>2000+</span>
               <span style={{ fontSize: 7, color: MUTED, textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center", marginTop: 3, lineHeight: 1.3 }}>ВЫПУСКНИКОВ<br />АКАДЕМИИ</span>
             </div>
