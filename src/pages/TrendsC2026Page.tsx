@@ -130,6 +130,15 @@ export default function TrendsC2026Page() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = SPEAKER_PHOTO;
+    document.head.appendChild(link);
+    return () => { document.head.removeChild(link); };
+  }, []);
+
   function handleCTA() {
     if (typeof window !== "undefined") {
       const w = window as Window & { ym?: (id: unknown, a: string, g: string) => void; VK?: { Goal: (g: string) => void } };
@@ -173,7 +182,7 @@ export default function TrendsC2026Page() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <img src={LOGO_URL} alt="RAD ACADEMY"
-                style={{ height: 20, filter: "invert(18%) sepia(60%) saturate(500%) hue-rotate(185deg) brightness(50%)" }} />
+                style={{ height: 20, filter: "invert(18%) sepia(60%) saturate(500%) hue-rotate(185deg) brightness(50%)" }} loading="lazy" decoding="async" />
               <div style={{
                 display: "flex", alignItems: "center", gap: 6,
                 background: `rgba(196,149,106,0.13)`,
@@ -193,7 +202,7 @@ export default function TrendsC2026Page() {
         ) : (
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <img src={LOGO_URL} alt="RAD ACADEMY"
-              style={{ height: 26, filter: "invert(18%) sepia(60%) saturate(500%) hue-rotate(185deg) brightness(50%)" }} />
+              style={{ height: 26, filter: "invert(18%) sepia(60%) saturate(500%) hue-rotate(185deg) brightness(50%)" }} loading="lazy" decoding="async" />
             <div style={{
               display: "flex", alignItems: "center", gap: 7,
               background: `rgba(196,149,106,0.13)`,
@@ -233,7 +242,7 @@ export default function TrendsC2026Page() {
           {/* СПИКЕР */}
           <div style={{ margin: "0 0 24px", background: `rgba(27,58,92,0.05)`, padding: "24px 20px", textAlign: "center" }}>
             <div style={{ width: "min(280px, 80vw)", margin: "0 auto 16px", borderRadius: 16, border: `3px solid ${GOLD}`, overflow: "hidden" }}>
-              <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "auto", display: "block" }} />
+              <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "auto", display: "block" }} fetchPriority="high" decoding="async" />
             </div>
             <div style={{ fontSize: 17, fontWeight: 700, color: TEXT, marginBottom: 4 }}>Анна Симонова</div>
             <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.5 }}>Основатель RAD ACADEMY<br />Практикующий дизайнер интерьеров</div>
@@ -309,7 +318,7 @@ export default function TrendsC2026Page() {
           {/* СПИКЕР */}
           <div style={{ background: `rgba(27,58,92,0.05)`, borderRadius: 12, padding: "28px 36px", display: "flex", alignItems: "center", gap: 28, marginBottom: 36, maxWidth: 620, margin: "0 auto 36px" }}>
             <div style={{ flexShrink: 0, width: 160, height: 160, borderRadius: "50%", border: `3px solid ${GOLD}`, overflow: "hidden" }}>
-              <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
+              <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} fetchPriority="high" decoding="async" />
             </div>
             <div>
               <div style={{ fontSize: 20, fontWeight: 700, color: TEXT, marginBottom: 6 }}>Анна Симонова</div>

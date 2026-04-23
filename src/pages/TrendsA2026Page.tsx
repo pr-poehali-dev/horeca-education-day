@@ -74,6 +74,15 @@ export default function TrendsA2026Page() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = SPEAKER_PHOTO;
+    document.head.appendChild(link);
+    return () => { document.head.removeChild(link); };
+  }, []);
+
   function handleCTA() {
     if (typeof window !== "undefined") {
       const w = window as Window & { ym?: (id: unknown, action: string, goal: string) => void; VK?: { Goal: (g: string) => void } };
@@ -113,7 +122,7 @@ export default function TrendsA2026Page() {
         {isMobile ? (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: 20, filter: "invert(1)" }} />
+              <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: 20, filter: "invert(1)" }} loading="lazy" decoding="async" />
               <div style={{
                 display: "flex", alignItems: "center", gap: 6,
                 background: "rgba(232,86,58,0.12)", border: "1px solid rgba(232,86,58,0.35)",
@@ -131,7 +140,7 @@ export default function TrendsA2026Page() {
           </div>
         ) : (
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: 28, filter: "invert(1)" }} />
+            <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: 28, filter: "invert(1)" }} loading="lazy" decoding="async" />
             <div style={{
               display: "flex", alignItems: "center", gap: 8,
               background: "rgba(232,86,58,0.12)", border: "1px solid rgba(232,86,58,0.35)",
@@ -163,6 +172,8 @@ export default function TrendsA2026Page() {
               src={SPEAKER_PHOTO}
               alt="Анна Симонова"
               style={{ width: "100%", height: "auto", display: "block" }}
+              fetchPriority="high"
+              decoding="async"
             />
             {/* Градиент сверху — вливается в фон */}
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 60, background: `linear-gradient(to bottom, ${BG}, transparent)` }} />
@@ -245,6 +256,8 @@ export default function TrendsA2026Page() {
                 objectFit: "cover", objectPosition: "top center",
                 display: "block",
               }}
+              fetchPriority="high"
+              decoding="async"
             />
             {/* Градиент сверху — вливается в шапку */}
             <div style={{

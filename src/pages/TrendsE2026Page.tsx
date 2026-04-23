@@ -115,6 +115,15 @@ export default function TrendsE2026Page() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = SPEAKER_PHOTO;
+    document.head.appendChild(link);
+    return () => { document.head.removeChild(link); };
+  }, []);
+
   function track(goal: string, vkGoal: string) {
     if (typeof window !== "undefined") {
       const w = window as Window & { ym?: (id: unknown, a: string, g: string) => void; VK?: { Goal: (g: string) => void } };
@@ -163,7 +172,7 @@ export default function TrendsE2026Page() {
         display: "flex", alignItems: "center", justifyContent: "space-between",
         borderBottom: "1px solid rgba(255,255,255,0.06)",
       }}>
-        <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: isMobile ? 20 : 28, filter: "invert(1)" }} />
+        <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: isMobile ? 20 : 28, filter: "invert(1)" }} loading="lazy" decoding="async" />
 
         {/* Date block */}
         <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 8 : 12 }}>
@@ -227,7 +236,7 @@ export default function TrendsE2026Page() {
 
           {/* Speaker photo SECOND */}
           <div style={{ position: "relative", width: "100%" }}>
-            <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "auto", display: "block" }} />
+            <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "auto", display: "block" }} fetchPriority="high" decoding="async" />
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 60, background: `linear-gradient(to bottom, ${BG}, transparent)` }} />
             <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 80, background: `linear-gradient(to top, ${BG}, transparent)` }} />
           </div>
@@ -351,7 +360,7 @@ export default function TrendsE2026Page() {
 
             {/* Photo */}
             <div style={{ position: "absolute", inset: 0, top: 40 }}>
-              <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
+              <img src={SPEAKER_PHOTO} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} fetchPriority="high" decoding="async" />
               <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "35%", background: `linear-gradient(to top, ${BG}, transparent)` }} />
               <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "15%", background: `linear-gradient(to bottom, ${BG}, transparent)` }} />
               <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "25%", background: `linear-gradient(to right, ${BG}, transparent)` }} />

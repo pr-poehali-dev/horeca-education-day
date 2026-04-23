@@ -83,6 +83,15 @@ export default function TrendsB2026Page() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = SPEAKER_PHOTO;
+    document.head.appendChild(link);
+    return () => { document.head.removeChild(link); };
+  }, []);
+
   function handleCTA() {
     if (typeof window !== "undefined") {
       const w = window as Window & { ym?: (id: unknown, action: string, goal: string) => void; VK?: { Goal: (g: string) => void } };
@@ -125,7 +134,7 @@ export default function TrendsB2026Page() {
         {isMobile ? (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: 20, filter: "invert(1)" }} />
+              <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: 20, filter: "invert(1)" }} loading="lazy" decoding="async" />
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "rgba(232,86,58,0.12)", border: "1px solid rgba(232,86,58,0.35)", borderRadius: 40, padding: "4px 12px", fontSize: 11, fontWeight: 600, color: ACCENT, letterSpacing: "0.04em" }}>
                 <span style={{ fontSize: 7 }}>●</span> Бесплатный эфир
               </span>
@@ -138,7 +147,7 @@ export default function TrendsB2026Page() {
           </div>
         ) : (
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: 26, filter: "invert(1)" }} />
+            <img src={LOGO_URL} alt="RAD ACADEMY" style={{ height: 26, filter: "invert(1)" }} loading="lazy" decoding="async" />
           </div>
         )}
       </header>
@@ -155,6 +164,8 @@ export default function TrendsB2026Page() {
                 src={SPEAKER_PHOTO}
                 alt="Анна Симонова"
                 style={{ width: "100%", height: "auto", display: "block", borderRadius: 12 }}
+                fetchPriority="high"
+                decoding="async"
               />
             </div>
 
@@ -255,6 +266,8 @@ export default function TrendsB2026Page() {
                     display: "block",
                     marginTop: "-10%",
                   }}
+                  fetchPriority="high"
+                  decoding="async"
                 />
               </div>
             </div>
