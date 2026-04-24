@@ -395,47 +395,11 @@ export default function TrendsA2026Page() {
             <div style={{ fontSize: isMobile ? 18 : 22, fontWeight: 700, marginBottom: 8, color: "#fff" }}>
               Выберите удобный способ<br />регистрации на эфир
             </div>
-            <div style={{ fontSize: 13, color: "#666", marginBottom: 28 }}>
-              Ссылка на эфир придёт после регистрации
-            </div>
-
-            {/* Галочки согласий */}
-            <div style={{ textAlign: "left", marginBottom: 20, display: "flex", flexDirection: "column", gap: 10 }}>
-              <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
-                <input
-                  type="checkbox"
-                  checked={checkPrivacy}
-                  onChange={(e) => { setCheckPrivacy(e.target.checked); setShowConsentError(false); }}
-                  style={{ marginTop: 2, accentColor: ACCENT, width: 16, height: 16, flexShrink: 0 }}
-                />
-                <span style={{ fontSize: 12, color: "#888", lineHeight: 1.5 }}>
-                  Я ознакомился(-ась) с{" "}
-                  <a href="https://onlinerad.ru/privacy_policy" target="_blank" rel="noopener noreferrer" style={{ color: "#aaa", textDecoration: "underline" }}>
-                    Политикой конфиденциальности
-                  </a>
-                </span>
-              </label>
-              <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer" }}>
-                <input
-                  type="checkbox"
-                  checked={checkConsent}
-                  onChange={(e) => { setCheckConsent(e.target.checked); setShowConsentError(false); }}
-                  style={{ marginTop: 2, accentColor: ACCENT, width: 16, height: 16, flexShrink: 0 }}
-                />
-                <span style={{ fontSize: 12, color: "#888", lineHeight: 1.5 }}>
-                  Я даю{" "}
-                  <a href="https://radacademy.ru/consent_user" target="_blank" rel="noopener noreferrer" style={{ color: "#aaa", textDecoration: "underline" }}>
-                    Согласие на обработку персональных данных
-                  </a>
-                </span>
-              </label>
-            </div>
-
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               <button
-                onClick={() => { if (!checkPrivacy || !checkConsent) { setShowConsentError(true); return; } handleTg(); }}
+                onClick={() => handleTg()}
                 style={{
-                  background: checkPrivacy && checkConsent ? "#229ED9" : "#333", color: checkPrivacy && checkConsent ? "#fff" : "#666",
+                  background: "#229ED9", color: "#fff",
                   border: "none", borderRadius: 10,
                   padding: "15px 20px", fontSize: 15, fontWeight: 700,
                   cursor: "pointer",
@@ -446,9 +410,9 @@ export default function TrendsA2026Page() {
                 <span style={{ fontSize: 20 }}>✈️</span> Зарегистрироваться через Telegram
               </button>
               <button
-                onClick={() => { if (!checkPrivacy || !checkConsent) { setShowConsentError(true); return; } handleVk(); }}
+                onClick={() => handleVk()}
                 style={{
-                  background: checkPrivacy && checkConsent ? "#0077FF" : "#333", color: checkPrivacy && checkConsent ? "#fff" : "#666",
+                  background: "#0077FF", color: "#fff",
                   border: "none", borderRadius: 10,
                   padding: "15px 20px", fontSize: 15, fontWeight: 700,
                   cursor: "pointer",
@@ -458,11 +422,12 @@ export default function TrendsA2026Page() {
               >
                 <span style={{ fontSize: 20 }}>🔵</span> Зарегистрироваться через ВКонтакте
               </button>
-              {showConsentError && (
-                <div style={{ fontSize: 13, color: "#E53935", fontWeight: 600, textAlign: "center", marginTop: 4 }}>
-                  Пожалуйста, поставьте галочки Согласия
-                </div>
-              )}
+            </div>
+            <div style={{ fontSize: 11, color: "#666", lineHeight: 1.6, marginTop: 16, textAlign: "center" }}>
+              Нажимая на любую кнопку выше я принимаю{" "}
+              <a href="https://onlinerad.ru/privacy_policy" target="_blank" rel="noopener noreferrer" style={{ color: "#aaa", textDecoration: "underline" }}>Политику конфиденциальности</a>
+              {" "}и даю{" "}
+              <a href="https://radacademy.ru/consent_user" target="_blank" rel="noopener noreferrer" style={{ color: "#aaa", textDecoration: "underline" }}>Согласие на обработку персональных данных</a>.
             </div>
           </div>
         </div>
