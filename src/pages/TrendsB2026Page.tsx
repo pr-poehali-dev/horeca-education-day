@@ -99,8 +99,8 @@ export default function TrendsB2026Page() {
 
   function handleCTA() {
     if (typeof window !== "undefined") {
-      const w = window as Window & { ym?: (id: unknown, action: string, goal: string) => void };
-      if (w.ym) w.ym(undefined, "reachGoal", "cta_click");
+      const w = window as Window & { ym?: (id: number, action: string, goal: string) => void };
+      if (w.ym) w.ym(107087337, "reachGoal", "cta_click");
       tmrGoal("conversion");
     }
     setShowModal(true);
@@ -108,16 +108,16 @@ export default function TrendsB2026Page() {
 
   function handleTg() {
     if (typeof window !== "undefined") {
-      const w = window as Window & { ym?: (id: unknown, a: string, g: string) => void };
-      if (w.ym) w.ym(undefined, "reachGoal", "tg_click");
+      const w = window as Window & { ym?: (id: number, a: string, g: string) => void };
+      if (w.ym) w.ym(107087337, "reachGoal", "tg_click");
       tmrGoal("lead");
     }
     window.open(TG_BOT_BASE, "_blank");
   }
   function handleVk() {
     if (typeof window !== "undefined") {
-      const w = window as Window & { ym?: (id: unknown, a: string, g: string) => void };
-      if (w.ym) w.ym(undefined, "reachGoal", "vk_click");
+      const w = window as Window & { ym?: (id: number, a: string, g: string) => void };
+      if (w.ym) w.ym(107087337, "reachGoal", "vk_click");
       tmrGoal("purchase");
     }
     window.open(VK_BOT_BASE, "_blank");
