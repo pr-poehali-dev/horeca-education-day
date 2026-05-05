@@ -1207,38 +1207,41 @@ export default function RoadToHorecaPage() {
       </section>
 
       {/* ─── ФУТЕР ──────────────────────────────────────────────── */}
-      <footer style={{
-        background: "#0D0D0D",
-        padding: "clamp(40px, 6vh, 80px) clamp(20px, 5vw, 80px)",
-        borderTop: `1px solid rgba(255,255,255,0.06)`,
-      }}>
-        <div style={{
-          maxWidth: "1440px", margin: "0 auto",
-          display: "flex", justifyContent: "space-between",
-          flexWrap: "wrap", gap: "32px",
-        }}>
-          <div>
-            <div style={{ ...ffH, color: WHITE, fontSize: "20px", letterSpacing: "0.18em", marginBottom: "8px" }}>
-              RAD ACADEMY
-            </div>
-            <div style={{ ...ff, color: "rgba(255,255,255,0.4)", fontSize: "14px", lineHeight: 1.6 }}>
-              Школа архитектурного и интерьерного дизайна<br />
-              Основатель: Анна Симонова
+      <footer style={{ background: "#0D0C0B", padding: "40px 48px", borderTop: "1px solid rgba(255,255,255,0.07)" }}>
+        <div style={{ width: 40, height: 1, background: LIME, margin: "0 auto 36px", opacity: 0.6 }} />
+        <div style={{ maxWidth: 860, margin: "0 auto", display: "flex", flexWrap: "wrap", gap: 32, justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <img src="https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c419c6ec58/bucket/c9557609-04c7-411a-a6d8-97ee87fa41f3.png" alt="RAD ACADEMY" style={{ height: 28, width: "auto", objectFit: "contain", filter: "invert(1) brightness(2)" }} />
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.28)", margin: 0, lineHeight: 1.6, ...ff }}>
+              © 2026 ИП Вылегжанина А.С.<br />
+              <a href="https://radacademy.ru" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(255,255,255,0.28)", textDecoration: "none" }}>radacademy.ru</a>
+              {" · "}
+              <a href="mailto:mail@onlinerad.ru" style={{ color: "rgba(255,255,255,0.28)", textDecoration: "none" }}>mail@onlinerad.ru</a>
+            </p>
+            <div style={{ display: "flex", gap: 16 }}>
+              {[
+                { label: "Telegram", href: "https://t.me/rad_academy_design" },
+                { label: "ВКонтакте", href: "https://vk.com/radacademy" },
+              ].map((s, i) => (
+                <a key={i} href={s.href} target="_blank" rel="noopener noreferrer"
+                  style={{ fontSize: 13, color: "rgba(255,255,255,0.28)", textDecoration: "none", ...ff, transition: "color 0.2s" }}
+                  onMouseEnter={e => (e.currentTarget.style.color = LIME)}
+                  onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.28)")}
+                >{s.label}</a>
+              ))}
             </div>
           </div>
-          <div style={{ display: "flex", gap: "24px", flexWrap: "wrap", alignItems: "center" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[
-              { label: "Контакты", href: "#" },
-              { label: "Политика конфиденциальности", href: "#" },
-              { label: "Оферта", href: "#" },
-              { label: "Telegram", href: "https://t.me/+QgiLIa1gFRY4Y2Iy" },
-            ].map(link => (
-              <a key={link.label} href={link.href} style={{
-                ...ff, color: "rgba(255,255,255,0.4)", fontSize: "13px",
-                textDecoration: "none", transition: "color 0.2s",
-              }}
+              { label: "Публичная оферта", href: "https://radacademy.ru/offer" },
+              { label: "Политика обработки персональных данных", href: "https://radacademy.ru/privacy_policy" },
+              { label: "Согласие на обработку персональных данных", href: "https://radacademy.ru/consent_user" },
+              { label: "Контактная информация", href: "https://radacademy.ru/contacts" },
+            ].map((link, i) => (
+              <a key={i} href={link.href} target="_blank" rel="noopener noreferrer"
+                style={{ fontSize: 13, color: "rgba(255,255,255,0.28)", textDecoration: "none", lineHeight: 1.6, ...ff, transition: "color 0.2s" }}
                 onMouseEnter={e => (e.currentTarget.style.color = LIME)}
-                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.28)")}
               >{link.label}</a>
             ))}
           </div>
