@@ -269,10 +269,14 @@ const CounterStat = ({ prefix = "", suffix = "", label, target, decimals = 0 }: 
   const started = useRef(false);
 
   useEffect(() => {
+    const numericTarget = parseFloat(target.replace(/[^0-9.]/g, ""));
+    if (isNaN(numericTarget) || numericTarget === 0) {
+      setVal(target);
+      return;
+    }
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && !started.current) {
         started.current = true;
-        const numericTarget = parseFloat(target.replace(/[^0-9.]/g, ""));
         const duration = 2000;
         const start = performance.now();
         const tick = (now: number) => {
@@ -483,7 +487,7 @@ export default function RoadToHorecaPage() {
               letterSpacing: "-0.02em", margin: "0 0 24px", maxWidth: "900px",
             }}>
               Отельеры готовы платить за дизайн-проект{" "}
-              <span style={{ color: LIME }}>2–3 раза</span>{" "}
+              <span style={{ color: LIME, whiteSpace: "nowrap" }}>2–3 раза</span>{" "}
               больше
             </h2>
           </AOS>
@@ -571,6 +575,7 @@ export default function RoadToHorecaPage() {
           <div style={{
             display: "grid", gridTemplateColumns: "repeat(3, 1fr)",
             gap: "20px",
+            gridAutoRows: "1fr",
           }} className="grid-cols-1-md">
             {[
               { n: "01/", title: "Вы дизайнер с опытом", text: "Делаете жилые интерьеры 3+ года, у вас портфолио и поток клиентов." },
@@ -580,11 +585,11 @@ export default function RoadToHorecaPage() {
               { n: "05/", title: "Пробовали выйти на коммерческие объекты", text: "Получали отказы или давление по цене." },
               { n: "06/", title: "Видите рост HoReCa", text: "Понимаете: заходить нужно сейчас." },
             ].map((card, i) => (
-              <AOS key={i} delay={i * 60}>
+              <AOS key={i} delay={i * 60} style={{ height: "100%" }}>
                 <div data-hover style={{
                   background: WHITE, borderRadius: "24px", padding: "32px",
                   transition: "transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease",
-                  cursor: "default",
+                  cursor: "default", height: "100%",
                 }}
                   onMouseEnter={e => {
                     (e.currentTarget as HTMLDivElement).style.transform = "translateY(-6px)";
@@ -924,7 +929,7 @@ export default function RoadToHorecaPage() {
           {/* 4 цифры */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "40px", marginBottom: "60px" }} className="grid-cols-2-md">
             <AOS delay={100}><CounterStat suffix="%" prefix="+" target="5" label="рост рынка гостиничного бизнеса в России в год" /></AOS>
-            <AOS delay={160}><CounterStat suffix=" ТРЛН ₽" prefix="" target="1 ТРЛН ₽" label="прогнозируемый объём рынка HoReCa к 2027 году" /></AOS>
+            <AOS delay={160}><CounterStat suffix="" prefix="" target="1 ТРЛН ₽" label="прогнозируемый объём рынка HoReCa к 2027 году" /></AOS>
             <AOS delay={220}><CounterStat suffix="+" target="40000" label="объектов размещения в России — большинство ждут реновацию" /></AOS>
             <AOS delay={280}><CounterStat suffix="%" prefix="<" target="5" label="дизайнеров профессионально специализируются на HoReCa" /></AOS>
           </div>
@@ -1151,7 +1156,7 @@ export default function RoadToHorecaPage() {
               Один эфир<br />
               может изменить<br />
               вашу профессию<br />
-              <span style={{ fontStyle: "italic", fontWeight: 400 }}>на 5 лет вперёд</span>
+              <span style={{ fontStyle: "italic", fontWeight: 400, whiteSpace: "nowrap" }}>на 5 лет вперёд</span>
             </h2>
           </AOS>
 
