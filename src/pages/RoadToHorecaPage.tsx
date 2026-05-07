@@ -33,21 +33,46 @@ const vkGoal = (goal: string) => {
 const GC_BASE_SRC = "https://cabinet.onlinerad.ru/pl/lite/widget/widget?id=1600234";
 const UTM_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
 
-const getGcSrc = () => {
+const YM_COUNTER = 107087337;
+
+const getUtmParams = (): Record<string, string> => {
   const sp = new URLSearchParams(window.location.search);
-  const utms = new URLSearchParams();
-  UTM_PARAMS.forEach(k => { if (sp.has(k)) utms.set(k, sp.get(k)!); });
-  const utmStr = utms.toString();
-  return utmStr ? `${GC_BASE_SRC}&${utmStr}` : GC_BASE_SRC;
+  const result: Record<string, string> = {};
+  UTM_PARAMS.forEach(k => { if (sp.has(k)) result[k] = sp.get(k)!; });
+  return result;
 };
+
+const getGcSrc = (clientId?: string) => {
+  const utms = getUtmParams();
+  const extra = new URLSearchParams(utms as Record<string, string>);
+  if (clientId) extra.set("ym_uid", clientId);
+  const extraStr = extra.toString();
+  return extraStr ? `${GC_BASE_SRC}&${extraStr}` : GC_BASE_SRC;
+};
+
+const getYmClientId = (): Promise<string | null> =>
+  new Promise(resolve => {
+    const w = window as unknown as Record<string, (...a: unknown[]) => void>;
+    if (!w["ym"]) return resolve(null);
+    try {
+      w["ym"](YM_COUNTER, "getClientID", (id: string) => resolve(id ?? null));
+      setTimeout(() => resolve(null), 2000);
+    } catch { resolve(null); }
+  });
 
 const GC_SUCCESS_URL = "cabinet.onlinerad.ru/sps_web";
 
 const GetCourseForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState(420);
-  const [gcSrc] = useState(getGcSrc);
+  const [gcSrc, setGcSrc] = useState(() => getGcSrc());
   const firedRef = useRef(false);
+
+  useEffect(() => {
+    getYmClientId().then(clientId => {
+      setGcSrc(getGcSrc(clientId ?? undefined));
+    });
+  }, []);
 
   useEffect(() => {
     firedRef.current = false;
@@ -732,7 +757,8 @@ export default function RoadToHorecaPage() {
               flexShrink: 0,
             }}>✕</button>
             <GetCourseForm onSuccess={() => {
-              ym(107087337, "reachGoal", "roadtohoreca_form_submit");
+              const utms = getUtmParams();
+              ym(YM_COUNTER, "reachGoal", "roadtohoreca_form_submit", Object.keys(utms).length ? utms : undefined);
               vkGoal("roadtohoreca_lead");
             }} />
           </div>
