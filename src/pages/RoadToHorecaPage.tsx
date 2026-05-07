@@ -472,23 +472,23 @@ export default function RoadToHorecaPage() {
           <AOS delay={100}>
             <h1 style={{
               ...ffH, color: WHITE,
-              fontSize: "clamp(52px, 10vw, 140px)",
+              fontSize: "clamp(44px, 8.5vw, 120px)",
               textTransform: "uppercase", lineHeight: 0.9,
               letterSpacing: "-0.02em", margin: "0 0 12px",
               fontWeight: 700,
             }}>
-              Из жилого<br />в HoReCa
+              Заказов стало меньше.<br />Деньги — в другом месте.
             </h1>
           </AOS>
           <AOS delay={180}>
             <h2 style={{
               ...ffH, color: WHITE,
-              fontSize: "clamp(28px, 4.5vw, 68px)",
+              fontSize: "clamp(22px, 3.5vw, 52px)",
               fontStyle: "italic", fontWeight: 400,
               letterSpacing: "-0.01em", lineHeight: 1,
               margin: "0 0 28px",
             }}>
-              как поднять чек в 2–3 раза
+              Где дизайнеру искать клиентов в 2026 году
             </h2>
           </AOS>
 
@@ -497,10 +497,11 @@ export default function RoadToHorecaPage() {
             <p style={{
               ...ff, color: "rgba(255,255,255,0.8)",
               fontSize: "clamp(16px, 2vw, 22px)", lineHeight: 1.5,
-              maxWidth: "680px", margin: "0 0 40px",
+              maxWidth: "720px", margin: "0 0 40px",
             }}>
-              Один проект отеля = 3–4 жилых проекта по чеку.<br />
-              Проект отеля за 4,5 млн ₽ мы делаем за 1,5 месяца.
+              Пока одни ждут, когда «вернутся клиенты», другие уже работают с отельерами
+              и закрывают проекты на 4,5 млн ₽ за 1,5 месяца. На эфире 12 мая Анна Симонова
+              покажет, где именно искать заказы и как в них заходить.
             </p>
           </AOS>
 
@@ -512,30 +513,28 @@ export default function RoadToHorecaPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════
-          ЭКРАН 2 · БОЛЬ РЫНКА (графит)
+          ЭКРАН 2 · РЕАЛЬНОСТЬ РЫНКА (графит)
       ═══════════════════════════════════════════════════════ */}
       <section style={{
         background: "#111111", padding: "clamp(60px, 10vh, 120px) clamp(20px, 5vw, 80px)",
       }}>
         <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
-          <AOS><SectionLabel light>01 / Реальность рынка</SectionLabel></AOS>
+          <AOS><SectionLabel light>01 / Реальность 2026</SectionLabel></AOS>
 
           <AOS delay={80}>
             <h2 style={{
               ...ffH, color: WHITE,
-              fontSize: "clamp(36px, 6vw, 80px)",
+              fontSize: "clamp(32px, 5.5vw, 76px)",
               textTransform: "uppercase", lineHeight: 0.95,
-              letterSpacing: "-0.02em", margin: "0 0 24px", maxWidth: "900px",
+              letterSpacing: "-0.02em", margin: "0 0 20px", maxWidth: "1000px",
             }}>
-              Отельеры готовы платить за дизайн-проект{" "}
-              <span style={{ color: LIME, whiteSpace: "nowrap" }}>2–3 раза</span>{" "}
-              больше
+              Заказчики откладывают ремонты. Чеки падают. Конкуренция — растёт.
             </h2>
           </AOS>
 
           <AOS delay={140}>
             <p style={{ ...ff, color: "rgba(255,255,255,0.6)", fontSize: "20px", marginBottom: "48px" }}>
-              А вы продолжаете брать жилые за стандартный чек.
+              И это не временно. Это новая норма жилого рынка.
             </p>
           </AOS>
 
@@ -543,18 +542,22 @@ export default function RoadToHorecaPage() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px", marginBottom: "48px" }} className="grid-cols-1-md">
             <AOS delay={180}>
               <p style={{ ...ff, color: "rgba(255,255,255,0.75)", fontSize: "17px", lineHeight: 1.7 }}>
-                Это не преувеличение. Это реальная ситуация на российском рынке HoReCa.
-                Отельеры нанимают дизайнеров жилых интерьеров — и через 1–2 месяца понимают,
-                что проект не работает.
+                Поговорите с любым дизайнером жилых интерьеров — услышите одно и то же:<br /><br />
+                — Лиды стали холоднее<br />
+                — Цикл сделки растянулся в 2–3 раза<br />
+                — Клиенты торгуются за каждые 50 000 ₽<br />
+                — Половина «горячих» заявок в итоге не закрывается<br /><br />
+                Раньше можно было закрыть глаза. Сейчас — нет.
               </p>
             </AOS>
             <AOS delay={220}>
               <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                 {[
-                  "не учтены отельные стандарты",
-                  "не учтена специфика бизнеса и операционки",
-                  "не продумано, как объект будет управляться после открытия",
-                  "красиво на рендере, но не выживает в эксплуатации",
+                  "Новостройки сдают, но ремонты откладывают",
+                  "Бюджеты режут на 30–40%",
+                  "На один проект — 5–7 дизайнеров в шорт-листе",
+                  "Демпинг от новичков и нейросетей",
+                  "«Сделайте подешевле» — стало нормой переговоров",
                 ].map((item, i) => (
                   <li key={i} style={{
                     ...ff, color: "rgba(255,255,255,0.8)",
@@ -578,8 +581,8 @@ export default function RoadToHorecaPage() {
               padding: "32px 40px", marginBottom: "48px",
             }}>
               <p style={{ ...ff, color: GRAPHITE, fontSize: "18px", lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
-                Это не про деньги. Это про специфические знания HoReCa, без которых проект отеля не работает.
-                Этим знаниям можно научиться — и навсегда выйти на другой уровень чека.
+                Ждать «когда отпустит» — стратегия проигравших. Вопрос не в том, что делать с жилым рынком.
+                Вопрос — куда смотреть, чтобы заказы были.
               </p>
             </div>
           </AOS>
@@ -589,26 +592,152 @@ export default function RoadToHorecaPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════
-          ЭКРАН 3 · ДЛЯ КОГО (лайм)
+          ЭКРАН 3 · ОТВЕТ — ГДЕ ДЕНЬГИ (лайм)
       ═══════════════════════════════════════════════════════ */}
       <section style={{ background: LIME, padding: "clamp(60px, 10vh, 120px) clamp(20px, 5vw, 80px)" }}>
         <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
-          <AOS><SectionLabel>02 / Для кого эфир</SectionLabel></AOS>
+          <AOS><SectionLabel>02 / Ответ</SectionLabel></AOS>
 
           <AOS delay={80}>
             <h2 style={{
               ...ffH, color: GRAPHITE,
-              fontSize: "clamp(32px, 5vw, 72px)",
+              fontSize: "clamp(28px, 4.5vw, 68px)",
+              textTransform: "uppercase", lineHeight: 0.95,
+              letterSpacing: "-0.02em", margin: "0 0 24px", maxWidth: "1000px",
+            }}>
+              Деньги — там, где бизнес не может отложить ремонт
+            </h2>
+          </AOS>
+
+          <AOS delay={130}>
+            <p style={{ ...ff, color: "rgba(26,26,26,0.7)", fontSize: "18px", marginBottom: "48px", maxWidth: "760px", lineHeight: 1.6 }}>
+              Отельеры, рестораторы, владельцы кафе и апартаментов не могут «подождать». У них простаивает
+              объект — горят деньги. У них договор с франшизой — горят сроки. Они платят дизайнеру в 2–3 раза
+              больше — потому что это инвестиция, а не трата.
+            </p>
+          </AOS>
+
+          {/* 3 карточки */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", marginBottom: "48px" }} className="grid-cols-1-md">
+            {/* Карточка 1 — Жилой клиент */}
+            <AOS delay={160}>
+              <div style={{
+                background: WHITE, borderRadius: "24px", padding: "36px 32px",
+                border: "2px solid rgba(26,26,26,0.1)",
+              }}>
+                <div style={{ ...ff, color: "rgba(26,26,26,0.4)", fontSize: "12px", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "16px" }}>
+                  ⚪ Частный заказчик
+                </div>
+                <div style={{ ...ffH, color: GRAPHITE, fontSize: "20px", fontWeight: 700, marginBottom: "20px", lineHeight: 1.2 }}>
+                  «Можем подождать»
+                </div>
+                {[
+                  ["Решение", "6–12 месяцев"],
+                  ["Чек", "торгуется за каждые 50 000 ₽"],
+                  ["Сейчас", "откладывает или режет смету"],
+                ].map(([k, v], i) => (
+                  <div key={i} style={{
+                    display: "flex", justifyContent: "space-between", alignItems: "flex-start",
+                    padding: "10px 0", borderBottom: "1px solid rgba(26,26,26,0.08)",
+                    ...ff, fontSize: "14px", gap: "8px",
+                  }}>
+                    <span style={{ color: "rgba(26,26,26,0.45)", flexShrink: 0 }}>{k}</span>
+                    <span style={{ color: GRAPHITE, fontWeight: 500, textAlign: "right" }}>{v}</span>
+                  </div>
+                ))}
+              </div>
+            </AOS>
+
+            {/* Карточка 2 — HoReCa */}
+            <AOS delay={220}>
+              <div style={{
+                background: GRAPHITE, borderRadius: "24px", padding: "36px 32px",
+                border: "2px solid rgba(212,245,66,0.3)",
+              }}>
+                <div style={{ ...ff, color: LIME, fontSize: "12px", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "16px" }}>
+                  🟩 Бизнесмен-отельер
+                </div>
+                <div style={{ ...ffH, color: WHITE, fontSize: "20px", fontWeight: 700, marginBottom: "20px", lineHeight: 1.2 }}>
+                  «Каждый день простоя — минус деньги»
+                </div>
+                {[
+                  ["Решение", "2–3 недели"],
+                  ["Чек", "от 4,5 млн ₽"],
+                  ["Сейчас", "ищет дизайнера и платит вперёд"],
+                ].map(([k, v], i) => (
+                  <div key={i} style={{
+                    display: "flex", justifyContent: "space-between", alignItems: "flex-start",
+                    padding: "10px 0", borderBottom: "1px solid rgba(255,255,255,0.08)",
+                    ...ff, fontSize: "14px", gap: "8px",
+                  }}>
+                    <span style={{ color: "rgba(255,255,255,0.4)", flexShrink: 0 }}>{k}</span>
+                    <span style={{ color: LIME, fontWeight: 600, textAlign: "right" }}>{v}</span>
+                  </div>
+                ))}
+              </div>
+            </AOS>
+
+            {/* Карточка 3 — Вывод */}
+            <AOS delay={280}>
+              <div style={{
+                background: WHITE, borderRadius: "24px", padding: "36px 32px",
+                border: "2px solid rgba(26,26,26,0.1)",
+                display: "flex", flexDirection: "column", justifyContent: "space-between",
+              }}>
+                <div>
+                  <div style={{ ...ff, color: "rgba(26,26,26,0.4)", fontSize: "12px", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "16px" }}>
+                    ⚫ Что это значит
+                  </div>
+                  <div style={{ ...ffH, color: GRAPHITE, fontSize: "20px", fontWeight: 700, marginBottom: "20px", lineHeight: 1.2 }}>
+                    Заказы есть. Бюджеты есть. Запросы — есть.
+                  </div>
+                </div>
+                <p style={{ ...ff, color: "rgba(26,26,26,0.65)", fontSize: "15px", lineHeight: 1.6, margin: 0 }}>
+                  Просто рынок, где они находятся, отличается от того, где вы привыкли работать.
+                </p>
+              </div>
+            </AOS>
+          </div>
+
+          <AOS delay={320}>
+            <p style={{
+              ...ff, color: "rgba(26,26,26,0.7)", fontSize: "18px",
+              lineHeight: 1.6, textAlign: "center", maxWidth: "760px", margin: "0 auto 48px",
+            }}>
+              На эфире 12 мая разберём конкретно: кто эти заказчики, где они ищут дизайнеров,
+              и как зайти в эту нишу за ближайшие 2–4 недели.
+            </p>
+          </AOS>
+
+          <AOS delay={360}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <DoubleCTA onRegister={openRegister} />
+            </div>
+          </AOS>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          ЭКРАН 4 · ДЛЯ КОГО (молочный)
+      ═══════════════════════════════════════════════════════ */}
+      <section style={{ background: CREAM, padding: "clamp(60px, 10vh, 120px) clamp(20px, 5vw, 80px)" }}>
+        <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
+          <AOS><SectionLabel>03 / Для кого эфир</SectionLabel></AOS>
+
+          <AOS delay={80}>
+            <h2 style={{
+              ...ffH, color: GRAPHITE,
+              fontSize: "clamp(28px, 4.5vw, 64px)",
               textTransform: "uppercase", lineHeight: 0.95,
               letterSpacing: "-0.02em", margin: "0 0 20px", maxWidth: "900px",
             }}>
-              Этот эфир — для опытных дизайнеров жилых интерьеров
+              Эфир для дизайнеров, которые хотят работать — а не ждать клиента
             </h2>
           </AOS>
 
           <AOS delay={130}>
             <p style={{ ...ff, color: "rgba(26,26,26,0.7)", fontSize: "18px", marginBottom: "48px", maxWidth: "640px" }}>
-              Если хотя бы 3 из 6 пунктов про вас — приходите. Эфир окупит себя в первые 20 минут.
+              Если хотя бы 3 из 6 пунктов про вас — приходите.
             </p>
           </AOS>
 
@@ -619,12 +748,12 @@ export default function RoadToHorecaPage() {
             gridAutoRows: "1fr",
           }} className="grid-cols-1-md">
             {[
-              { n: "01/", title: "Вы дизайнер с опытом", text: "Делаете жилые интерьеры 3+ года, у вас портфолио и поток клиентов." },
-              { n: "02/", title: "Вы упёрлись в потолок чека", text: "Чек растёт медленно. Каждый шаг по цене даётся сложнее." },
-              { n: "03/", title: "Вам стало скучно", text: "Жилые проекты повторяются. Вы хотите концепцию, историю, масштаб." },
-              { n: "04/", title: "Хотите работать меньше — зарабатывать больше", text: "Вместо 4–5 квартир — один большой проект с другим чеком." },
-              { n: "05/", title: "Пробовали выйти на коммерческие объекты", text: "Получали отказы или давление по цене." },
-              { n: "06/", title: "Видите рост HoReCa", text: "Понимаете: заходить нужно сейчас." },
+              { n: "01/", title: "Заказов стало меньше", text: "Вы видите, что лиды холоднее, цикл сделки длиннее, чек ниже." },
+              { n: "02/", title: "Вы устали ждать «когда вернутся клиенты»", text: "Понимаете: ждать — не стратегия. Нужно действовать." },
+              { n: "03/", title: "Вы дизайнер с опытом 3+ года", text: "Работаете с жилыми интерьерами, есть портфолио и насмотренность." },
+              { n: "04/", title: "Хотите большие чеки и крупные проекты", text: "Вместо 5 мелких — 1 серьёзный, который закроет квартал." },
+              { n: "05/", title: "Пробовали зайти в коммерцию", text: "Получали отказы, давление по цене или непонимание, с чего начать." },
+              { n: "06/", title: "Вы готовы к новому", text: "Понимаете: рынок изменился — ваше позиционирование тоже должно измениться." },
             ].map((card, i) => (
               <AOS key={i} delay={i * 60} style={{ height: "100%" }}>
                 <div data-hover style={{
@@ -666,7 +795,7 @@ export default function RoadToHorecaPage() {
               textTransform: "uppercase", lineHeight: 0.95,
               letterSpacing: "-0.02em", margin: "0 0 20px", maxWidth: "880px",
             }}>
-              За 75 минут у вас появится ясная карта перехода в HoReCa
+              За 75 минут эфира вы получите карту — где искать заказы уже на этой неделе
             </h2>
           </AOS>
 
@@ -678,12 +807,12 @@ export default function RoadToHorecaPage() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }} className="grid-cols-1-md">
             {[
-              { bg: LIME, tc: GRAPHITE, n: "01/", title: "Понимание мышления отельера", text: "По каким критериям он выбирает дизайнера и почему отказывает." },
-              { bg: GRAPHITE, tc: WHITE, n: "02/", title: "Анатомия работающего КП", text: "Структура, язык, цифры, смыслы. Что должно быть в КП, чтобы его дочитали до конца." },
-              { bg: LIME, tc: GRAPHITE, n: "03/", title: "Список «маркеров жилого дизайнера»", text: "Признаки, по которым отельер за 5 минут видит ваш бэкграунд и закрывает диалог." },
-              { bg: GRAPHITE, tc: WHITE, n: "04/", title: "Математика перехода", text: "Как один проект отеля заменяет 3–4 жилых по чеку." },
-              { bg: LIME, tc: GRAPHITE, n: "05/", title: "Точка входа", text: "С чего начать переход уже на этой неделе." },
-              { bg: GRAPHITE, tc: WHITE, n: "06/", title: "Реальные кейсы", text: "Проект отеля 4,5 млн ₽ за 1,5 месяца — разбор от первого лица." },
+              { bg: LIME, tc: GRAPHITE, n: "01/", title: "Карта рынка HoReCa", text: "Кто конкретно сейчас ищет дизайнеров: отели, рестораны, апарт-комплексы, франшизы." },
+              { bg: GRAPHITE, tc: WHITE, n: "02/", title: "Где они ищут", text: "Конкретные каналы и площадки, где отельеры выбирают дизайнеров. Не «Авито»." },
+              { bg: LIME, tc: GRAPHITE, n: "03/", title: "Как заходить в диалог", text: "Анатомия первого касания и КП, которое отельер дочитывает до конца." },
+              { bg: GRAPHITE, tc: WHITE, n: "04/", title: "Что показать в портфолио", text: "Если у вас только жилые проекты — как их «упаковать» под коммерческого заказчика." },
+              { bg: LIME, tc: GRAPHITE, n: "05/", title: "Математика чека", text: "Один HoReCa-проект = 3–4 жилых. Конкретные цифры, не абстракции." },
+              { bg: GRAPHITE, tc: WHITE, n: "06/", title: "Точка входа на этой неделе", text: "Что сделать в ближайшие 7 дней, чтобы получить первый коммерческий запрос." },
             ].map((card, i) => (
               <AOS key={i} delay={i * 60}>
                 <div data-hover style={{
@@ -811,8 +940,8 @@ export default function RoadToHorecaPage() {
               ...ff, color: "rgba(255,255,255,0.7)", fontSize: "17px",
               lineHeight: 1.7, textAlign: "center", maxWidth: "700px", margin: "0 auto 48px",
             }}>
-              Это реальный текущий проект Анны Симоновой и команды RAD ACADEMY.<br />
-              И это не редкий кейс — это система.
+              Это не «успешный успех» из 2019-го. Это текущий проект Анны Симоновой, закрытый в условиях того же
+              рынка, на котором вы сейчас не можете найти клиентов.
             </p>
           </AOS>
 
@@ -850,12 +979,12 @@ export default function RoadToHorecaPage() {
 
           <div style={{ maxWidth: "860px" }}>
             {[
-              { title: "Вступление", text: "Почему отельеры платят за дизайн дважды и трижды. Что происходит с рынком отелей в России в 2026." },
-              { title: "Блок 1 · Как мыслит отельер", text: "4 фильтра, через которые проходит каждое КП. Что отельер покупает на самом деле." },
-              { title: "Блок 2 · Признаки «жилого» дизайнера", text: "Что выдаёт вас в КП с первой страницы. Какие фразы убивают доверие." },
+              { title: "Вступление", text: "Что реально происходит с дизайн-рынком в 2026. Почему «жилой» больше не кормит — и куда сместились деньги." },
+              { title: "Блок 1 · Карта HoReCa-рынка", text: "Кто заказчики. Сколько объектов. Сколько денег в нише. Где она растёт быстрее всего." },
+              { title: "Блок 2 · Как мыслит отельер", text: "4 фильтра, через которые проходит каждое КП. Что отельер покупает на самом деле." },
               { title: "Блок 3 · Анатомия КП для отельера", text: "Структура работающего КП. Язык бизнеса вместо языка вкуса." },
-              { title: "Блок 4 · Математика перехода и кейс", text: "Один отель = 3–4 квартиры. Кейс: 4,5 млн ₽ за 1,5 месяца." },
-              { title: "Блок 5 · Точка входа", text: "Дорожная карта перехода. 3 сценария: быстрый, плановый, постепенный." },
+              { title: "Блок 4 · Математика и кейс", text: "Один отель = 3–4 квартиры. Кейс: 4,5 млн ₽ за 1,5 месяца — разбор от первого лица." },
+              { title: "Блок 5 · Точка входа", text: "Дорожная карта на ближайшие 2–4 недели. 3 сценария: быстрый, плановый, постепенный." },
               { title: "Ответы на вопросы", text: "Анна ответит на вопросы участников в прямом эфире." },
             ].map((item, i) => (
               <AOS key={i} delay={i * 50}>
@@ -937,8 +1066,9 @@ export default function RoadToHorecaPage() {
                   background: "rgba(212,245,66,0.1)",
                   borderRadius: "0 16px 16px 0",
                 }}>
-                  «Дизайн HoReCa — это не про красивые картинки. Это про то, как пространство работает
-                  на бизнес заказчика. Поэтому отельеры готовы платить совсем другие чеки тем, кто это понимает».
+                  «Рынок не "вернётся". Это иллюзия, которая стоит дизайнерам года жизни и половины оборота.
+                  Деньги в дизайне есть — просто они переехали туда, где бизнес не может ждать.
+                  И моя задача — показать вам этот рынок изнутри».
                   <footer style={{ ...ff, fontSize: "14px", color: "rgba(26,26,26,0.5)", marginTop: "12px", fontStyle: "normal" }}>
                     — Анна Симонова
                   </footer>
@@ -963,7 +1093,7 @@ export default function RoadToHorecaPage() {
               textTransform: "uppercase", lineHeight: 0.95,
               letterSpacing: "-0.02em", margin: "0 0 60px", maxWidth: "800px",
             }}>
-              Почему сейчас — лучшее время для перехода в HoReCa
+              Почему HoReCa растёт — когда жилой падает
             </h2>
           </AOS>
 
@@ -980,8 +1110,8 @@ export default function RoadToHorecaPage() {
               ...ff, color: "rgba(255,255,255,0.6)", fontSize: "18px",
               lineHeight: 1.7, textAlign: "center", maxWidth: "700px", margin: "0 auto",
             }}>
-              Через 1–2 года ниша заполнится. Те, кто заходит сейчас, будут работать
-              с лучшими отельерами и проектами в ближайшие 5–10 лет.
+              Жилой рынок насыщен и сжимается. HoReCa — растёт и недозаполнен.
+              Те, кто заходит сейчас, забирают лучшие проекты на ближайшие 5 лет.
             </p>
           </AOS>
         </div>
@@ -1088,8 +1218,8 @@ export default function RoadToHorecaPage() {
               },
               {
                 n: "Бонус 02/",
-                title: "Чек-лист «3 шага к дизайн-проекту коммерческого объекта»",
-                text: "Пошаговая система входа в коммерческий проект для дизайнера, который раньше работал только с жилыми. От первого контакта до подписания договора.",
+                title: "Чек-лист «Куда смотреть дизайнеру в 2026 — 7 каналов поиска HoReCa-заказчиков»",
+                text: "Конкретные площадки, чаты, ассоциации и форматы касаний, где отельеры и рестораторы реально ищут дизайнеров. С пошаговыми скриптами захода.",
               },
               {
                 n: "Бонус 03/",
@@ -1151,6 +1281,7 @@ export default function RoadToHorecaPage() {
 
           <div style={{ maxWidth: "860px" }}>
             {[
+              { q: "У меня всё ещё идут жилые проекты. Зачем мне HoReCa?", a: "Затем, чтобы не оказаться в ситуации, когда жилой поток иссякнет. На эфире покажем, как добавить HoReCa-направление параллельно — без отказа от текущих клиентов." },
               { q: "Эфир бесплатный?", a: "Да. Полностью. Без скрытых условий." },
               { q: "Будет ли запись?", a: "Запись будет доступна только зарегистрированным участникам и только в течение ограниченного времени." },
               { q: "Я работаю с жилыми интерьерами 5+ лет. Это для меня?", a: "Да, эфир для опытных дизайнеров. Для тех, кто уже состоялся в жилом сегменте." },
@@ -1190,14 +1321,13 @@ export default function RoadToHorecaPage() {
           <AOS delay={80}>
             <h2 style={{
               ...ffH, color: GRAPHITE,
-              fontSize: "clamp(48px, 10vw, 140px)",
+              fontSize: "clamp(40px, 8vw, 120px)",
               textTransform: "uppercase", lineHeight: 0.88,
               letterSpacing: "-0.03em", margin: "0 0 32px",
             }}>
-              Один эфир<br />
-              может изменить<br />
-              вашу профессию<br />
-              <span style={{ fontStyle: "italic", fontWeight: 400, whiteSpace: "nowrap" }}>на 5 лет вперёд</span>
+              Ждать — значит терять.<br />
+              75 минут — и вы знаете,<br />
+              <span style={{ fontStyle: "italic", fontWeight: 400 }}>где искать заказы.</span>
             </h2>
           </AOS>
 
@@ -1206,8 +1336,7 @@ export default function RoadToHorecaPage() {
               ...ff, color: "rgba(26,26,26,0.65)", fontSize: "18px",
               lineHeight: 1.6, marginBottom: "48px",
             }}>
-              Через час после эфира вы будете смотреть на свою профессию иначе.<br />
-              12 мая в 15:00 МСК. Бесплатно.
+              Бесплатный эфир Анны Симоновой. 12 мая в 15:00 МСК. Конкретика, цифры, дорожная карта.
             </p>
           </AOS>
 
