@@ -22,6 +22,60 @@ const ym = (...args: unknown[]) => {
   if (w["ym"]) w["ym"](...args);
 };
 
+const vkGoal = (goal: string) => {
+  const w = window as unknown as Record<string, (...a: unknown[]) => void>;
+  if (w["VK"] && (w["VK"] as unknown as Record<string, (...a: unknown[]) => void>)["Goal"]) {
+    (w["VK"] as unknown as Record<string, (...a: unknown[]) => void>)["Goal"](goal);
+  }
+};
+
+// ─── ФОРМА GETCOURSE ──────────────────────────────────────────────────────────
+const GetCourseForm = ({ onSuccess }: { onSuccess: () => void }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const scriptId = "7088712899050eef617164607914f524aca1a400";
+
+    // Удаляем старый скрипт если есть
+    const old = document.getElementById(scriptId);
+    if (old) old.remove();
+
+    const script = document.createElement("script");
+    script.id = scriptId;
+    script.src = "https://cabinet.onlinerad.ru/pl/lite/widget/script?id=1600234";
+    script.async = true;
+    el.appendChild(script);
+
+    // Слушаем отправку формы через postMessage от GetCourse
+    const handleMessage = (e: MessageEvent) => {
+      if (
+        e.origin.includes("onlinerad.ru") ||
+        (typeof e.data === "string" && e.data.includes("form_submitted")) ||
+        (typeof e.data === "object" && e.data?.type === "form_submitted")
+      ) {
+        onSuccess();
+      }
+    };
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, [onSuccess]);
+
+  return (
+    <div style={{ width: "100%" }}>
+      <div
+        ref={containerRef}
+        style={{ width: "100%", minHeight: "200px" }}
+      />
+    </div>
+  );
+};
+
 // ─── КАСТОМНЫЙ КУРСОР ──────────────────────────────────────────────────────────
 const CustomCursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -338,6 +392,7 @@ export default function RoadToHorecaPage() {
   const openRegister = () => {
     setRegisterOpen(true);
     ym(107087337, "reachGoal", "roadtohoreca_open_register");
+    vkGoal("view_registration");
   };
 
   return (
@@ -348,39 +403,35 @@ export default function RoadToHorecaPage() {
       {/* Sticky Header */}
       <Header onRegister={openRegister} />
 
-      {/* Модальное окно регистрации — заглушка (будет подключён GetCourse) */}
+      {/* Модальное окно регистрации — GetCourse */}
       {registerOpen && (
         <div onClick={() => setRegisterOpen(false)} style={{
           position: "fixed", inset: 0, zIndex: 9999,
           background: "rgba(0,0,0,0.85)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          padding: "20px",
+          display: "flex", alignItems: "flex-start", justifyContent: "center",
+          padding: "16px",
+          overflowY: "auto",
         }}>
           <div onClick={e => e.stopPropagation()} style={{
-            background: WHITE, borderRadius: "24px",
-            width: "100%", maxWidth: "480px",
-            padding: "48px 40px", textAlign: "center", position: "relative",
+            background: WHITE, borderRadius: "20px",
+            width: "100%", maxWidth: "520px",
+            padding: "48px 40px 40px",
+            position: "relative",
+            margin: "auto",
+            boxSizing: "border-box",
           }}>
             <button onClick={() => setRegisterOpen(false)} style={{
               position: "absolute", top: "16px", right: "16px",
               background: "rgba(0,0,0,0.08)", border: "none", cursor: "pointer",
               borderRadius: "50%", width: "32px", height: "32px",
-              fontSize: "16px", color: GRAPHITE,
+              fontSize: "16px", color: GRAPHITE, lineHeight: "32px",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              flexShrink: 0,
             }}>✕</button>
-            <div style={{ ...ffH, fontSize: "28px", color: GRAPHITE, marginBottom: "12px" }}>
-              Место под форму GetCourse
-            </div>
-            <div style={{ ...ff, fontSize: "16px", color: "#666", lineHeight: 1.6 }}>
-              Здесь будет встроена форма регистрации GetCourse.<br />
-              Подключим на следующем шаге.
-            </div>
-            <div style={{
-              marginTop: "24px", padding: "16px 24px",
-              background: `${LIME}33`, borderRadius: "12px",
-              ...ff, fontSize: "14px", color: GRAPHITE, fontWeight: 600,
-            }}>
-              12 МАЯ · 18:00 МСК · БЕСПЛАТНО
-            </div>
+            <GetCourseForm onSuccess={() => {
+              ym(107087337, "reachGoal", "roadtohoreca_form_submit");
+              vkGoal("lead");
+            }} />
           </div>
         </div>
       )}
