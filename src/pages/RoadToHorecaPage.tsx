@@ -440,21 +440,21 @@ const VideoCard = ({ review }: { review: typeof REVIEWS[0] }) => {
 
 const ReviewsSection = () => {
   const [index, setIndex] = useState(0);
-  const perPage = 3;
   const total = REVIEWS.length;
-  const maxIndex = total - perPage;
+  const maxIndex = total - 3;
 
   const prev = () => setIndex(i => Math.max(0, i - 1));
   const next = () => setIndex(i => Math.min(maxIndex, i + 1));
 
-  const visible = REVIEWS.slice(index, index + perPage);
+  const canPrev = index > 0;
+  const canNext = index < maxIndex;
 
   return (
     <section style={{
       background: "#111",
-      padding: "clamp(60px, 10vh, 120px) clamp(20px, 5vw, 80px)",
+      padding: "clamp(60px, 10vh, 120px) 0",
     }}>
-      <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "1440px", margin: "0 auto", padding: "0 clamp(20px, 5vw, 80px)" }}>
         <AOS><SectionLabel light>10 / Отзывы учениц</SectionLabel></AOS>
 
         <AOS delay={80}>
@@ -467,90 +467,92 @@ const ReviewsSection = () => {
             Они уже<br /><span style={{ color: LIME }}>прошли путь</span>
           </h2>
         </AOS>
+      </div>
 
-        <div style={{ position: "relative" }}>
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "20px",
-          }}
-            className="reviews-grid"
+      <div style={{ position: "relative", overflow: "hidden", padding: "0 clamp(20px, 5vw, 80px)" }}>
+        <div style={{
+          display: "flex",
+          gap: "20px",
+          transform: `translateX(calc(-${index} * (100% / 3 + 20px / 3 * 2)))`,
+          transition: "transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)",
+          willChange: "transform",
+        }}>
+          {REVIEWS.map((r) => (
+            <div key={r.id} style={{ flex: "0 0 calc(33.333% - 14px)", minWidth: 0 }}>
+              <VideoCard review={r} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ maxWidth: "1440px", margin: "0 auto", padding: "0 clamp(20px, 5vw, 80px)" }}>
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "16px",
+          marginTop: "40px",
+        }}>
+          <button
+            onClick={prev}
+            disabled={!canPrev}
+            style={{
+              width: "56px", height: "56px",
+              borderRadius: "50%",
+              border: `2px solid ${canPrev ? LIME : "rgba(255,255,255,0.2)"}`,
+              background: "transparent",
+              cursor: canPrev ? "pointer" : "not-allowed",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              transition: "all 0.3s ease",
+              opacity: canPrev ? 1 : 0.35,
+              animation: canPrev ? "arrow-bounce-left 1.5s ease-in-out infinite" : "none",
+            }}
+            onMouseEnter={e => { if (canPrev) (e.currentTarget as HTMLButtonElement).style.background = LIME; }}
+            onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background = "transparent"}
           >
-            {visible.map((r) => (
-              <AOS key={r.id}>
-                <VideoCard review={r} />
-              </AOS>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M13 4L7 10L13 16" stroke={canPrev ? LIME : "rgba(255,255,255,0.3)"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+
+          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+            {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+              <div
+                key={i}
+                onClick={() => setIndex(i)}
+                style={{
+                  width: i === index ? "24px" : "8px",
+                  height: "8px",
+                  borderRadius: "4px",
+                  background: i === index ? LIME : "rgba(255,255,255,0.3)",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                }}
+              />
             ))}
           </div>
 
-          <div style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "16px",
-            marginTop: "40px",
-          }}>
-            <button
-              onClick={prev}
-              disabled={index === 0}
-              style={{
-                width: "56px", height: "56px",
-                borderRadius: "50%",
-                border: `2px solid ${index === 0 ? "rgba(255,255,255,0.2)" : LIME}`,
-                background: "transparent",
-                cursor: index === 0 ? "not-allowed" : "pointer",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                transition: "all 0.3s ease",
-                opacity: index === 0 ? 0.35 : 1,
-                animation: index === 0 ? "none" : "arrow-bounce-left 1.5s ease-in-out infinite",
-              }}
-              onMouseEnter={e => { if (index > 0) (e.currentTarget as HTMLButtonElement).style.background = LIME; }}
-              onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background = "transparent"}
-            >
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M13 4L7 10L13 16" stroke={index === 0 ? "rgba(255,255,255,0.3)" : LIME} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-
-            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-              {Array.from({ length: maxIndex + 1 }).map((_, i) => (
-                <div
-                  key={i}
-                  onClick={() => setIndex(i)}
-                  style={{
-                    width: i === index ? "24px" : "8px",
-                    height: "8px",
-                    borderRadius: "4px",
-                    background: i === index ? LIME : "rgba(255,255,255,0.3)",
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                  }}
-                />
-              ))}
-            </div>
-
-            <button
-              onClick={next}
-              disabled={index >= maxIndex}
-              style={{
-                width: "56px", height: "56px",
-                borderRadius: "50%",
-                border: `2px solid ${index >= maxIndex ? "rgba(255,255,255,0.2)" : LIME}`,
-                background: "transparent",
-                cursor: index >= maxIndex ? "not-allowed" : "pointer",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                transition: "all 0.3s ease",
-                opacity: index >= maxIndex ? 0.35 : 1,
-                animation: index >= maxIndex ? "none" : "arrow-bounce-right 1.5s ease-in-out infinite",
-              }}
-              onMouseEnter={e => { if (index < maxIndex) (e.currentTarget as HTMLButtonElement).style.background = LIME; }}
-              onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background = "transparent"}
-            >
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M7 4L13 10L7 16" stroke={index >= maxIndex ? "rgba(255,255,255,0.3)" : LIME} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </div>
+          <button
+            onClick={next}
+            disabled={!canNext}
+            style={{
+              width: "56px", height: "56px",
+              borderRadius: "50%",
+              border: `2px solid ${canNext ? LIME : "rgba(255,255,255,0.2)"}`,
+              background: "transparent",
+              cursor: canNext ? "pointer" : "not-allowed",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              transition: "all 0.3s ease",
+              opacity: canNext ? 1 : 0.35,
+              animation: canNext ? "arrow-bounce-right 1.5s ease-in-out infinite" : "none",
+            }}
+            onMouseEnter={e => { if (canNext) (e.currentTarget as HTMLButtonElement).style.background = LIME; }}
+            onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background = "transparent"}
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M7 4L13 10L7 16" stroke={canNext ? LIME : "rgba(255,255,255,0.3)"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
         </div>
       </div>
     </section>
