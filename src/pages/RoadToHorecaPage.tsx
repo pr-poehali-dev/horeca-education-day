@@ -354,6 +354,66 @@ const CounterStat = ({ prefix = "", suffix = "", label, target, decimals = 0 }: 
   );
 };
 
+// ─── СЧЁТЧИК РЕГИСТРАЦИЙ ──────────────────────────────────────────────────────
+const BASE_COUNT = 247;
+const BASE_TIME = new Date("2026-05-07T09:00:00+03:00").getTime();
+const PER_HOUR = 3;
+
+const getCount = () => {
+  const now = Date.now();
+  const hoursElapsed = Math.floor((now - BASE_TIME) / (1000 * 60 * 60));
+  return BASE_COUNT + Math.max(0, hoursElapsed) * PER_HOUR;
+};
+
+const HeroCounter = () => {
+  const [count, setCount] = useState(getCount);
+  const [display, setDisplay] = useState(getCount);
+  const animRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCount(getCount());
+    }, 60 * 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const target = count;
+    const current = display;
+    if (target === current) return;
+    const diff = target - current;
+    const steps = 30;
+    let step = 0;
+    if (animRef.current) cancelAnimationFrame(animRef.current);
+    const animate = () => {
+      step++;
+      const progress = step / steps;
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplay(Math.round(current + diff * eased));
+      if (step < steps) animRef.current = requestAnimationFrame(animate);
+    };
+    animRef.current = requestAnimationFrame(animate);
+    return () => { if (animRef.current) cancelAnimationFrame(animRef.current); };
+  }, [count]);
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+      <span style={{
+        width: "10px", height: "10px", borderRadius: "50%",
+        background: "#22c55e", flexShrink: 0,
+        boxShadow: "0 0 0 0 rgba(34,197,94,0.5)",
+        animation: "pulse-green 2s infinite",
+        display: "inline-block",
+      }} />
+      <span style={{ ...ff, color: "rgba(255,255,255,0.75)", fontSize: "14px", letterSpacing: "0.03em" }}>
+        Уже зарегистрировано:{" "}
+        <span style={{ color: WHITE, fontWeight: 700, fontSize: "16px" }}>{display}</span>{" "}
+        человек
+      </span>
+    </div>
+  );
+};
+
 // ─── ОТЗЫВЫ УЧЕНИЦ (KINESCOPE) ────────────────────────────────────────────────
 const REVIEWS = [
   {
@@ -677,42 +737,69 @@ export default function RoadToHorecaPage() {
           <AOS delay={100}>
             <h1 style={{
               ...ffH, color: WHITE,
-              fontSize: "clamp(44px, 8.5vw, 120px)",
-              textTransform: "uppercase", lineHeight: 0.9,
-              letterSpacing: "-0.02em", margin: "0 0 12px",
+              fontSize: "clamp(36px, 7vw, 108px)",
+              textTransform: "uppercase", lineHeight: 0.92,
+              letterSpacing: "-0.02em", margin: "0 0 20px",
               fontWeight: 700,
             }}>
-              Заказов стало меньше.<br />Деньги — в другом месте.
+              Заказов меньше —<br />но не в&nbsp;HoReCa.
             </h1>
-          </AOS>
-          <AOS delay={180}>
-            <h2 style={{
-              ...ffH, color: WHITE,
-              fontSize: "clamp(22px, 3.5vw, 52px)",
-              fontStyle: "italic", fontWeight: 400,
-              letterSpacing: "-0.01em", lineHeight: 1,
-              margin: "0 0 28px",
-            }}>
-              Где дизайнеру искать клиентов в 2026 году
-            </h2>
           </AOS>
 
           {/* Подзаголовок */}
-          <AOS delay={250}>
+          <AOS delay={180}>
             <p style={{
-              ...ff, color: "rgba(255,255,255,0.8)",
-              fontSize: "clamp(16px, 2vw, 22px)", lineHeight: 1.5,
-              maxWidth: "720px", margin: "0 0 40px",
+              ...ff, color: "rgba(255,255,255,0.85)",
+              fontSize: "clamp(15px, 1.8vw, 22px)", lineHeight: 1.55,
+              maxWidth: "640px", margin: "0 0 32px",
             }}>
-              Пока одни ждут, когда «вернутся клиенты», другие уже работают с отельерами
-              и закрывают проекты на 4,5 млн ₽ за 1,5 месяца. На эфире 12 мая Анна Симонова
-              покажет, где именно искать заказы и как в них заходить.
+              Где дизайнеру брать клиентов в 2026, когда жилой рынок просел.
             </p>
           </AOS>
 
-          {/* Кнопки */}
-          <AOS delay={320}>
-            <DoubleCTA onRegister={openRegister} dark />
+          {/* Буллеты */}
+          <AOS delay={240}>
+            <div style={{
+              display: "flex", flexDirection: "column", gap: "12px",
+              margin: "0 0 36px",
+            }}>
+              {[
+                "Карта рынка HoReCa и где отельеры ищут дизайнеров",
+                "Структура КП, после которой отельер отвечает",
+                "Разбор проекта на 4,5 млн ₽ за 47 дней",
+              ].map((text, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+                  <span style={{ color: LIME, fontWeight: 700, fontSize: "16px", lineHeight: 1.4, flexShrink: 0, ...ff }}>✓</span>
+                  <span style={{ ...ff, color: "rgba(255,255,255,0.9)", fontSize: "clamp(14px, 1.5vw, 18px)", lineHeight: 1.4 }}>{text}</span>
+                </div>
+              ))}
+            </div>
+          </AOS>
+
+          {/* Мета-инфо */}
+          <AOS delay={290}>
+            <div style={{ display: "flex", gap: "24px", flexWrap: "wrap", margin: "0 0 36px" }}>
+              <span style={{ ...ff, color: "rgba(255,255,255,0.7)", fontSize: "14px", letterSpacing: "0.04em" }}>
+                📅 12 мая · 15:00 МСК
+              </span>
+              <span style={{ ...ff, color: "rgba(255,255,255,0.7)", fontSize: "14px", letterSpacing: "0.04em" }}>
+                ⏱ 75 минут
+              </span>
+            </div>
+          </AOS>
+
+          {/* Кнопка */}
+          <AOS delay={340}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "20px" }}>
+              <BtnPrimary
+                onClick={() => { openRegister(); ym(107087337, "reachGoal", "roadtohoreca_hero_cta"); }}
+                style={{ fontSize: "clamp(13px, 1.4vw, 16px)", padding: "20px 40px", letterSpacing: "0.08em" }}
+              >
+                Забрать место на эфире →
+              </BtnPrimary>
+
+              <HeroCounter />
+            </div>
           </AOS>
         </div>
       </section>
@@ -1649,6 +1736,11 @@ export default function RoadToHorecaPage() {
           0% { box-shadow: 0 0 0 0 rgba(212,245,66,0.5); }
           70% { box-shadow: 0 0 0 18px rgba(212,245,66,0); }
           100% { box-shadow: 0 0 0 0 rgba(212,245,66,0); }
+        }
+        @keyframes pulse-green {
+          0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+          70% { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+          100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
         }
         @keyframes arrow-bounce-left {
           0%, 100% { transform: translateX(0); }
