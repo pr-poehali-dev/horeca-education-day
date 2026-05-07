@@ -32,26 +32,63 @@ const vkGoal = (goal: string) => {
 // ─── ФОРМА GETCOURSE ──────────────────────────────────────────────────────────
 const GC_IFRAME_SRC = "https://cabinet.onlinerad.ru/pl/lite/widget/widget?id=1600234";
 
+const GC_SUCCESS_URL = "cabinet.onlinerad.ru/sps_web";
+
 const GetCourseForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState(420);
+  const firedRef = useRef(false);
 
   useEffect(() => {
+    firedRef.current = false;
+
+    const fireOnce = () => {
+      if (firedRef.current) return;
+      firedRef.current = true;
+      onSuccess();
+    };
+
+    // 1. postMessage (если GetCourse когда-нибудь пришлёт)
     const handleMessage = (e: MessageEvent) => {
       if (!e.origin.includes("onlinerad.ru")) return;
-      console.log("[GC postMessage]", e.origin, JSON.stringify(e.data));
-      if (e.data?.height) {
-        setHeight(Number(e.data.height));
-      }
       const raw = typeof e.data === "string" ? e.data : JSON.stringify(e.data ?? "");
       const successKeywords = ["form_submitted", "success", "order_added", "lead", "purchase"];
-      if (successKeywords.some(k => raw.toLowerCase().includes(k))) {
-        console.log("[GC] onSuccess triggered by:", raw);
-        onSuccess();
-      }
+      if (successKeywords.some(k => raw.toLowerCase().includes(k))) fireOnce();
+      if (e.data?.height) setHeight(Number(e.data.height));
     };
     window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
+
+    // 2. Polling: ловим редирект iframe на страницу спасибо по смене высоты + навигации
+    //    Из-за cross-origin читать iframe.src нельзя, но можно поймать событие load на iframe
+    const iframe = iframeRef.current;
+    let loadCount = 0;
+    const handleLoad = () => {
+      loadCount++;
+      if (loadCount > 1) {
+        // Второй load = редирект на страницу спасибо
+        fireOnce();
+      }
+    };
+    iframe?.addEventListener("load", handleLoad);
+
+    // 3. PerformanceObserver — ловим навигацию к success-URL через resource timing
+    let observer: PerformanceObserver | null = null;
+    try {
+      observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (entry.name.includes(GC_SUCCESS_URL)) {
+            fireOnce();
+          }
+        }
+      });
+      observer.observe({ type: "navigation", buffered: true });
+    } catch (_e) { /* PerformanceObserver not supported */ }
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+      iframe?.removeEventListener("load", handleLoad);
+      observer?.disconnect();
+    };
   }, [onSuccess]);
 
   return (
