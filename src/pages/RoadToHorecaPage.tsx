@@ -23,9 +23,9 @@ const ym = (...args: unknown[]) => {
 };
 
 const vkGoal = (goal: string) => {
-  const w = window as unknown as Record<string, (...a: unknown[]) => void>;
-  if (w["VK"] && (w["VK"] as unknown as Record<string, (...a: unknown[]) => void>)["Goal"]) {
-    (w["VK"] as unknown as Record<string, (...a: unknown[]) => void>)["Goal"](goal);
+  const w = window as unknown as { _tmr?: Array<Record<string, unknown>> };
+  if (w._tmr) {
+    w._tmr.push({ type: "reachGoal", id: "3761153", goal });
   }
 };
 
