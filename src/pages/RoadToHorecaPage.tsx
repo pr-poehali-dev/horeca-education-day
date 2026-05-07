@@ -39,13 +39,14 @@ const GetCourseForm = ({ onSuccess }: { onSuccess: () => void }) => {
   useEffect(() => {
     const handleMessage = (e: MessageEvent) => {
       if (!e.origin.includes("onlinerad.ru")) return;
+      console.log("[GC postMessage]", e.origin, JSON.stringify(e.data));
       if (e.data?.height) {
         setHeight(Number(e.data.height));
       }
-      if (
-        e.data?.type === "form_submitted" ||
-        (typeof e.data === "string" && e.data.includes("form_submitted"))
-      ) {
+      const raw = typeof e.data === "string" ? e.data : JSON.stringify(e.data ?? "");
+      const successKeywords = ["form_submitted", "success", "order_added", "lead", "purchase"];
+      if (successKeywords.some(k => raw.toLowerCase().includes(k))) {
+        console.log("[GC] onSuccess triggered by:", raw);
         onSuccess();
       }
     };
