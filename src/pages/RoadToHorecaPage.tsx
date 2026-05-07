@@ -30,13 +30,23 @@ const vkGoal = (goal: string) => {
 };
 
 // ─── ФОРМА GETCOURSE ──────────────────────────────────────────────────────────
-const GC_IFRAME_SRC = "https://cabinet.onlinerad.ru/pl/lite/widget/widget?id=1600234";
+const GC_BASE_SRC = "https://cabinet.onlinerad.ru/pl/lite/widget/widget?id=1600234";
+const UTM_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
+
+const getGcSrc = () => {
+  const sp = new URLSearchParams(window.location.search);
+  const utms = new URLSearchParams();
+  UTM_PARAMS.forEach(k => { if (sp.has(k)) utms.set(k, sp.get(k)!); });
+  const utmStr = utms.toString();
+  return utmStr ? `${GC_BASE_SRC}&${utmStr}` : GC_BASE_SRC;
+};
 
 const GC_SUCCESS_URL = "cabinet.onlinerad.ru/sps_web";
 
 const GetCourseForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState(420);
+  const [gcSrc] = useState(getGcSrc);
   const firedRef = useRef(false);
 
   useEffect(() => {
@@ -95,7 +105,7 @@ const GetCourseForm = ({ onSuccess }: { onSuccess: () => void }) => {
     <div style={{ width: "100%", overflow: "hidden" }}>
       <iframe
         ref={iframeRef}
-        src={GC_IFRAME_SRC}
+        src={gcSrc}
         style={{ width: "100%", height: `${height}px`, border: "none", display: "block" }}
         allowFullScreen
         scrolling="no"
