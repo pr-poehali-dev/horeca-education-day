@@ -30,47 +30,37 @@ const vkGoal = (goal: string) => {
 };
 
 // ─── ФОРМА GETCOURSE ──────────────────────────────────────────────────────────
+const GC_IFRAME_SRC = "https://cabinet.onlinerad.ru/pl/lite/widget/widget?id=1600234";
+
 const GetCourseForm = ({ onSuccess }: { onSuccess: () => void }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [height, setHeight] = useState(420);
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    const scriptId = "7088712899050eef617164607914f524aca1a400";
-
-    // Удаляем старый скрипт если есть
-    const old = document.getElementById(scriptId);
-    if (old) old.remove();
-
-    const script = document.createElement("script");
-    script.id = scriptId;
-    script.src = "https://cabinet.onlinerad.ru/pl/lite/widget/script?id=1600234";
-    script.async = true;
-    el.appendChild(script);
-
-    // Слушаем отправку формы через postMessage от GetCourse
     const handleMessage = (e: MessageEvent) => {
+      if (!e.origin.includes("onlinerad.ru")) return;
+      if (e.data?.height) {
+        setHeight(Number(e.data.height));
+      }
       if (
-        e.origin.includes("onlinerad.ru") ||
-        (typeof e.data === "string" && e.data.includes("form_submitted")) ||
-        (typeof e.data === "object" && e.data?.type === "form_submitted")
+        e.data?.type === "form_submitted" ||
+        (typeof e.data === "string" && e.data.includes("form_submitted"))
       ) {
         onSuccess();
       }
     };
     window.addEventListener("message", handleMessage);
-
-    return () => {
-      window.removeEventListener("message", handleMessage);
-    };
+    return () => window.removeEventListener("message", handleMessage);
   }, [onSuccess]);
 
   return (
-    <div style={{ width: "100%" }}>
-      <div
-        ref={containerRef}
-        style={{ width: "100%", minHeight: "200px" }}
+    <div style={{ width: "100%", overflow: "hidden" }}>
+      <iframe
+        ref={iframeRef}
+        src={GC_IFRAME_SRC}
+        style={{ width: "100%", height: `${height}px`, border: "none", display: "block" }}
+        allowFullScreen
+        scrolling="no"
       />
     </div>
   );
@@ -165,7 +155,7 @@ const Header = ({ onRegister }: { onRegister: () => void }) => {
         {/* Nav — desktop */}
         <nav style={{ display: "flex", gap: "32px", alignItems: "center" }} className="hide-mobile">
           {[
-            { label: "12.05 · 18:00", id: "hero" },
+            { label: "12.05 · 15:00", id: "hero" },
             { label: "Регистрация", id: "register" },
             { label: "Программа", id: "program" },
             { label: "Спикер", id: "speaker" },
@@ -474,7 +464,7 @@ export default function RoadToHorecaPage() {
               textTransform: "uppercase", marginBottom: "28px",
             }}>
               <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: LIME, flexShrink: 0 }} />
-              Бесплатный онлайн-эфир · 12 Мая · 18:00 МСК
+              Бесплатный онлайн-эфир · 12 Мая · 15:00 МСК
             </div>
           </AOS>
 
@@ -1193,7 +1183,7 @@ export default function RoadToHorecaPage() {
               letterSpacing: "0.2em", textTransform: "uppercase",
               marginBottom: "28px",
             }}>
-              12.05 · 18:00 МСК
+              12.05 · 15:00 МСК
             </div>
           </AOS>
 
@@ -1217,7 +1207,7 @@ export default function RoadToHorecaPage() {
               lineHeight: 1.6, marginBottom: "48px",
             }}>
               Через час после эфира вы будете смотреть на свою профессию иначе.<br />
-              12 мая в 18:00 МСК. Бесплатно.
+              12 мая в 15:00 МСК. Бесплатно.
             </p>
           </AOS>
 
