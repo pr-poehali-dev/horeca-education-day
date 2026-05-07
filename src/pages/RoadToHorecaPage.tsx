@@ -685,7 +685,7 @@ export default function RoadToHorecaPage() {
             }}>✕</button>
             <GetCourseForm onSuccess={() => {
               ym(107087337, "reachGoal", "roadtohoreca_form_submit");
-              vkGoal("lead");
+              vkGoal("roadtohoreca_lead");
             }} />
           </div>
         </div>
