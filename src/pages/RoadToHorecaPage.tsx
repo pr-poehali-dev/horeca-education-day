@@ -354,6 +354,209 @@ const CounterStat = ({ prefix = "", suffix = "", label, target, decimals = 0 }: 
   );
 };
 
+// ─── ОТЗЫВЫ УЧЕНИЦ (KINESCOPE) ────────────────────────────────────────────────
+const REVIEWS = [
+  {
+    id: "iQpZB7LgYgEhvcSMJnEcDB",
+    cover: "https://cdn.poehali.dev/files/69761a21-7c8e-42a5-bc91-0c9d3fc966a5.png",
+    name: "Ученица 1",
+  },
+  {
+    id: "39zsErsitVSgkai4HddiFW",
+    cover: "https://cdn.poehali.dev/files/867dc6f4-24d8-41cc-b670-4470e7baf561.png",
+    name: "Ученица 2",
+  },
+  {
+    id: "vNjK1onGKjzKsRfFjou9Sd",
+    cover: "https://cdn.poehali.dev/files/9287f5f1-8b2d-4862-a261-6c1fa9be0ddb.png",
+    name: "Ученица 3",
+  },
+  {
+    id: "5LVYSYxGcBou32VDfrZELD",
+    cover: "https://cdn.poehali.dev/files/75036c32-7c92-4038-852b-19e59163ff6d.png",
+    name: "Ученица 4",
+  },
+  {
+    id: "qySjCSjbmaqHQbEp13kPxX",
+    cover: "https://cdn.poehali.dev/files/90a8cb34-77d3-4a77-9336-90201349a322.png",
+    name: "Ученица 5",
+  },
+];
+
+const VideoCard = ({ review }: { review: typeof REVIEWS[0] }) => {
+  const [playing, setPlaying] = useState(false);
+
+  return (
+    <div style={{
+      position: "relative",
+      borderRadius: "16px",
+      overflow: "hidden",
+      aspectRatio: "9/16",
+      background: "#000",
+      cursor: "pointer",
+      flexShrink: 0,
+    }}
+      onClick={() => setPlaying(true)}
+    >
+      {!playing ? (
+        <>
+          <img
+            src={review.cover}
+            alt={review.name}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.4s ease" }}
+            onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.03)")}
+            onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
+          />
+          <div style={{
+            position: "absolute", inset: 0,
+            background: "linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%)",
+          }} />
+          <div style={{
+            position: "absolute", top: "50%", left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "64px", height: "64px",
+            background: LIME,
+            borderRadius: "50%",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: "0 0 0 0 rgba(212,245,66,0.4)",
+            animation: "pulse-lime 2s infinite",
+          }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <polygon points="9,7 19,12 9,17" fill={GRAPHITE} />
+            </svg>
+          </div>
+        </>
+      ) : (
+        <iframe
+          src={`https://kinescope.io/embed/${review.id}?autoplay=1`}
+          style={{ width: "100%", height: "100%", border: "none", display: "block" }}
+          allow="autoplay; fullscreen"
+          allowFullScreen
+        />
+      )}
+    </div>
+  );
+};
+
+const ReviewsSection = () => {
+  const [index, setIndex] = useState(0);
+  const perPage = 3;
+  const total = REVIEWS.length;
+  const maxIndex = total - perPage;
+
+  const prev = () => setIndex(i => Math.max(0, i - 1));
+  const next = () => setIndex(i => Math.min(maxIndex, i + 1));
+
+  const visible = REVIEWS.slice(index, index + perPage);
+
+  return (
+    <section style={{
+      background: "#111",
+      padding: "clamp(60px, 10vh, 120px) clamp(20px, 5vw, 80px)",
+    }}>
+      <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
+        <AOS><SectionLabel light>10 / Отзывы учениц</SectionLabel></AOS>
+
+        <AOS delay={80}>
+          <h2 style={{
+            ...ffH, color: WHITE,
+            fontSize: "clamp(32px, 5vw, 72px)",
+            textTransform: "uppercase", lineHeight: 0.95,
+            letterSpacing: "-0.02em", margin: "0 0 56px",
+          }}>
+            Они уже<br /><span style={{ color: LIME }}>прошли путь</span>
+          </h2>
+        </AOS>
+
+        <div style={{ position: "relative" }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: "20px",
+          }}
+            className="reviews-grid"
+          >
+            {visible.map((r) => (
+              <AOS key={r.id}>
+                <VideoCard review={r} />
+              </AOS>
+            ))}
+          </div>
+
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "16px",
+            marginTop: "40px",
+          }}>
+            <button
+              onClick={prev}
+              disabled={index === 0}
+              style={{
+                width: "56px", height: "56px",
+                borderRadius: "50%",
+                border: `2px solid ${index === 0 ? "rgba(255,255,255,0.2)" : LIME}`,
+                background: "transparent",
+                cursor: index === 0 ? "not-allowed" : "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                transition: "all 0.3s ease",
+                opacity: index === 0 ? 0.35 : 1,
+                animation: index === 0 ? "none" : "arrow-bounce-left 1.5s ease-in-out infinite",
+              }}
+              onMouseEnter={e => { if (index > 0) (e.currentTarget as HTMLButtonElement).style.background = LIME; }}
+              onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background = "transparent"}
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M13 4L7 10L13 16" stroke={index === 0 ? "rgba(255,255,255,0.3)" : LIME} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+
+            <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+              {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+                <div
+                  key={i}
+                  onClick={() => setIndex(i)}
+                  style={{
+                    width: i === index ? "24px" : "8px",
+                    height: "8px",
+                    borderRadius: "4px",
+                    background: i === index ? LIME : "rgba(255,255,255,0.3)",
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                  }}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={next}
+              disabled={index >= maxIndex}
+              style={{
+                width: "56px", height: "56px",
+                borderRadius: "50%",
+                border: `2px solid ${index >= maxIndex ? "rgba(255,255,255,0.2)" : LIME}`,
+                background: "transparent",
+                cursor: index >= maxIndex ? "not-allowed" : "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                transition: "all 0.3s ease",
+                opacity: index >= maxIndex ? 0.35 : 1,
+                animation: index >= maxIndex ? "none" : "arrow-bounce-right 1.5s ease-in-out infinite",
+              }}
+              onMouseEnter={e => { if (index < maxIndex) (e.currentTarget as HTMLButtonElement).style.background = LIME; }}
+              onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background = "transparent"}
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M7 4L13 10L7 16" stroke={index >= maxIndex ? "rgba(255,255,255,0.3)" : LIME} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 // ──────────────────────────────────────────────────────────────────────────────
 // ГЛАВНЫЙ КОМПОНЕНТ
 // ──────────────────────────────────────────────────────────────────────────────
@@ -1262,11 +1465,16 @@ export default function RoadToHorecaPage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════════
+          ЭКРАН 10 · ОТЗЫВЫ УЧЕНИЦ (графит)
+      ═══════════════════════════════════════════════════════ */}
+      <ReviewsSection />
+
+      {/* ═══════════════════════════════════════════════════════
           ЭКРАН 11 · FAQ (графит)
       ═══════════════════════════════════════════════════════ */}
       <section id="faq" style={{ background: GRAPHITE, padding: "clamp(60px, 10vh, 120px) clamp(20px, 5vw, 80px)" }}>
         <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
-          <AOS><SectionLabel light>10 / Вопросы и ответы</SectionLabel></AOS>
+          <AOS><SectionLabel light>11 / Вопросы и ответы</SectionLabel></AOS>
 
           <AOS delay={80}>
             <h2 style={{
@@ -1424,14 +1632,29 @@ export default function RoadToHorecaPage() {
           .hide-mobile { display: none !important; }
           .grid-cols-1-md { grid-template-columns: 1fr !important; }
           .grid-cols-2-md { grid-template-columns: 1fr 1fr !important; }
+          .reviews-grid { grid-template-columns: 1fr 1fr !important; }
         }
         @media (max-width: 600px) {
           .grid-cols-2-md { grid-template-columns: 1fr !important; }
+          .reviews-grid { grid-template-columns: 1fr !important; }
         }
         * { box-sizing: border-box; }
         body { cursor: none; }
         @media (hover: none) {
           body { cursor: auto; }
+        }
+        @keyframes pulse-lime {
+          0% { box-shadow: 0 0 0 0 rgba(212,245,66,0.5); }
+          70% { box-shadow: 0 0 0 18px rgba(212,245,66,0); }
+          100% { box-shadow: 0 0 0 0 rgba(212,245,66,0); }
+        }
+        @keyframes arrow-bounce-left {
+          0%, 100% { transform: translateX(0); }
+          50% { transform: translateX(-5px); }
+        }
+        @keyframes arrow-bounce-right {
+          0%, 100% { transform: translateX(0); }
+          50% { transform: translateX(5px); }
         }
       `}</style>
     </div>
