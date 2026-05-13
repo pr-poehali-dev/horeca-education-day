@@ -61,13 +61,71 @@ const stages = [
 const faqItems = [
   { q: "Я была на эфире 12 мая. Будет ли что-то новое?", a: "Да. 12 мая мы говорили о рынке. 19 мая — о самой программе. Темы не пересекаются." },
   { q: "Это запись или живой эфир?", a: "Только живой эфир. Запись остаётся внутри программы и доступна участникам потока. На внешние ресурсы и в открытый доступ урок не выкладывается." },
-  { q: "Если не получится прийти в 19:00?", a: "Догнать никак — запись не передаётся тем, кто не вошёл в поток. Если планируете прийти, спланируйте этот вечер заранее." },
+  { q: "Если не получится прийти в 15:00?", a: "Догнать никак — запись не передаётся тем, кто не вошёл в поток. Если планируете прийти, спланируйте этот вечер заранее." },
   { q: "Можно ли записаться в поток после урока?", a: "Да. Спецусловия для участников урока действуют до его окончания." },
 ];
 
+// ─── AOS КОМПОНЕНТ ────────────────────────────────────────────────────────────
+const AOS = ({ children, delay = 0, style }: { children: React.ReactNode; delay?: number; style?: React.CSSProperties }) => (
+  <div className="ol-aos-item" style={{
+    opacity: 0, transform: "translateY(32px)",
+    transition: `opacity 0.8s ease ${delay}ms, transform 0.8s ease ${delay}ms`,
+    ...style,
+  }}>{children}</div>
+);
+
+// ─── КАСТОМНЫЙ КУРСОР ─────────────────────────────────────────────────────────
+const CustomCursor = () => {
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const dotRef = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState(false);
+
+  useEffect(() => {
+    const move = (e: MouseEvent) => {
+      if (cursorRef.current) {
+        cursorRef.current.style.left = e.clientX + "px";
+        cursorRef.current.style.top = e.clientY + "px";
+      }
+      if (dotRef.current) {
+        dotRef.current.style.left = e.clientX + "px";
+        dotRef.current.style.top = e.clientY + "px";
+      }
+    };
+    const over = (e: MouseEvent) => {
+      const t = e.target as HTMLElement;
+      setHovered(!!(t.closest("button") || t.closest("a") || t.closest("[data-hover]")));
+    };
+    window.addEventListener("mousemove", move);
+    window.addEventListener("mouseover", over);
+    return () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mouseover", over);
+    };
+  }, []);
+
+  return (
+    <>
+      <div ref={cursorRef} style={{
+        position: "fixed", pointerEvents: "none", zIndex: 99999,
+        width: hovered ? "56px" : "32px", height: hovered ? "56px" : "32px",
+        border: `2px solid ${LIME}`, borderRadius: "50%",
+        transform: "translate(-50%, -50%)",
+        transition: "width 0.3s ease, height 0.3s ease, background 0.3s ease",
+        background: hovered ? `${LIME}22` : "transparent",
+        mixBlendMode: "difference",
+      }} />
+      <div ref={dotRef} style={{
+        position: "fixed", pointerEvents: "none", zIndex: 99999,
+        width: "6px", height: "6px", background: LIME, borderRadius: "50%",
+        transform: "translate(-50%, -50%)",
+      }} />
+    </>
+  );
+};
+
 // ─── СЧЁТЧИК ОБРАТНОГО ОТСЧЁТА ────────────────────────────────────────────────
-// 19 мая 2026, 19:00 МСК (UTC+3)
-const TARGET_DATE = new Date("2026-05-19T16:00:00Z");
+// 19 мая 2026, 15:00 МСК (UTC+3 = 12:00 UTC)
+const TARGET_DATE = new Date("2026-05-19T12:00:00Z");
 
 function useCountdown() {
   const calc = () => {
@@ -111,50 +169,39 @@ function Countdown() {
 
   return (
     <section style={{ background: "#111111", borderTop: `1px solid rgba(212,245,66,0.1)`, padding: "clamp(48px,8vh,80px) 24px" }}>
-      <style>{`
-        @keyframes ol-tick { 0%{transform:scaleY(1)} 50%{transform:scaleY(0.88)} 100%{transform:scaleY(1)} }
-        @keyframes ol-pulse-lime {
-          0%{box-shadow:0 0 0 0 rgba(212,245,66,0.45)}
-          70%{box-shadow:0 0 0 18px rgba(212,245,66,0)}
-          100%{box-shadow:0 0 0 0 rgba(212,245,66,0)}
-        }
-        @keyframes ol-arrow-left { 0%,100%{transform:translateX(0)} 50%{transform:translateX(-5px)} }
-        @keyframes ol-arrow-right { 0%,100%{transform:translateX(0)} 50%{transform:translateX(5px)} }
-      `}</style>
       <div style={{ maxWidth: 880, margin: "0 auto", textAlign: "center" }}>
-        <p style={{ ...ff, color: "rgba(255,255,255,0.35)", fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: 36 }}>
-          До начала открытого урока
-        </p>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", gap: "clamp(10px,2.5vw,36px)" }}>
-          {units.map((u, i) => (
-            <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
-              <div style={{
-                background: "rgba(212,245,66,0.06)",
-                border: `1px solid rgba(212,245,66,0.18)`,
-                borderRadius: 10,
-                padding: "clamp(14px,2.5vw,26px) clamp(16px,3.5vw,36px)",
-                minWidth: "clamp(60px,14vw,110px)",
-              }}>
-                <span style={{
-                  ...ffH, color: LIME,
-                  fontSize: "clamp(2rem,6.5vw,4.5rem)",
-                  lineHeight: 1,
-                  display: "block",
-                  fontWeight: 400,
-                  animation: i === 3 ? "ol-tick 1s ease" : undefined,
+        <AOS>
+          <p style={{ ...ff, color: "rgba(255,255,255,0.35)", fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", marginBottom: 36 }}>
+            До начала открытого урока
+          </p>
+        </AOS>
+        <AOS delay={100}>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", gap: "clamp(10px,2.5vw,36px)" }}>
+            {units.map((u, i) => (
+              <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+                <div style={{
+                  background: "rgba(212,245,66,0.06)",
+                  border: `1px solid rgba(212,245,66,0.18)`,
+                  borderRadius: 10,
+                  padding: "clamp(14px,2.5vw,26px) clamp(16px,3.5vw,36px)",
+                  minWidth: "clamp(60px,14vw,110px)",
                 }}>
-                  {String(u.value).padStart(2, "0")}
+                  <span style={{ ...ffH, color: LIME, fontSize: "clamp(2rem,6.5vw,4.5rem)", lineHeight: 1, display: "block", fontWeight: 400 }}>
+                    {String(u.value).padStart(2, "0")}
+                  </span>
+                </div>
+                <span style={{ ...ff, color: "rgba(255,255,255,0.35)", fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+                  {u.label}
                 </span>
               </div>
-              <span style={{ ...ff, color: "rgba(255,255,255,0.35)", fontSize: 10, letterSpacing: "0.14em", textTransform: "uppercase" }}>
-                {u.label}
-              </span>
-            </div>
-          ))}
-        </div>
-        <p style={{ ...ff, color: "rgba(255,255,255,0.22)", fontSize: 11, marginTop: 36, letterSpacing: "0.08em" }}>
-          19 МАЯ · 19:00 МСК · ТОЛЬКО ПРЯМОЙ ЭФИР
-        </p>
+            ))}
+          </div>
+        </AOS>
+        <AOS delay={200}>
+          <p style={{ ...ff, color: "rgba(255,255,255,0.22)", fontSize: 11, marginTop: 36, letterSpacing: "0.08em" }}>
+            19 МАЯ · 15:00 МСК · ТОЛЬКО ПРЯМОЙ ЭФИР
+          </p>
+        </AOS>
       </div>
     </section>
   );
@@ -222,12 +269,16 @@ function ReviewsSection() {
   return (
     <section style={{ background: "#111111", padding: "clamp(60px,10vh,120px) 0" }}>
       <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 clamp(20px,5vw,80px)", marginBottom: 40 }}>
-        <p style={{ ...ff, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 20, fontWeight: 600 }}>
-          Отзывы учениц
-        </p>
-        <h2 style={{ ...ffH, color: WHITE, fontSize: "clamp(2rem,5vw,4.5rem)", textTransform: "uppercase", lineHeight: 0.95, letterSpacing: "-0.02em", margin: 0 }}>
-          Они уже<br /><span style={{ color: LIME }}>прошли путь</span>
-        </h2>
+        <AOS>
+          <p style={{ ...ff, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 20, fontWeight: 600 }}>
+            Отзывы учениц
+          </p>
+        </AOS>
+        <AOS delay={80}>
+          <h2 style={{ ...ffH, color: WHITE, fontSize: "clamp(2rem,5vw,4.5rem)", textTransform: "uppercase", lineHeight: 0.95, letterSpacing: "-0.02em", margin: 0 }}>
+            Они уже<br /><span style={{ color: LIME }}>прошли путь</span>
+          </h2>
+        </AOS>
       </div>
 
       <div style={{ overflow: "hidden", padding: "0 clamp(20px,5vw,80px)" }}>
@@ -329,7 +380,7 @@ function RegistrationModal({ open, onClose }: { open: boolean; onClose: () => vo
       >
         <button onClick={onClose} style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", color: "rgba(255,255,255,0.4)", fontSize: 24, cursor: "pointer", lineHeight: 1 }}>×</button>
         <div style={{ display: "inline-block", padding: "6px 14px", borderRadius: 6, background: LIME, color: GRAPHITE, fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", marginBottom: 20, ...ff }}>
-          ОТКРЫТЫЙ УРОК · 19 МАЯ · 19:00 МСК
+          ОТКРЫТЫЙ УРОК · 19 МАЯ · 15:00 МСК
         </div>
         <h3 style={{ ...ffH, color: WHITE, fontSize: "1.6rem", textTransform: "uppercase", marginBottom: 8, fontWeight: 400 }}>Регистрация</h3>
         <p style={{ ...ff, color: "rgba(255,255,255,0.4)", fontSize: 14, marginBottom: 24, lineHeight: 1.5 }}>
@@ -347,30 +398,28 @@ function RegistrationModal({ open, onClose }: { open: boolean; onClose: () => vo
 }
 
 // ─── КНОПКА РЕГИСТРАЦИИ ───────────────────────────────────────────────────────
-function RegBtn({ children, dark = false, wide = false, onOpen }: { children: React.ReactNode; dark?: boolean; wide?: boolean; onOpen: () => void }) {
+function RegBtn({ children, dark = false, wide = false, hero = false, onOpen }: { children: React.ReactNode; dark?: boolean; wide?: boolean; hero?: boolean; onOpen: () => void }) {
   return (
     <button
       onClick={onOpen}
+      className={hero ? "ol-hero-btn" : ""}
       style={{
         ...ff,
         background: dark ? GRAPHITE : LIME,
         color: dark ? WHITE : GRAPHITE,
-        border: "none",
+        border: hero ? `2px solid ${LIME}` : "none",
         borderRadius: 4,
-        padding: "16px 40px",
+        padding: hero ? "18px 48px" : "16px 40px",
         width: wide ? "100%" : "auto",
-        fontSize: 14,
+        fontSize: hero ? 15 : 14,
         fontWeight: 700,
         letterSpacing: "0.1em",
         textTransform: "uppercase",
         cursor: "pointer",
-        transition: "opacity 0.2s, transform 0.15s",
         display: "block",
+        position: "relative",
+        overflow: "hidden",
       }}
-      onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity = "0.85"; }}
-      onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity = "1"; }}
-      onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(0.97)"; }}
-      onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)"; }}
     >
       {children}
     </button>
@@ -437,7 +486,21 @@ export default function OpenLesson19MayPage() {
     fireOpenPopup();
   };
 
-  // Отслеживание скролла 75%
+  // AOS IntersectionObserver
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          (e.target as HTMLElement).style.opacity = "1";
+          (e.target as HTMLElement).style.transform = "translateY(0)";
+        }
+      });
+    }, { threshold: 0.06 });
+    document.querySelectorAll(".ol-aos-item").forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  // Скролл 75%
   useEffect(() => {
     const handleScroll = () => {
       if (scroll75Fired.current) return;
@@ -455,6 +518,55 @@ export default function OpenLesson19MayPage() {
 
   return (
     <div style={{ ...ff }}>
+      <style>{`
+        * { box-sizing: border-box; }
+        body { cursor: none; }
+        @media (hover: none) { body { cursor: auto; } }
+
+        /* Hero button shimmer */
+        .ol-hero-btn {
+          transition: opacity 0.2s, transform 0.15s, box-shadow 0.3s !important;
+        }
+        .ol-hero-btn::before {
+          content: '';
+          position: absolute;
+          top: 0; left: -100%; width: 60%; height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+          transform: skewX(-20deg);
+          animation: ol-hero-shimmer 2.8s ease-in-out infinite;
+        }
+        .ol-hero-btn:hover {
+          opacity: 0.9 !important;
+          box-shadow: 0 0 32px rgba(212,245,66,0.5), 0 0 8px rgba(212,245,66,0.3) !important;
+          transform: translateY(-2px) scale(1.02) !important;
+        }
+        .ol-hero-btn:active {
+          transform: scale(0.97) !important;
+        }
+
+        @keyframes ol-hero-shimmer {
+          0% { left: -100%; }
+          40% { left: 140%; }
+          100% { left: 140%; }
+        }
+        @keyframes ol-pulse-lime {
+          0%  { box-shadow: 0 0 0 0 rgba(212,245,66,0.5); }
+          70% { box-shadow: 0 0 0 18px rgba(212,245,66,0); }
+          100%{ box-shadow: 0 0 0 0 rgba(212,245,66,0); }
+        }
+        @keyframes ol-arrow-left  { 0%,100%{transform:translateX(0)} 50%{transform:translateX(-5px)} }
+        @keyframes ol-arrow-right { 0%,100%{transform:translateX(0)} 50%{transform:translateX(5px)}  }
+        @keyframes ol-float {
+          0%,100% { transform: translateY(0px); }
+          50%     { transform: translateY(-8px); }
+        }
+        @keyframes ol-fade-up {
+          from { opacity: 0; transform: translateY(24px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
+      <CustomCursor />
       <RegistrationModal open={modalOpen} onClose={() => setModalOpen(false)} />
 
       {/* ── ЭКРАН 1 · HERO ─────────────────────────────────────────────────── */}
@@ -464,24 +576,67 @@ export default function OpenLesson19MayPage() {
           <div style={{ flex: 1, backgroundImage: `url(${HERO_IMG_2})`, backgroundSize: "cover", backgroundPosition: "center", opacity: 0.22 }} />
         </div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(150deg, rgba(26,26,26,0.65) 0%, rgba(26,26,26,0.85) 100%)" }} />
+
         <div style={{ position: "relative", zIndex: 1, maxWidth: 1000, margin: "0 auto", padding: "clamp(80px,12vh,140px) clamp(20px,6vw,80px) clamp(60px,8vh,100px)", textAlign: "center" }}>
-          <div style={{ display: "inline-block", padding: "8px 18px", background: LIME, color: GRAPHITE, borderRadius: 4, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", marginBottom: 32, ...ff }}>
-            ОТКРЫТЫЙ УРОК · 19 МАЯ · 19:00 МСК
+          {/* Плашка */}
+          <div style={{
+            display: "inline-block", padding: "8px 18px", background: LIME, color: GRAPHITE, borderRadius: 4,
+            fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", marginBottom: 32, ...ff,
+            animation: "ol-fade-up 0.7s ease both",
+          }}>
+            ОТКРЫТЫЙ УРОК · 19 МАЯ · 15:00 МСК
           </div>
-          <h1 style={{ ...ffH, color: WHITE, fontSize: "clamp(2.4rem,7vw,6rem)", lineHeight: 0.95, textTransform: "uppercase", letterSpacing: "-0.02em", margin: "0 0 14px" }}>
-            Профессия будущего:<br />
-            <span style={{ color: LIME }}>HoReCa</span>
+
+          {/* Заголовок */}
+          <h1 style={{
+            ...ffH, color: WHITE,
+            fontSize: "clamp(1rem,3vw,1.5rem)",
+            fontWeight: 400, textTransform: "uppercase", letterSpacing: "0.08em",
+            margin: "0 0 12px",
+            animation: "ol-fade-up 0.7s ease 0.15s both",
+            color: "rgba(255,255,255,0.75)",
+          }}>
+            Открытый урок перед стартом нового потока
           </h1>
-          <p style={{ ...ffH, color: "rgba(255,255,255,0.65)", fontSize: "clamp(1.1rem,2.8vw,1.8rem)", fontWeight: 400, margin: "0 0 28px", fontStyle: "italic" }}>
-            Дизайнер интерьеров отелей
-          </p>
-          <p style={{ ...ff, color: "rgba(255,255,255,0.5)", fontSize: "clamp(14px,1.8vw,16px)", lineHeight: 1.65, maxWidth: 500, margin: "0 auto 44px" }}>
-            Открытый урок перед стартом нового потока. 90 минут — и вы понимаете, ваше это направление или нет.
-          </p>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <RegBtn onOpen={openModal}>Зарегистрироваться</RegBtn>
+
+          {/* Подзаголовок крупный */}
+          <div style={{ animation: "ol-fade-up 0.8s ease 0.25s both" }}>
+            <p style={{ ...ffH, color: WHITE, fontSize: "clamp(2.2rem,6.5vw,5.5rem)", lineHeight: 0.92, textTransform: "uppercase", letterSpacing: "-0.025em", margin: "0 0 6px" }}>
+              Профессия будущего:
+            </p>
+            <p style={{ ...ffH, color: LIME, fontSize: "clamp(2.2rem,6.5vw,5.5rem)", lineHeight: 0.92, textTransform: "uppercase", letterSpacing: "-0.025em", margin: "0 0 6px" }}>
+              HoReCa.
+            </p>
+            <p style={{ ...ffH, color: "rgba(255,255,255,0.65)", fontSize: "clamp(1.1rem,2.8vw,2rem)", lineHeight: 1.2, fontStyle: "italic", fontWeight: 400, margin: "0 0 28px" }}>
+              Дизайнер интерьеров отелей
+            </p>
           </div>
-          <p style={{ ...ff, color: "rgba(255,255,255,0.22)", fontSize: 11, marginTop: 14, letterSpacing: "0.06em" }}>Только прямой эфир.</p>
+
+          {/* Текст */}
+          <p style={{
+            ...ff, color: "rgba(255,255,255,0.5)", fontSize: "clamp(14px,1.8vw,16px)", lineHeight: 1.65,
+            maxWidth: 460, margin: "0 auto 44px",
+            animation: "ol-fade-up 0.8s ease 0.4s both",
+          }}>
+            90 минут — и вы понимаете, ваше это направление или нет.
+          </p>
+
+          {/* Кнопка с анимацией */}
+          <div style={{ display: "flex", justifyContent: "center", animation: "ol-fade-up 0.8s ease 0.55s both" }}>
+            <RegBtn hero onOpen={openModal}>Зарегистрироваться</RegBtn>
+          </div>
+          <p style={{
+            ...ff, color: "rgba(255,255,255,0.22)", fontSize: 11, marginTop: 14, letterSpacing: "0.06em",
+            animation: "ol-fade-up 0.8s ease 0.65s both",
+          }}>Только прямой эфир.</p>
+
+          {/* Скролл-индикатор */}
+          <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", animation: "ol-float 2.5s ease-in-out infinite", opacity: 0.4 }}>
+            <svg width="24" height="32" viewBox="0 0 24 32" fill="none">
+              <rect x="1" y="1" width="22" height="30" rx="11" stroke={LIME} strokeWidth="1.5" />
+              <rect x="10.5" y="7" width="3" height="7" rx="1.5" fill={LIME} />
+            </svg>
+          </div>
         </div>
       </section>
 
@@ -491,131 +646,193 @@ export default function OpenLesson19MayPage() {
       {/* ── ЭКРАН 2 · О ЧЁМ УРОК ───────────────────────────────────────────── */}
       <section style={{ background: GRAPHITE, padding: "clamp(60px,10vh,120px) clamp(20px,6vw,80px)", borderTop: "1px solid rgba(212,245,66,0.07)" }}>
         <div style={{ maxWidth: 840, margin: "0 auto" }}>
-          <p style={{ ...ff, color: LIME, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 28, fontWeight: 600 }}>01 / СУТЬ</p>
-          <h2 style={{ ...ffH, color: WHITE, fontSize: "clamp(1.8rem,4.5vw,3.5rem)", textTransform: "uppercase", lineHeight: 1, letterSpacing: "-0.01em", margin: "0 0 28px" }}>
-            За 90 минут вы получите ответ на главный вопрос
-          </h2>
-          <p style={{ ...ffH, color: LIME, fontSize: "clamp(1.1rem,2.2vw,1.4rem)", fontStyle: "italic", fontWeight: 400, marginBottom: 36, lineHeight: 1.45 }}>
-            «Подходит ли мне эта профессия и эта программа?»
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 18, color: "rgba(255,255,255,0.5)", fontSize: "clamp(15px,1.8vw,17px)", lineHeight: 1.75 }}>
-            <p style={{ margin: 0 }}>Я не буду пересказывать то, что было на вебинаре 12 мая. Эфир был про рынок и про то, почему отели — это вход для дизайнера из жилого. Урок 19 мая — про другое.</p>
-            <p style={{ margin: 0 }}>Это закрытое знакомство с самой программой. Я покажу, как устроены 15 недель обучения, представлю экспертов потока, расскажу про защиту проекта и отвечу на ваши вопросы.</p>
-            <p style={{ margin: 0 }}>Урок идёт только в прямом эфире. Запись остаётся внутри программы — её получают участники потока. В открытый доступ урок не выкладывается, поэтому всё, что я расскажу, услышат только те, кто будет онлайн 19 мая.</p>
-          </div>
+          <AOS>
+            <p style={{ ...ff, color: LIME, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 28, fontWeight: 600 }}>01 / СУТЬ</p>
+          </AOS>
+          <AOS delay={80}>
+            <h2 style={{ ...ffH, color: WHITE, fontSize: "clamp(1.8rem,4.5vw,3.5rem)", textTransform: "uppercase", lineHeight: 1, letterSpacing: "-0.01em", margin: "0 0 28px" }}>
+              За 90 минут вы получите ответ на главный вопрос
+            </h2>
+          </AOS>
+          <AOS delay={140}>
+            <p style={{ ...ffH, color: LIME, fontSize: "clamp(1.1rem,2.2vw,1.4rem)", fontStyle: "italic", fontWeight: 400, marginBottom: 36, lineHeight: 1.45 }}>
+              «Подходит ли мне эта профессия и эта программа?»
+            </p>
+          </AOS>
+          <AOS delay={200}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 18, color: "rgba(255,255,255,0.5)", fontSize: "clamp(15px,1.8vw,17px)", lineHeight: 1.75 }}>
+              <p style={{ margin: 0 }}>Я не буду пересказывать то, что было на вебинаре 12 мая. Эфир был про рынок и про то, почему отели — это вход для дизайнера из жилого. Урок 19 мая — про другое.</p>
+              <p style={{ margin: 0 }}>Это закрытое знакомство с самой программой. Я покажу, как устроены 15 недель обучения, представлю экспертов потока, расскажу про защиту проекта и отвечу на ваши вопросы.</p>
+              <p style={{ margin: 0 }}>Урок идёт только в прямом эфире. Запись остаётся внутри программы — её получают участники потока. В открытый доступ урок не выкладывается, поэтому всё, что я расскажу, услышат только те, кто будет онлайн 19 мая.</p>
+            </div>
+          </AOS>
         </div>
       </section>
 
       {/* ── ЭКРАН 3 · ПРОГРАММА УРОКА ───────────────────────────────────────── */}
       <section style={{ background: CREAM, padding: "clamp(60px,10vh,120px) clamp(20px,6vw,80px)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <p style={{ ...ff, color: "rgba(26,26,26,0.4)", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 28, fontWeight: 600 }}>02 / ПРОГРАММА УРОКА</p>
-          <h2 style={{ ...ffH, color: GRAPHITE, fontSize: "clamp(1.8rem,4.5vw,3.5rem)", textTransform: "uppercase", lineHeight: 1, letterSpacing: "-0.01em", margin: "0 0 48px" }}>
-            6 блоков, которые закроют все вопросы
-          </h2>
+          <AOS>
+            <p style={{ ...ff, color: "rgba(26,26,26,0.4)", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 28, fontWeight: 600 }}>02 / ПРОГРАММА УРОКА</p>
+          </AOS>
+          <AOS delay={80}>
+            <h2 style={{ ...ffH, color: GRAPHITE, fontSize: "clamp(1.8rem,4.5vw,3.5rem)", textTransform: "uppercase", lineHeight: 1, letterSpacing: "-0.01em", margin: "0 0 48px" }}>
+              6 блоков, которые закроют все вопросы
+            </h2>
+          </AOS>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%,320px),1fr))", gap: 18, marginBottom: 40 }}>
-            {programItems.map(item => (
-              <div key={item.num} style={{ background: WHITE, borderRadius: 16, padding: "26px 26px 22px", border: "1px solid rgba(26,26,26,0.07)" }}>
-                <div style={{ display: "inline-block", background: GRAPHITE, padding: "3px 9px", borderRadius: 4, marginBottom: 12 }}>
-                  <span style={{ ...ff, color: LIME, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em" }}>{item.num}</span>
+            {programItems.map((item, idx) => (
+              <AOS key={item.num} delay={idx * 60}>
+                <div style={{ background: WHITE, borderRadius: 16, padding: "26px 26px 22px", border: "1px solid rgba(26,26,26,0.07)", height: "100%", transition: "transform 0.3s ease, box-shadow 0.3s ease" }}
+                  onMouseEnter={e => { const el = e.currentTarget as HTMLDivElement; el.style.transform = "translateY(-4px)"; el.style.boxShadow = "0 12px 32px rgba(26,26,26,0.1)"; }}
+                  onMouseLeave={e => { const el = e.currentTarget as HTMLDivElement; el.style.transform = "translateY(0)"; el.style.boxShadow = "none"; }}
+                >
+                  <div style={{ display: "inline-block", background: GRAPHITE, padding: "3px 9px", borderRadius: 4, marginBottom: 12 }}>
+                    <span style={{ ...ff, color: LIME, fontSize: 10, fontWeight: 700, letterSpacing: "0.14em" }}>{item.num}</span>
+                  </div>
+                  <h3 style={{ ...ffH, color: GRAPHITE, fontSize: "clamp(0.95rem,1.8vw,1.1rem)", fontWeight: 400, marginBottom: 8 }}>{item.title}</h3>
+                  <p style={{ ...ff, color: "rgba(26,26,26,0.5)", fontSize: 14, lineHeight: 1.6, margin: 0 }}>{item.desc}</p>
                 </div>
-                <h3 style={{ ...ffH, color: GRAPHITE, fontSize: "clamp(0.95rem,1.8vw,1.1rem)", fontWeight: 400, marginBottom: 8 }}>{item.title}</h3>
-                <p style={{ ...ff, color: "rgba(26,26,26,0.5)", fontSize: 14, lineHeight: 1.6, margin: 0 }}>{item.desc}</p>
-              </div>
+              </AOS>
             ))}
           </div>
-          <div style={{ background: LIME, borderRadius: 14, padding: "20px 28px", ...ff, color: GRAPHITE, fontSize: "clamp(14px,1.6vw,15px)", lineHeight: 1.65, fontWeight: 500 }}>
-            Я хочу, чтобы в поток приходили те, кто понимает, на что идёт. Поэтому покажу программу целиком, и вы сможете принять осознанное решение.
-          </div>
+          <AOS delay={120}>
+            <div style={{ background: LIME, borderRadius: 14, padding: "20px 28px", ...ff, color: GRAPHITE, fontSize: "clamp(14px,1.6vw,15px)", lineHeight: 1.65, fontWeight: 500 }}>
+              Я хочу, чтобы в поток приходили те, кто понимает, на что идёт. Поэтому покажу программу целиком, и вы сможете принять осознанное решение.
+            </div>
+          </AOS>
         </div>
       </section>
 
       {/* ── ЭКРАН 4 · КУРС — ОБЩИЙ КОНТУР ──────────────────────────────────── */}
       <section style={{ background: GRAPHITE, padding: "clamp(60px,10vh,120px) clamp(20px,6vw,80px)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <p style={{ ...ff, color: LIME, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 28, fontWeight: 600 }}>03 / КУРС В ЦЕЛОМ</p>
-          <h2 style={{ ...ffH, color: WHITE, fontSize: "clamp(1.8rem,4.5vw,3.5rem)", textTransform: "uppercase", lineHeight: 1, letterSpacing: "-0.01em", margin: "0 0 16px" }}>
-            15 недель. Пять смысловых этапов.<br />Один реальный проект отеля.
-          </h2>
-          <p style={{ ...ff, color: "rgba(255,255,255,0.4)", fontSize: "clamp(14px,1.8vw,16px)", lineHeight: 1.65, marginBottom: 48, maxWidth: 600 }}>
-            Подробный разбор — на уроке. Здесь — карта маршрута, чтобы вы понимали логику.
-          </p>
+          <AOS>
+            <p style={{ ...ff, color: LIME, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 28, fontWeight: 600 }}>03 / КУРС В ЦЕЛОМ</p>
+          </AOS>
+          <AOS delay={80}>
+            <h2 style={{ ...ffH, color: WHITE, fontSize: "clamp(1.8rem,4.5vw,3.5rem)", textTransform: "uppercase", lineHeight: 1, letterSpacing: "-0.01em", margin: "0 0 16px" }}>
+              15 недель. Пять смысловых этапов.<br />Один реальный проект отеля.
+            </h2>
+          </AOS>
+          <AOS delay={140}>
+            <p style={{ ...ff, color: "rgba(255,255,255,0.4)", fontSize: "clamp(14px,1.8vw,16px)", lineHeight: 1.65, marginBottom: 48, maxWidth: 600 }}>
+              Подробный разбор — на уроке. Здесь — карта маршрута, чтобы вы понимали логику.
+            </p>
+          </AOS>
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 52 }}>
             {stages.map((stage, i) => (
-              <div key={i} style={{ background: stage.lime ? LIME : CREAM, borderRadius: 10, padding: "18px 24px", display: "flex", flexWrap: "wrap", gap: 10, alignItems: "baseline" }}>
-                <span style={{ ...ffH, color: GRAPHITE, fontSize: "clamp(0.9rem,1.6vw,1rem)", fontWeight: 400, flexShrink: 0 }}>{stage.label}</span>
-                <span style={{ ...ff, color: "rgba(26,26,26,0.45)", fontSize: 11, flexShrink: 0 }}>{stage.weeks}</span>
-                <p style={{ ...ff, color: "#2a2a2a", fontSize: 14, lineHeight: 1.6, margin: 0, flex: 1, minWidth: 200 }}>{stage.desc}</p>
-              </div>
+              <AOS key={i} delay={i * 60}>
+                <div style={{
+                  background: stage.lime ? LIME : CREAM, borderRadius: 10, padding: "18px 24px",
+                  display: "flex", flexWrap: "wrap", gap: 10, alignItems: "baseline",
+                  transition: "transform 0.3s ease",
+                }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateX(6px)"; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateX(0)"; }}
+                >
+                  <span style={{ ...ffH, color: GRAPHITE, fontSize: "clamp(0.9rem,1.6vw,1rem)", fontWeight: 400, flexShrink: 0 }}>{stage.label}</span>
+                  <span style={{ ...ff, color: "rgba(26,26,26,0.45)", fontSize: 11, flexShrink: 0 }}>{stage.weeks}</span>
+                  <p style={{ ...ff, color: "#2a2a2a", fontSize: 14, lineHeight: 1.6, margin: 0, flex: 1, minWidth: 200 }}>{stage.desc}</p>
+                </div>
+              </AOS>
             ))}
           </div>
-          <p style={{ ...ff, color: "rgba(255,255,255,0.4)", fontSize: 15, textAlign: "center", marginBottom: 32, lineHeight: 1.6 }}>
-            Что внутри каждого этапа, кто ведёт, какие задания и кейсы — на уроке 19 мая.
-          </p>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <RegBtn onOpen={openModal}>Зарегистрироваться на урок</RegBtn>
-          </div>
+          <AOS delay={100}>
+            <p style={{ ...ff, color: "rgba(255,255,255,0.4)", fontSize: 15, textAlign: "center", marginBottom: 32, lineHeight: 1.6 }}>
+              Что внутри каждого этапа, кто ведёт, какие задания и кейсы — на уроке 19 мая.
+            </p>
+          </AOS>
+          <AOS delay={160}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <RegBtn onOpen={openModal}>Зарегистрироваться на урок</RegBtn>
+            </div>
+          </AOS>
         </div>
       </section>
 
       {/* ── ЭКРАН 5 · ОБ АННЕ ───────────────────────────────────────────────── */}
       <section style={{ background: GRAPHITE, padding: "clamp(60px,10vh,120px) clamp(20px,6vw,80px)", borderTop: "1px solid rgba(212,245,66,0.07)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexWrap: "wrap", gap: "clamp(32px,6vw,80px)", alignItems: "flex-start" }}>
-          <div style={{ width: "clamp(220px,28vw,340px)", flexShrink: 0 }}>
+          <AOS style={{ width: "clamp(220px,28vw,340px)", flexShrink: 0 }}>
             <div style={{ borderRadius: 20, overflow: "hidden", aspectRatio: "3/4" }}>
-              <img src={ANNA_IMG} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} loading="lazy" />
+              <img src={ANNA_IMG} alt="Анна Симонова" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", transition: "transform 0.6s ease" }}
+                onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.04)"; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
+                loading="lazy"
+              />
             </div>
-          </div>
+          </AOS>
           <div style={{ flex: 1, minWidth: 260 }}>
-            <p style={{ ...ff, color: LIME, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 20, fontWeight: 600 }}>04 / АВТОР</p>
-            <h2 style={{ ...ffH, color: WHITE, fontSize: "clamp(2rem,5vw,3.5rem)", textTransform: "uppercase", lineHeight: 0.95, letterSpacing: "-0.02em", margin: "0 0 12px" }}>
-              Анна Симонова
-            </h2>
-            <p style={{ ...ff, color: LIME, fontSize: "clamp(14px,1.6vw,15px)", fontStyle: "italic", marginBottom: 28 }}>
-              Архитектор, дизайнер отелей, автор программы
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14, color: "rgba(255,255,255,0.5)", fontSize: "clamp(14px,1.7vw,16px)", lineHeight: 1.75, marginBottom: 36 }}>
-              <p style={{ margin: 0 }}>15 лет в проектировании. Реализованные отели в России и за рубежом. Текущий проект — пятизвёздочный отель, КП на 4,5 млн ₽ закрыто за полтора месяца.</p>
-              <p style={{ margin: 0 }}>Программу собрала по принципу «как сама хотела бы учиться, когда заходила в эту нишу». Без перепевок открытых лекций, без приглашённых теоретиков. Каждый спикер ведёт собственные проекты в HoReCa прямо сейчас.</p>
-            </div>
-            <blockquote style={{ margin: 0, paddingLeft: 22, borderLeft: `3px solid ${LIME}` }}>
-              <p style={{ ...ffH, color: CREAM, fontSize: "clamp(1rem,2vw,1.2rem)", fontStyle: "italic", fontWeight: 400, lineHeight: 1.6, margin: "0 0 12px" }}>
-                «Я не верю в курсы "обо всём и ни о чём". Я собрала программу так, как сама бы хотела учиться 15 лет назад: каждый эксперт — практик, каждое задание — шаг к реальному проекту, каждая неделя — закрытая тема без воды. На уроке 19 мая я покажу это изнутри».
+            <AOS>
+              <p style={{ ...ff, color: LIME, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 20, fontWeight: 600 }}>04 / АВТОР</p>
+            </AOS>
+            <AOS delay={80}>
+              <h2 style={{ ...ffH, color: WHITE, fontSize: "clamp(2rem,5vw,3.5rem)", textTransform: "uppercase", lineHeight: 0.95, letterSpacing: "-0.02em", margin: "0 0 12px" }}>
+                Анна Симонова
+              </h2>
+            </AOS>
+            <AOS delay={130}>
+              <p style={{ ...ff, color: LIME, fontSize: "clamp(14px,1.6vw,15px)", fontStyle: "italic", marginBottom: 28 }}>
+                Архитектор, дизайнер отелей, автор программы
               </p>
-              <footer style={{ ...ff, color: "rgba(255,255,255,0.28)", fontSize: 12 }}>— Анна Симонова</footer>
-            </blockquote>
+            </AOS>
+            <AOS delay={180}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 14, color: "rgba(255,255,255,0.5)", fontSize: "clamp(14px,1.7vw,16px)", lineHeight: 1.75, marginBottom: 36 }}>
+                <p style={{ margin: 0 }}>15 лет в проектировании. Реализованные отели в России и за рубежом. Текущий проект — пятизвёздочный отель, КП на 4,5 млн ₽ закрыто за полтора месяца.</p>
+                <p style={{ margin: 0 }}>Программу собрала по принципу «как сама хотела бы учиться, когда заходила в эту нишу». Без перепевок открытых лекций, без приглашённых теоретиков. Каждый спикер ведёт собственные проекты в HoReCa прямо сейчас.</p>
+              </div>
+            </AOS>
+            <AOS delay={240}>
+              <blockquote style={{ margin: 0, paddingLeft: 22, borderLeft: `3px solid ${LIME}` }}>
+                <p style={{ ...ffH, color: CREAM, fontSize: "clamp(1rem,2vw,1.2rem)", fontStyle: "italic", fontWeight: 400, lineHeight: 1.6, margin: "0 0 12px" }}>
+                  «Я не верю в курсы "обо всём и ни о чём". Я собрала программу так, как сама бы хотела учиться 15 лет назад: каждый эксперт — практик, каждое задание — шаг к реальному проекту, каждая неделя — закрытая тема без воды. На уроке 19 мая я покажу это изнутри».
+                </p>
+                <footer style={{ ...ff, color: "rgba(255,255,255,0.28)", fontSize: 12 }}>— Анна Симонова</footer>
+              </blockquote>
+            </AOS>
           </div>
         </div>
       </section>
 
-      {/* ── ОТЗЫВЫ УЧЕНИЦ (перед финальным блоком) ─────────────────────────── */}
+      {/* ── ОТЗЫВЫ УЧЕНИЦ ───────────────────────────────────────────────────── */}
       <ReviewsSection />
 
       {/* ── ЭКРАН 6 · ФИНАЛЬНЫЙ CTA + FAQ ───────────────────────────────────── */}
       <section style={{ background: LIME, padding: "clamp(60px,10vh,120px) clamp(20px,6vw,80px)" }}>
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
-          <p style={{ ...ff, color: "rgba(26,26,26,0.45)", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 24, fontWeight: 600 }}>
-            19.05 · 19:00 МСК
-          </p>
-          <h2 style={{ ...ffH, color: GRAPHITE, fontSize: "clamp(1.8rem,4.5vw,3.5rem)", textTransform: "uppercase", lineHeight: 1, letterSpacing: "-0.01em", margin: "0 0 20px" }}>
-            Это единственный открытый урок перед стартом потока
-          </h2>
-          <p style={{ ...ff, color: "#2a2a2a", fontSize: "clamp(15px,1.8vw,16px)", lineHeight: 1.7, marginBottom: 40 }}>
-            Если думаете о входе в HoReCa — приходите. Если не уверены — тем более. Запись остаётся внутри потока, поэтому решение приходить или нет лучше принять сейчас.
-          </p>
-          <RegBtn dark wide onOpen={openModal}>Зарегистрироваться →</RegBtn>
-          <p style={{ ...ff, color: "rgba(26,26,26,0.42)", fontSize: 11, marginTop: 14, letterSpacing: "0.04em" }}>
-            Бесплатно · Онлайн · 19 мая, 19:00 МСК · Только прямой эфир
-          </p>
+          <AOS>
+            <p style={{ ...ff, color: "rgba(26,26,26,0.45)", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 24, fontWeight: 600 }}>
+              19.05 · 15:00 МСК
+            </p>
+          </AOS>
+          <AOS delay={80}>
+            <h2 style={{ ...ffH, color: GRAPHITE, fontSize: "clamp(1.8rem,4.5vw,3.5rem)", textTransform: "uppercase", lineHeight: 1, letterSpacing: "-0.01em", margin: "0 0 20px" }}>
+              Это единственный открытый урок перед стартом потока
+            </h2>
+          </AOS>
+          <AOS delay={140}>
+            <p style={{ ...ff, color: "#2a2a2a", fontSize: "clamp(15px,1.8vw,16px)", lineHeight: 1.7, marginBottom: 40 }}>
+              Если думаете о входе в HoReCa — приходите. Если не уверены — тем более. Запись остаётся внутри потока, поэтому решение приходить или нет лучше принять сейчас.
+            </p>
+          </AOS>
+          <AOS delay={180}>
+            <RegBtn dark wide onOpen={openModal}>Зарегистрироваться →</RegBtn>
+            <p style={{ ...ff, color: "rgba(26,26,26,0.42)", fontSize: 11, marginTop: 14, letterSpacing: "0.04em" }}>
+              Бесплатно · Онлайн · 19 мая, 15:00 МСК · Только прямой эфир
+            </p>
+          </AOS>
 
-          <div style={{ marginTop: 56, background: "rgba(255,255,255,0.48)", borderRadius: 20, padding: "clamp(20px,4vw,40px)" }}>
-            <h3 style={{ ...ffH, color: GRAPHITE, fontSize: "clamp(1.1rem,2vw,1.4rem)", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 24, fontWeight: 400 }}>
-              Частые вопросы
-            </h3>
-            {faqItems.map((item, i) => (
-              <FaqItem key={i} q={item.q} a={item.a} />
-            ))}
-          </div>
+          <AOS delay={240}>
+            <div style={{ marginTop: 56, background: "rgba(255,255,255,0.48)", borderRadius: 20, padding: "clamp(20px,4vw,40px)" }}>
+              <h3 style={{ ...ffH, color: GRAPHITE, fontSize: "clamp(1.1rem,2vw,1.4rem)", textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 24, fontWeight: 400 }}>
+                Частые вопросы
+              </h3>
+              {faqItems.map((item, i) => (
+                <FaqItem key={i} q={item.q} a={item.a} />
+              ))}
+            </div>
+          </AOS>
         </div>
       </section>
 
