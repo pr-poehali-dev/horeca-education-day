@@ -13,6 +13,11 @@ const ANNA_IMG = "https://cdn.poehali.dev/projects/f16b0695-ed59-4bf0-98ea-73c41
 const YM_COUNTER = 107087337;
 const VK_PIXEL_ID = "3761153";
 
+// GetCourse iframe (widget?id=... — виджет-обёртка, а не скрипт)
+const GC_BASE_SRC = "https://cabinet.onlinerad.ru/pl/lite/widget/widget?id=1603324";
+const GC_SUCCESS_URL = "cabinet.onlinerad.ru/sps_web";
+const UTM_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
+
 const ffH: React.CSSProperties = { fontFamily: "'SangBleu Kingdom', 'Cormorant', Georgia, serif" };
 const ff: React.CSSProperties = { fontFamily: "'Basis Grotesque Pro', 'IBM Plex Sans', sans-serif" };
 
@@ -30,6 +35,101 @@ const vkGoal = (goal: string) => {
 const fireOpenPopup = () => {
   ym(YM_COUNTER, "reachGoal", "openlesson19may");
   vkGoal("openlesson19may");
+};
+
+// ─── UTM + YM CLIENT ID ───────────────────────────────────────────────────────
+const getUtmParams = (): Record<string, string> => {
+  const sp = new URLSearchParams(window.location.search);
+  const result: Record<string, string> = {};
+  UTM_PARAMS.forEach(k => { if (sp.has(k)) result[k] = sp.get(k)!; });
+  return result;
+};
+
+const getGcSrc = (clientId?: string) => {
+  const utms = getUtmParams();
+  const extra = new URLSearchParams(utms as Record<string, string>);
+  if (clientId) extra.set("ym_uid", clientId);
+  const extraStr = extra.toString();
+  return extraStr ? `${GC_BASE_SRC}&${extraStr}` : GC_BASE_SRC;
+};
+
+const getYmClientId = (): Promise<string | null> =>
+  new Promise(resolve => {
+    const w = window as unknown as Record<string, (...a: unknown[]) => void>;
+    if (!w["ym"]) return resolve(null);
+    try {
+      w["ym"](YM_COUNTER, "getClientID", (id: string) => resolve(id ?? null));
+      setTimeout(() => resolve(null), 2000);
+    } catch { resolve(null); }
+  });
+
+// ─── GETCOURSE ФОРМА (IFRAME) ─────────────────────────────────────────────────
+const GetCourseForm = ({ onSuccess }: { onSuccess: () => void }) => {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [height, setHeight] = useState(420);
+  const [gcSrc, setGcSrc] = useState(() => getGcSrc());
+  const firedRef = useRef(false);
+
+  useEffect(() => {
+    getYmClientId().then(clientId => {
+      setGcSrc(getGcSrc(clientId ?? undefined));
+    });
+  }, []);
+
+  useEffect(() => {
+    firedRef.current = false;
+
+    const fireOnce = () => {
+      if (firedRef.current) return;
+      firedRef.current = true;
+      onSuccess();
+    };
+
+    const handleMessage = (e: MessageEvent) => {
+      if (!e.origin.includes("onlinerad.ru")) return;
+      const raw = typeof e.data === "string" ? e.data : JSON.stringify(e.data ?? "");
+      const successKeywords = ["form_submitted", "success", "order_added", "lead", "purchase"];
+      if (successKeywords.some(k => raw.toLowerCase().includes(k))) fireOnce();
+      if (e.data?.height) setHeight(Number(e.data.height));
+    };
+    window.addEventListener("message", handleMessage);
+
+    const iframe = iframeRef.current;
+    let loadCount = 0;
+    const handleLoad = () => {
+      loadCount++;
+      if (loadCount > 1) fireOnce();
+    };
+    iframe?.addEventListener("load", handleLoad);
+
+    let observer: PerformanceObserver | null = null;
+    try {
+      observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (entry.name.includes(GC_SUCCESS_URL)) fireOnce();
+        }
+      });
+      observer.observe({ type: "navigation", buffered: true });
+    } catch (_e) { /* not supported */ }
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+      iframe?.removeEventListener("load", handleLoad);
+      observer?.disconnect();
+    };
+  }, [onSuccess]);
+
+  return (
+    <div style={{ width: "100%", overflow: "hidden" }}>
+      <iframe
+        ref={iframeRef}
+        src={gcSrc}
+        style={{ width: "100%", height: `${height}px`, border: "none", display: "block" }}
+        allowFullScreen
+        scrolling="no"
+      />
+    </div>
+  );
 };
 
 // ─── ДАННЫЕ ───────────────────────────────────────────────────────────────────
@@ -368,30 +468,49 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 
 // ─── ПОПАП РЕГИСТРАЦИИ ────────────────────────────────────────────────────────
 function RegistrationModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSuccess = () => {
+    setSubmitted(true);
+    const utms = getUtmParams();
+    ym(YM_COUNTER, "reachGoal", "openlesson19may_form_submit", Object.keys(utms).length ? utms : undefined);
+    vkGoal("openlesson19may_lead");
+  };
+
   if (!open) return null;
+
   return (
     <div
-      style={{ position: "fixed", inset: 0, zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: 16, background: "rgba(26,26,26,0.88)", backdropFilter: "blur(6px)" }}
+      style={{ position: "fixed", inset: 0, zIndex: 9999, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: 16, background: "rgba(26,26,26,0.88)", backdropFilter: "blur(6px)", overflowY: "auto" }}
       onClick={onClose}
     >
       <div
-        style={{ position: "relative", width: "100%", maxWidth: 480, borderRadius: 20, padding: "clamp(24px,4vw,36px)", background: GRAPHITE, border: `1px solid ${LIME}` }}
+        style={{ position: "relative", width: "100%", maxWidth: 520, borderRadius: 20, padding: "clamp(24px,4vw,40px)", background: WHITE, margin: "auto" }}
         onClick={e => e.stopPropagation()}
       >
-        <button onClick={onClose} style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", color: "rgba(255,255,255,0.4)", fontSize: 24, cursor: "pointer", lineHeight: 1 }}>×</button>
-        <div style={{ display: "inline-block", padding: "6px 14px", borderRadius: 6, background: LIME, color: GRAPHITE, fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", marginBottom: 20, ...ff }}>
-          ОТКРЫТЫЙ УРОК · 19 МАЯ · 15:00 МСК
-        </div>
-        <h3 style={{ ...ffH, color: WHITE, fontSize: "1.6rem", textTransform: "uppercase", marginBottom: 8, fontWeight: 400 }}>Регистрация</h3>
-        <p style={{ ...ff, color: "rgba(255,255,255,0.4)", fontSize: 14, marginBottom: 24, lineHeight: 1.5 }}>
-          Место для скрипта регистрации из Геткурс — вы пришлёте его позднее.
-        </p>
-        <div style={{ border: `1px dashed ${LIME}`, borderRadius: 12, padding: "32px 20px", textAlign: "center", color: LIME, ...ff, fontSize: 14 }}>
-          Место для скрипта Геткурс
-        </div>
-        <p style={{ ...ff, color: "rgba(255,255,255,0.22)", fontSize: 11, textAlign: "center", marginTop: 16, letterSpacing: "0.04em" }}>
-          Бесплатно · Онлайн · Только прямой эфир
-        </p>
+        <button onClick={onClose} style={{ position: "absolute", top: 14, right: 14, background: "rgba(0,0,0,0.08)", border: "none", cursor: "pointer", borderRadius: "50%", width: 32, height: 32, fontSize: 16, color: GRAPHITE, display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
+
+        {submitted ? (
+          <div style={{ textAlign: "center", padding: "32px 0" }}>
+            <div style={{ width: 64, height: 64, background: LIME, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", fontSize: 28 }}>✓</div>
+            <h3 style={{ ...ffH, color: GRAPHITE, fontSize: "1.6rem", textTransform: "uppercase", marginBottom: 12, fontWeight: 400 }}>Вы зарегистрированы!</h3>
+            <p style={{ ...ff, color: "rgba(26,26,26,0.6)", fontSize: 15, lineHeight: 1.6, marginBottom: 24 }}>
+              Ждём вас 19 мая в 15:00 МСК.<br />Ссылку на эфир пришлём в день урока.
+            </p>
+            <button onClick={onClose} style={{ ...ff, background: GRAPHITE, color: WHITE, border: "none", borderRadius: 4, padding: "14px 32px", fontSize: 13, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", cursor: "pointer" }}>Закрыть</button>
+          </div>
+        ) : (
+          <>
+            <div style={{ display: "inline-block", padding: "6px 14px", borderRadius: 6, background: GRAPHITE, color: LIME, fontSize: 10, fontWeight: 700, letterSpacing: "0.12em", marginBottom: 16, ...ff }}>
+              ОТКРЫТЫЙ УРОК · 19 МАЯ · 15:00 МСК
+            </div>
+            <h3 style={{ ...ffH, color: GRAPHITE, fontSize: "1.5rem", textTransform: "uppercase", marginBottom: 4, fontWeight: 400 }}>Регистрация</h3>
+            <p style={{ ...ff, color: "rgba(26,26,26,0.45)", fontSize: 13, marginBottom: 20, lineHeight: 1.5 }}>
+              Бесплатно · Онлайн · Только прямой эфир
+            </p>
+            <GetCourseForm onSuccess={handleSuccess} />
+          </>
+        )}
       </div>
     </div>
   );
