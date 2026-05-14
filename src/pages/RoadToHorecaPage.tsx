@@ -30,7 +30,7 @@ const vkGoal = (goal: string) => {
 };
 
 // ─── ФОРМА GETCOURSE ──────────────────────────────────────────────────────────
-const GC_BASE_SRC = "https://cabinet.onlinerad.ru/pl/lite/widget/widget?id=1600234";
+const GC_BASE_SRC = "https://cabinet.onlinerad.ru/pl/lite/widget/widget?id=1603965";
 const UTM_PARAMS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
 
 const YM_COUNTER = 107087337;
@@ -228,7 +228,7 @@ const Header = ({ onRegister }: { onRegister: () => void }) => {
         {/* Nav — desktop */}
         <nav style={{ display: "flex", gap: "32px", alignItems: "center" }} className="hide-mobile">
           {[
-            { label: "12.05 · 15:00", id: "hero" },
+            { label: `${getEventDateShort()} · 15:00`, id: "hero" },
             { label: "Регистрация", id: "register" },
             { label: "Программа", id: "program" },
             { label: "Спикер", id: "speaker" },
@@ -427,9 +427,29 @@ const CounterStat = ({ prefix = "", suffix = "", label, target, decimals = 0 }: 
   );
 };
 
+// ─── ДИНАМИЧЕСКАЯ ДАТА ЭФИРА (завтра в 15:00 МСК) ────────────────────────────
+const getTomorrowDate = () => {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  return d;
+};
+
+const MONTHS_RU = ["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+const MONTHS_RU_CAP = ["Января","Февраля","Марта","Апреля","Мая","Июня","Июля","Августа","Сентября","Октября","Ноября","Декабря"];
+
+const getEventDateShort = () => {
+  const d = getTomorrowDate();
+  return `${d.getDate()}.${String(d.getMonth() + 1).padStart(2, "0")}`;
+};
+const getEventDateFull = (cap = false) => {
+  const d = getTomorrowDate();
+  const months = cap ? MONTHS_RU_CAP : MONTHS_RU;
+  return `${d.getDate()} ${months[d.getMonth()]}`;
+};
+
 // ─── СЧЁТЧИК РЕГИСТРАЦИЙ ──────────────────────────────────────────────────────
-const BASE_COUNT = 247;
-const BASE_TIME = new Date("2026-05-07T09:00:00+03:00").getTime();
+const BASE_COUNT = 210;
+const BASE_TIME = new Date().getTime();
 const PER_HOUR = 3;
 
 const getCount = () => {
@@ -803,7 +823,7 @@ export default function RoadToHorecaPage() {
               textTransform: "uppercase", marginBottom: "28px",
             }}>
               <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: LIME, flexShrink: 0 }} />
-              Бесплатный онлайн-эфир · 12 Мая · 15:00 МСК
+              {`Бесплатный онлайн-эфир · ${getEventDateFull(true)} · 15:00 МСК`}
             </div>
           </AOS>
 
@@ -854,7 +874,7 @@ export default function RoadToHorecaPage() {
           <AOS delay={290}>
             <div style={{ display: "flex", gap: "24px", flexWrap: "wrap", margin: "0 0 36px" }}>
               <span style={{ ...ff, color: "rgba(255,255,255,0.7)", fontSize: "14px", letterSpacing: "0.04em" }}>
-                📅 12 мая · 15:00 МСК
+                {`📅 ${getEventDateFull()} · 15:00 МСК`}
               </span>
               <span style={{ ...ff, color: "rgba(255,255,255,0.7)", fontSize: "14px", letterSpacing: "0.04em" }}>
                 ⏱ 75 минут
@@ -1070,7 +1090,7 @@ export default function RoadToHorecaPage() {
               ...ff, color: "rgba(26,26,26,0.7)", fontSize: "18px",
               lineHeight: 1.6, textAlign: "center", maxWidth: "760px", margin: "0 auto 48px",
             }}>
-              На эфире 12 мая разберём конкретно: кто эти заказчики, где они ищут дизайнеров,
+              {`На эфире ${getEventDateFull()} разберём конкретно: кто эти заказчики, где они ищут дизайнеров,`}
               и как зайти в эту нишу за ближайшие 2–4 недели.
             </p>
           </AOS>
@@ -1685,7 +1705,7 @@ export default function RoadToHorecaPage() {
               letterSpacing: "0.2em", textTransform: "uppercase",
               marginBottom: "28px",
             }}>
-              12.05 · 15:00 МСК
+              {`${getEventDateShort()} · 15:00 МСК`}
             </div>
           </AOS>
 
@@ -1707,7 +1727,7 @@ export default function RoadToHorecaPage() {
               ...ff, color: "rgba(26,26,26,0.65)", fontSize: "18px",
               lineHeight: 1.6, marginBottom: "48px",
             }}>
-              Бесплатный эфир Анны Симоновой. 12 мая в 15:00 МСК. Конкретика, цифры, дорожная карта.
+              {`Бесплатный эфир Анны Симоновой. ${getEventDateFull()} в 15:00 МСК. Конкретика, цифры, дорожная карта.`}
             </p>
           </AOS>
 
