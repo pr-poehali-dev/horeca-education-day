@@ -17,6 +17,7 @@ const TrendsD2026Page = lazy(() => import("./pages/TrendsD2026Page"));
 const TrendsE2026Page = lazy(() => import("./pages/TrendsE2026Page"));
 const RoadToHorecaPage = lazy(() => import("./pages/RoadToHorecaPage"));
 const OpenLesson19MayPage = lazy(() => import("./pages/OpenLesson19MayPage"));
+const Efir27MayPage = lazy(() => import("./pages/Efir27MayPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/roadtohoreca" element={<RoadToHorecaPage />} />
             <Route path="/roadtothehoreca" element={<RoadToHorecaPage />} />
             <Route path="/openlesson19may" element={<OpenLesson19MayPage />} />
+            <Route path="/efir27may" element={<Efir27MayPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
