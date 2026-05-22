@@ -286,22 +286,15 @@ const Header = ({ onRegister }: { onRegister: () => void }) => {
   );
 };
 
-// ─── ДВОЙНАЯ КНОПКА ───────────────────────────────────────────────────────────
+// ─── КНОПКА CTA ───────────────────────────────────────────────────────────────
 const DoubleCTA = ({ onRegister, light = false }: { onRegister: () => void; light?: boolean }) => (
   <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
     <button onClick={() => { onRegister(); ym(YM_COUNTER, "reachGoal", "efir27may_cta_click"); }} style={{
-      background: LIME, color: GRAPHITE, border: "none", cursor: "pointer",
+      background: light ? GRAPHITE : LIME, color: light ? WHITE : GRAPHITE, border: "none", cursor: "pointer",
       padding: "18px 36px", borderRadius: "100px", fontSize: "15px",
       fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", ...ff,
       transition: "all 0.3s ease",
     }}>Принять участие</button>
-    <a href="https://t.me/+QgiLIa1gFRY4Y2Iy" target="_blank" rel="noopener noreferrer" style={{
-      background: "transparent", color: light ? GRAPHITE : WHITE,
-      border: `2px solid ${light ? GRAPHITE : "rgba(255,255,255,0.3)"}`,
-      cursor: "pointer", padding: "18px 36px", borderRadius: "100px", fontSize: "15px",
-      fontWeight: 500, letterSpacing: "0.04em", textTransform: "uppercase", ...ff,
-      transition: "all 0.3s ease", textDecoration: "none", display: "inline-block",
-    }}>Задать вопрос</a>
   </div>
 );
 
@@ -338,14 +331,145 @@ const AccordionItem = ({ title, children, light = false }: { title: string; chil
   );
 };
 
+// ─── ОТЗЫВЫ УЧЕНИЦ ────────────────────────────────────────────────────────────
+const REVIEWS = [
+  { id: "iQpZB7LgYgEhvcSMJnEcDB", cover: "https://cdn.poehali.dev/files/69761a21-7c8e-42a5-bc91-0c9d3fc966a5.png", name: "Ученица 1" },
+  { id: "39zsErsitVSgkai4HddiFW", cover: "https://cdn.poehali.dev/files/867dc6f4-24d8-41cc-b670-4470e7baf561.png", name: "Ученица 2" },
+  { id: "vNjK1onGKjzKsRfFjou9Sd", cover: "https://cdn.poehali.dev/files/9287f5f1-8b2d-4862-a261-6c1fa9be0ddb.png", name: "Ученица 3" },
+  { id: "5LVYSYxGcBou32VDfrZELD", cover: "https://cdn.poehali.dev/files/75036c32-7c92-4038-852b-19e59163ff6d.png", name: "Ученица 4" },
+  { id: "qySjCSjbmaqHQbEp13kPxX", cover: "https://cdn.poehali.dev/files/90a8cb34-77d3-4a77-9336-90201349a322.png", name: "Ученица 5" },
+];
+
+const VideoCard = ({ review }: { review: typeof REVIEWS[0] }) => {
+  const [playing, setPlaying] = useState(false);
+  return (
+    <div style={{
+      position: "relative", borderRadius: "16px", overflow: "hidden",
+      aspectRatio: "9/16", background: "#000", cursor: "pointer", flexShrink: 0,
+    }} onClick={() => setPlaying(true)}>
+      {!playing ? (
+        <>
+          <img src={review.cover} alt={review.name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.4s ease" }}
+            onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.03)")}
+            onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
+          />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%)" }} />
+          <div style={{
+            position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+            width: "64px", height: "64px", background: LIME, borderRadius: "50%",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            animation: "pulse-lime 2s infinite",
+          }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <polygon points="9,7 19,12 9,17" fill={GRAPHITE} />
+            </svg>
+          </div>
+        </>
+      ) : (
+        <iframe src={`https://kinescope.io/embed/${review.id}?autoplay=1`}
+          style={{ width: "100%", height: "100%", border: "none", display: "block" }}
+          allow="autoplay; fullscreen" allowFullScreen />
+      )}
+    </div>
+  );
+};
+
+const ReviewsSection = () => {
+  const [index, setIndex] = useState(0);
+  const total = REVIEWS.length;
+  const maxIndex = total - 3;
+  const prev = () => setIndex(i => Math.max(0, i - 1));
+  const next = () => setIndex(i => Math.min(maxIndex, i + 1));
+  const canPrev = index > 0;
+  const canNext = index < maxIndex;
+
+  return (
+    <section style={{ background: "#111", padding: "clamp(60px, 10vh, 120px) 0" }}>
+      <div style={{ maxWidth: "1440px", margin: "0 auto", padding: "0 clamp(20px, 5vw, 80px)" }}>
+        <AOS>
+          <div style={{ ...ff, color: LIME, fontSize: "12px", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "24px", fontWeight: 500 }}>
+            10 / Отзывы учениц
+          </div>
+        </AOS>
+        <AOS delay={80}>
+          <h2 style={{ ...ffH, color: WHITE, fontSize: "clamp(32px, 5vw, 72px)", textTransform: "uppercase", lineHeight: 0.95, letterSpacing: "-0.02em", margin: "0 0 56px" }}>
+            Они уже<br /><span style={{ color: LIME }}>прошли путь</span>
+          </h2>
+        </AOS>
+      </div>
+
+      <div style={{ position: "relative", overflow: "hidden", padding: "0 clamp(20px, 5vw, 80px)" }}>
+        <div style={{
+          display: "flex", gap: "20px",
+          transform: `translateX(calc(-${index} * (100% / 3 + 20px / 3 * 2)))`,
+          transition: "transform 0.45s cubic-bezier(0.4, 0, 0.2, 1)",
+          willChange: "transform",
+        }}>
+          {REVIEWS.map((r) => (
+            <div key={r.id} style={{ flex: "0 0 calc(33.333% - 14px)", minWidth: 0 }}>
+              <VideoCard review={r} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ maxWidth: "1440px", margin: "0 auto", padding: "0 clamp(20px, 5vw, 80px)" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px", marginTop: "40px" }}>
+          <button onClick={prev} disabled={!canPrev} style={{
+            width: "56px", height: "56px", borderRadius: "50%",
+            border: `2px solid ${canPrev ? LIME : "rgba(255,255,255,0.2)"}`,
+            background: "transparent", cursor: canPrev ? "pointer" : "not-allowed",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            transition: "all 0.3s ease", opacity: canPrev ? 1 : 0.35,
+            animation: canPrev ? "arrow-bounce-left 1.5s ease-in-out infinite" : "none",
+          }}
+            onMouseEnter={e => { if (canPrev) (e.currentTarget as HTMLButtonElement).style.background = LIME; }}
+            onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background = "transparent"}
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M13 4L7 10L13 16" stroke={canPrev ? LIME : "rgba(255,255,255,0.3)"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+
+          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+            {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+              <div key={i} onClick={() => setIndex(i)} style={{
+                width: i === index ? "24px" : "8px", height: "8px", borderRadius: "4px",
+                background: i === index ? LIME : "rgba(255,255,255,0.3)",
+                cursor: "pointer", transition: "all 0.3s ease",
+              }} />
+            ))}
+          </div>
+
+          <button onClick={next} disabled={!canNext} style={{
+            width: "56px", height: "56px", borderRadius: "50%",
+            border: `2px solid ${canNext ? LIME : "rgba(255,255,255,0.2)"}`,
+            background: "transparent", cursor: canNext ? "pointer" : "not-allowed",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            transition: "all 0.3s ease", opacity: canNext ? 1 : 0.35,
+            animation: canNext ? "arrow-bounce-right 1.5s ease-in-out infinite" : "none",
+          }}
+            onMouseEnter={e => { if (canNext) (e.currentTarget as HTMLButtonElement).style.background = LIME; }}
+            onMouseLeave={e => (e.currentTarget as HTMLButtonElement).style.background = "transparent"}
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M7 4L13 10L7 16" stroke={canNext ? LIME : "rgba(255,255,255,0.3)"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 // ─── ГЛАВНЫЙ КОМПОНЕНТ ────────────────────────────────────────────────────────
 const Efir27MayPage = () => {
   const [registerOpen, setRegisterOpen] = useState(false);
 
   const openRegister = useCallback(() => {
     setRegisterOpen(true);
-    ym(YM_COUNTER, "reachGoal", "efir27may_open_register");
-    vkGoal("view_registration");
+    ym(YM_COUNTER, "reachGoal", "efir27may");
+    vkGoal("efir27may");
   }, []);
 
   useEffect(() => {
@@ -405,34 +529,37 @@ const Efir27MayPage = () => {
           <AOS delay={100}>
             <h1 style={{
               ...ffH, color: WHITE,
-              fontSize: "clamp(52px, 9vw, 128px)",
-              textTransform: "uppercase", lineHeight: 0.9,
-              letterSpacing: "-0.03em", margin: "0 0 16px",
+              fontSize: "clamp(44px, 7.5vw, 110px)",
+              textTransform: "uppercase", lineHeight: 0.92,
+              letterSpacing: "-0.03em", margin: "0 0 28px",
               fontWeight: 400,
             }}>
-              Из жилого<br />
-              <span style={{ fontStyle: "italic", fontSize: "0.8em" }}>в HoReCa</span>
+              Где дизайнеру<br />
+              <span style={{ fontStyle: "italic", fontSize: "0.85em" }}>брать клиентов</span><br />
+              в 2026
             </h1>
           </AOS>
 
           <AOS delay={180}>
-            <p style={{
-              ...ff, color: "rgba(255,255,255,0.65)", fontSize: "clamp(16px, 2vw, 22px)",
-              lineHeight: 1.5, margin: "0 0 16px", maxWidth: "580px",
-            }}>как поднять чек в 2–3 раза</p>
+            <ul style={{ listStyle: "none", padding: 0, margin: "0 0 48px", maxWidth: "560px" }}>
+              {[
+                "Карта рынка HoReCa и где отельеры ищут дизайнеров",
+                "Структура КП, после которой отельер отвечает",
+                "Разбор проекта на 4,5 млн ₽ за 47 дней",
+              ].map((item, i) => (
+                <li key={i} style={{
+                  ...ff, color: "rgba(255,255,255,0.75)", fontSize: "clamp(14px, 1.5vw, 18px)",
+                  lineHeight: 1.6, padding: "7px 0",
+                  display: "flex", alignItems: "flex-start", gap: "10px",
+                }}>
+                  <span style={{ color: LIME, fontWeight: 700, flexShrink: 0 }}>✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
           </AOS>
 
-          <AOS delay={240}>
-            <p style={{
-              ...ff, color: "rgba(255,255,255,0.5)", fontSize: "clamp(14px, 1.5vw, 18px)",
-              lineHeight: 1.6, margin: "0 0 48px", maxWidth: "560px",
-            }}>
-              Один проект отеля = 3–4 жилых проекта по чеку.<br />
-              Проект отеля за 4,5 млн ₽ мы делаем за 1,5 месяца.
-            </p>
-          </AOS>
-
-          <AOS delay={300}>
+          <AOS delay={260}>
             <DoubleCTA onRegister={openRegister} />
           </AOS>
         </div>
@@ -921,6 +1048,9 @@ const Efir27MayPage = () => {
         </div>
       </section>
 
+      {/* ОТЗЫВЫ УЧЕНИЦ */}
+      <ReviewsSection />
+
       {/* ЭКРАН 11 · FAQ */}
       <section style={{ background: GRAPHITE, padding: "120px 40px" }}>
         <div style={{ maxWidth: "900px", margin: "0 auto" }}>
@@ -1053,8 +1183,8 @@ const Efir27MayPage = () => {
             }}>✕</button>
             <GetCourseForm onSuccess={() => {
               const utms = getUtmParams();
-              ym(YM_COUNTER, "reachGoal", "efir27may_form_submit", Object.keys(utms).length ? utms : undefined);
-              vkGoal("efir27may_lead");
+              ym(YM_COUNTER, "reachGoal", "lead_efir27may", Object.keys(utms).length ? utms : undefined);
+              vkGoal("lead_efir27may");
             }} />
           </div>
         </div>
@@ -1086,6 +1216,14 @@ const Efir27MayPage = () => {
         }
         [data-hover]:hover { transform: translateY(-6px); }
         button:hover { opacity: 0.92; }
+        @keyframes arrow-bounce-left {
+          0%, 100% { transform: translateX(0); }
+          50% { transform: translateX(-5px); }
+        }
+        @keyframes arrow-bounce-right {
+          0%, 100% { transform: translateX(0); }
+          50% { transform: translateX(5px); }
+        }
       `}</style>
     </div>
   );
